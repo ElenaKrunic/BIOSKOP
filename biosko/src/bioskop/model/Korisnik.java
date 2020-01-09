@@ -40,4 +40,11 @@ public class Korisnik {
 		this.datumRegistracije = datumRegistracije;
 		this.uloga = uloga;
 	} 
+	
+	public Korisnik(String korisnickoIme, String lozinka,  Uloga uloga) {
+		super();
+		this.korisnickoIme = korisnickoIme;
+		this.lozinka = lozinka;
+		this.uloga = uloga;
+	} 
 }

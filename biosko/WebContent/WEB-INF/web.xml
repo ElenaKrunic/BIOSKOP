@@ -59,4 +59,27 @@
     <servlet-name>NeovlascenoServlet</servlet-name>
     <url-pattern>/NeovlascenoServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PrijavaServlet</display-name>
+    <servlet-name>PrijavaServlet</servlet-name>
+    <servlet-class>bioskopp.PrijavaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrijavaServlet</servlet-name>
+    <url-pattern>/PrijavaServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ConnectionManager</display-name>
+    <servlet-name>ConnectionManager</servlet-name>
+    <servlet-class>biosko.DAO.ConnectionManager</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConnectionManager</servlet-name>
+    <url-pattern>/ConnectionManager</url-pattern>
+  </servlet-mapping>
+  <listener>
+    <listener-class>bioskopp.InitL</listener-class>
+  </listener>
 </web-app>
