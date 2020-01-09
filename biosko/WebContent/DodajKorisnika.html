@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Dodavanje korisnika </title>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="javascript/DodajKorisnika.js"></script> 
+</head>
+<body>
+	<h3>Dodavanje korisnika</h3>
+	<form>
+		<table>
+			<tr><td align="right">Korisničko ime:</td><td><input type="text" id="userNameID"/></td></tr>
+			<tr><td align="right">Lozinka:</td><td><input type="password" id="passwordID"/></td></tr>
+			<tr>
+				<td align="right">Uloga:</td>
+				<td>
+					<select id="roleSelect">
+					  <option value="user" selected>Korisnik</option>
+					  <option value="admin">Administrator</option>
+					</select> 
+				</td>
+			</tr>
+			<tr><td/><td><input type="submit" value="Dodaj" id="userSubmit"></td></tr>
+		</table>
+	</form>
+	<p><a href="">Povratak</a></p>
+	<p><a href="" id="odjavaLink">Odjava</a></p>
+</body>
+</html>
