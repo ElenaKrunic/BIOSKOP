@@ -1,8 +1,6 @@
 package bioskopp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +27,16 @@ public class PrijavaServlet extends HttpServlet {
 		
 		try {
 			Korisnik korisnik = KorisnikDAO.get(userName,password);
+			
+			if(userName == null) {
+				request.getRequestDispatcher("/.OdjavaServlet").forward(request, response);
+				return;
+			}
+			
+			//sesiju logovanom korisniku 
+			request.getSession().setAttribute("ulogovanKorisnik", korisnik.getKorisnickoIme());
+			request.getRequestDispatcher("/.UspjesnoServlet").forward(request, response);
+			
 		}
 		catch(Exception ex) {ex.printStackTrace();}
 		

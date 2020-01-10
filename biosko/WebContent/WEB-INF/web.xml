@@ -82,4 +82,14 @@
   <listener>
     <listener-class>bioskopp.InitL</listener-class>
   </listener>
+  <servlet>
+    <description></description>
+    <display-name>RegistracijaServlet</display-name>
+    <servlet-name>RegistracijaServlet</servlet-name>
+    <servlet-class>bioskopp.RegistracijaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistracijaServlet</servlet-name>
+    <url-pattern>/RegistracijaServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

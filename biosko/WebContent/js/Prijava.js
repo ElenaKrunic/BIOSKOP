@@ -7,8 +7,8 @@ $(document).ready(function() {
 		alert("klik na dugme");
 		var userName = userNameID.val();
 		var password = passwordID.val();
-		console.log("userName" + userName);
-		console.log("password" + password);
+		console.log("userName: " + userName);
+		console.log("password: " + password);
 		
 		var params = {
 				"userName" : userName,
@@ -16,7 +16,7 @@ $(document).ready(function() {
 		}
 		$.post("OdjavaServlet", params, function(data){
 			console.log("Stigao odgovor");
-			console.log(data);
+			console.log(data); //served at: /bioskop
 			
 			if(data.status == "neuspjeh") {
 				userNameID.val(""); //prazn strng
@@ -30,7 +30,7 @@ $(document).ready(function() {
 			}
 		});
 		
-		console.log("poslat zahtjev");
+		console.log("Poslat zahtjev");
 		event.preventDefault();
 		return false;
 	});
