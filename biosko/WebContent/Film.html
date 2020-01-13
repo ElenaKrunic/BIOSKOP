@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/Film.js"></script>
+</head>
+<body>
+	<h3>Film</h3>
+	<table id="userTable">
+		<tr><td align="right"><b>Naziv</b></td><td id="nazivFilma"></td></tr>
+		<tr><td align="right"><b>Zanr</b></td><td id="zanrFilma"></td></tr>
+		<tr><td align="right"><b>Trajanje</b></td><td id="trajanje"></td></tr>
+		<tr><td align="right"><b>Distributer</b></td><td id="distributer"></td></tr>
+		<tr><td align="right"><b>Zemlja porijekla</b></td><td id="zemljaPorijekla"></td></tr>
+		<tr><td align="right"><b>Godina proizvodnje</b></td><td id="godinaProizvodnje"></td></tr>
+	</table>
+	<form id="adminForm">
+		<table>
+			<tr><td align="right"><b>Naziv</b></td><td><input type="text" id="nazivFilmaAd"></td></tr>
+			<tr><td align="right"><b>Zanr</b></td><td id="zanrFilma"><input type="text" id="zanrAd"></td></tr>
+			<tr><td align="right"><b>Trajanje</b></td><td id="trajanje"><input type="text" id="trajanjeAd"></td></tr>
+			<tr><td align="right"><b>Distributer</b></td><td id="distributer"><input type="text" id="distributerAd"></td></tr>
+			<tr><td align="right"><b>Zemlja porijekla</b></td><td id="zemljaPorijekla"><input type="text" id="zemljaPorijeklaAd"></td></tr>
+		    <tr><td align="right"><b>Godina proizvodnje</b></td><td id="godinaProizvodnje"><input type="text" id="godinaProizvodnjeAd"></td></tr>
+			<tr><td/><td><input type="submit" value="Dodaj film" id="addSubmit"></td></tr>
+			<tr><td/><td><input type="submit" value="Izmijeni" id="updateSubmit"></td></tr>
+			<tr><td/><td><input type="submit" value="Obrisi" id="deleteSubmit"></td></tr>
+		</table>
+	</form>
+	<p><a href="Filmovi.html">Povratak</a></p>
+	<p><a href="" id="logoutLink">Odjava</a></p>
+</body>
+</html>
+

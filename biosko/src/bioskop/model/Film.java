@@ -3,18 +3,18 @@ package bioskop.model;
 public class Film {
 	
 	
-	private int id;  //ne pisem u html-u
+	private String id;  //ne pisem u html-u
 	private String naziv;
 	private String reziser; //opcioni
 	private String glumci;  //opciono
 	private Zanr zanr;
-	private int trajanje; 
+	private String trajanje; 
 	private String distributer;
 	private String zemljaPorijekla;
 	private int godinaProizvodnje;
 	private String opis;
 	
-	public Film(int id, String naziv, String reziser, String glumci, Zanr zanr, int trajanje, String distributer,
+	public Film(String id, String naziv, String reziser, String glumci, Zanr zanr, String trajanje, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje, String opis) {
 		super();
 		this.id = id;
@@ -28,12 +28,39 @@ public class Film {
 		this.godinaProizvodnje = godinaProizvodnje;
 		this.opis = opis;
 	}
+	
+	public Film(String id,String naziv, Zanr zanr, String trajanje, String distributer,
+			String zemljaPorijekla, int godinaProizvodnje) {
+		this.id = id;
+		this.naziv = naziv;
+		this.zanr = zanr;
+		this.trajanje = trajanje;
+		this.distributer = distributer;
+		this.zemljaPorijekla = zemljaPorijekla;
+		this.godinaProizvodnje = godinaProizvodnje;
+	}
+	
+	public Film(String naziv, Zanr zanr, String trajanje, String distributer,
+			String zemljaPorijekla, int godinaProizvodnje) {
+		this.naziv = naziv;
+		this.zanr = zanr;
+		this.trajanje = trajanje;
+		this.distributer = distributer;
+		this.zemljaPorijekla = zemljaPorijekla;
+		this.godinaProizvodnje = godinaProizvodnje;
+	}
+	
+	
+	public Film(String id2, String naziv2, Zanr zanr2, int trajanje2, String distributer2, String zemljaPorijekla2,
+			int godinaProizvodnje2) {
+		// TODO Auto-generated constructor stub
+	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -69,16 +96,16 @@ public class Film {
 		this.zanr = zanr;
 	}
 
-	public int getTrajanje() {
+	public String getTrajanje() {
 		return trajanje;
 	}
 
-	public void setTrajanje(int trajanje) {
-		if (trajanje > 0) {
+	public void setTrajanje(String trajanje) {
+		if (trajanje != null) {
 		this.trajanje = trajanje; 
 		}
 		else {
-			this.trajanje = 1;
+			this.trajanje = null;
 		}
 	}
 
