@@ -46,7 +46,7 @@ $(document).ready(function(){
 		$.post("FilmServlet", params, function(event){
 			console.log(data); 
 			
-			if(data.status == "nije autentifikovano") {
+			if(data.status == "nije autentifikovanoo") {
 				window.location.return("Prijava.html"); 
 				return;
 			}
