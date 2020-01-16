@@ -28,7 +28,7 @@ public class FilmDAO {
 				int index = 1;
 				String naziv = rs.getString(index++);
 				Zanr zanr = Zanr.valueOf(rs.getString(index++));
-				int trajanje = rs.getInt(index++);
+				String trajanje = rs.getString(index++);
 				String distributer = rs.getString(index++); 
 				String zemljaPorijekla = rs.getString(index++); 
 				int godinaProizvodnje = rs.getInt(index++); 
@@ -43,50 +43,51 @@ public class FilmDAO {
 		return null;
 	}
 	
-	public static List<Film> getAll(String naziv, Zanr zanr, String najmanjaMinutaza,String najvecaMinutaza, String distributer, String zemljaPorijekla,int najranijaGodina,int posljednjaGodina ) throws SQLException {
-		List <Film> filmovi = new ArrayList<>();
+	public static List<Film> getAll(String naziv,String zanr, int najmanjaMinutaza,int najvecaMinutaza, String distributer,String zemljaPorijekla,int najranijaGodina,int posljednjaGodina) throws Exception {
+		List<Film> filmovi = new ArrayList<>(); 
 		
 		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		ResultSet rs = null;
+		PreparedStatement prep = null; 
+		ResultSet rs = null ; 
+		// AND price >= ? AND price <= ?
 		try {
-			String query = "SELECT id, naziv,zanr,trajanje,distributer,zemljaPorijekla, godinaProizvodnje FROM filmovi WHERE " + "naziv LIKE ? AND zanr ? "
-					+ "AND trajanje >= ? AND trajanje <= ? AND distributer LIKE ? AND zemljaPorijekla LIKE ? AND godinaProizvodnje >= ? AND godinaProizovodnje <= ?";
-			
+			String query = "SELECT id,naziv, zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje FROM filmovi WHERE" + "naziv like ? AND zanr like ?  AND trajanje LIKE ? AND trajanje LIKE ? AND distributer LIKE ? AND zemljaPorijekla LIKE ? AND godinaProizvodnje <= ? AND godinaProizvodnje >= ?"; 
 			prep = conn.prepareStatement(query);
 			int index = 1; 
-			prep.setString(index++, "%" + naziv + "%");
-			prep.setString(index++, "%" + najmanjaMinutaza + "%");
-			prep.setString(index++, "%" + najvecaMinutaza + "%");
+			prep.setString(index ++, "%" + naziv + "%");
+			prep.setString(index++, "%" + zanr.toString() + "%"); 
+			prep.setInt(index++, najmanjaMinutaza);
+			prep.setInt(index++, najvecaMinutaza);
 			prep.setString(index++, "%" + distributer + "%");
 			prep.setString(index++, "%" + zemljaPorijekla + "%");
 			prep.setInt(index++, najranijaGodina);
-			prep.setInt(index++ , posljednjaGodina);
+			prep.setInt(index++, posljednjaGodina);
 			System.out.println(prep);
 			
-			rs = prep.executeQuery();
+			rs = prep.executeQuery(); 
 			
-			while(rs.next()) {
+			while (rs.next()) {
 				index = 1; 
 				String filmID = rs.getString(index++);
-				String filmNaziv = rs.getString(index++); 
-				Zanr filmZanr = Zanr.valueOf(rs.getString(index++));
-				String filmTrajanje = rs.getString(index++);
-				String filmDistributer = rs.getString(index++);
-				String filmZemljaPorijekla = rs.getString(index++);
-				int filmGodinaProizvodnje = rs.getInt(index++);
-
+				String nazivFilma = rs.getString(index++);
+				Zanr zanrFilma = Zanr.valueOf(rs.getString(index++));
+				String trajanjeFilma = rs.getString(index++); 
+				String distributerFilma = rs.getString(index++); 
+				String zemljaPorijeklaFilma = rs.getString(index++); 
+				int godinaProizvodnjeFilma = rs.getInt(index++); 
 				
-			Film film = new Film(filmID, filmNaziv,filmZanr,filmTrajanje,filmDistributer,filmZemljaPorijekla,filmGodinaProizvodnje);
-			filmovi.add(film);
+				Film film = new Film(filmID,nazivFilma,zanrFilma,trajanjeFilma,distributerFilma,zemljaPorijeklaFilma,godinaProizvodnjeFilma);
+				filmovi.add(film);	
 			}
-		} finally {
-			try {prep.close();} catch(Exception e) {e.printStackTrace();}
+			
+		}  finally {
+			try {prep.close();} catch(Exception e){e.printStackTrace();}
 			try {rs.close();} catch(Exception e) {e.printStackTrace();}
 			try {conn.close();} catch(Exception e) {e.printStackTrace();}
-		}
+		} 	
 		return filmovi;
 	}
+	
 	public static boolean add(Film film) throws Exception {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null ; 

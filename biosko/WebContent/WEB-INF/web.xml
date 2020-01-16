@@ -92,4 +92,44 @@
     <servlet-name>RegistracijaServlet</servlet-name>
     <url-pattern>/RegistracijaServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GServlet</display-name>
+    <servlet-name>GServlet</servlet-name>
+    <servlet-class>bioskopp.GServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GServlet</servlet-name>
+    <url-pattern>/GServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PrikazSvihFilmovaServlet</display-name>
+    <servlet-name>PrikazSvihFilmovaServlet</servlet-name>
+    <servlet-class>bioskopp.PrikazSvihFilmovaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrikazSvihFilmovaServlet</servlet-name>
+    <url-pattern>/PrikazSvihFilmovaServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FilmoviServlet</display-name>
+    <servlet-name>FilmoviServlet</servlet-name>
+    <servlet-class>bioskopp.FilmoviServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FilmoviServlet</servlet-name>
+    <url-pattern>/FilmoviServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FilmServlet</display-name>
+    <servlet-name>FilmServlet</servlet-name>
+    <servlet-class>bioskopp.FilmServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FilmServlet</servlet-name>
+    <url-pattern>/FilmServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

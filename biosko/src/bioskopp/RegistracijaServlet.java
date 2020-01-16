@@ -40,7 +40,7 @@ public class RegistracijaServlet extends HttpServlet {
 			Korisnik korisnik = new Korisnik(userName, password, Uloga.Korisnik);
 			KorisnikDAO.dodajKorisnika(korisnik);
 
-//			response.sendRedirect("./Login.html");
+
 			request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
 		} catch (Exception ex) {
 			String message = ex.getMessage();
@@ -49,8 +49,7 @@ public class RegistracijaServlet extends HttpServlet {
 				ex.printStackTrace();
 			}
 
-//			request.setAttribute("message", message);
-//			request.getRequestDispatcher("./Message.jsp").forward(request, response);
+
 			Map<String, Object> data = new LinkedHashMap<>();
 			data.put("message", message);
 

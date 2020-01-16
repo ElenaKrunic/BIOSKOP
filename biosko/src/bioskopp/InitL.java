@@ -17,7 +17,7 @@ public class InitL implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent event)  { 
-         System.out.println("...inizicalizacija......");
+         System.out.println("...inicijalizacija......");
          //connection manager ovde 
          ConnectionManager.open();
          System.out.println("ZAVRSENO!");

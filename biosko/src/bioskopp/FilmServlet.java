@@ -127,7 +127,7 @@ public class FilmServlet extends HttpServlet {
 		} 
 		request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
 	} catch(Exception e) {e.printStackTrace();
-	request.getRequestDispatcher(".NeuspjesnoServlet").forward(request, response);
+	request.getRequestDispatcher("./NeuspjesnoServlet").forward(request, response);
 	}
 }
 

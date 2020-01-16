@@ -1,12 +1,12 @@
 package bioskop.model;
 
-public class Film {
+public class Film  {
 	
 	
-	private String id;  //ne pisem u html-u
+	private String id;  
 	private String naziv;
-	private String reziser; //opcioni
-	private String glumci;  //opciono
+	private String reziser; 
+	private String glumci;  
 	private Zanr zanr;
 	private String trajanje; 
 	private String distributer;
@@ -14,7 +14,7 @@ public class Film {
 	private int godinaProizvodnje;
 	private String opis;
 	
-	public Film(String id, String naziv, String reziser, String glumci, Zanr zanr, String trajanje, String distributer,
+	public Film (String id, String naziv, String reziser, String glumci, Zanr zanr, String trajanje, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje, String opis) {
 		super();
 		this.id = id;
@@ -29,18 +29,18 @@ public class Film {
 		this.opis = opis;
 	}
 	
-	public Film(String id,String naziv, Zanr zanr, String trajanje, String distributer,
+	public Film (String id,String naziv, Zanr zanr, String trajanjeFilma, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje) {
 		this.id = id;
 		this.naziv = naziv;
 		this.zanr = zanr;
-		this.trajanje = trajanje;
+		this.trajanje = trajanjeFilma;
 		this.distributer = distributer;
 		this.zemljaPorijekla = zemljaPorijekla;
 		this.godinaProizvodnje = godinaProizvodnje;
 	}
 	
-	public Film(String naziv, Zanr zanr, String trajanje, String distributer,
+	public Film (String naziv, Zanr zanr, String trajanje, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje) {
 		this.naziv = naziv;
 		this.zanr = zanr;
@@ -48,12 +48,6 @@ public class Film {
 		this.distributer = distributer;
 		this.zemljaPorijekla = zemljaPorijekla;
 		this.godinaProizvodnje = godinaProizvodnje;
-	}
-	
-	
-	public Film(String id2, String naziv2, Zanr zanr2, int trajanje2, String distributer2, String zemljaPorijekla2,
-			int godinaProizvodnje2) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getId() {
