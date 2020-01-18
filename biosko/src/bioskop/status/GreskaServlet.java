@@ -1,36 +1,35 @@
 package bioskop.status;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class GreskaServlet
- */
-public class GreskaServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GreskaServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+@SuppressWarnings("serial")
+public class GreskaServlet extends HttpServlet {
+
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		Map<String, Object> data = (Map<String, Object>) request.getAttribute("data");
+		if (data == null)
+			 data = new LinkedHashMap<>();
+
+		data.put("status", "failure");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonData = objectMapper.writeValueAsString(data);
+		System.out.println(jsonData);
+
+		response.setContentType("application/json");
+		response.getWriter().write(jsonData);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

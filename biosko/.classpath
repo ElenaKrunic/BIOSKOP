@@ -13,5 +13,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="C:/Users/nb-005/Desktop/apache-tomcat-6.0.53 (1)/apache-tomcat-6.0.53/lib/com.fasterxml.jackson.databind.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nb-005/Desktop/apache-tomcat-6.0.53 (1)/apache-tomcat-6.0.53/lib/com.fasterxml.jackson.core.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
