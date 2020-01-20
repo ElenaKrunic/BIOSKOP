@@ -3,12 +3,20 @@
   <display-name>biosko</display-name>
   <welcome-file-list>
     <welcome-file>Prijava.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <listener>
+    <listener-class>bioskopp.InitL</listener-class>
+  </listener>
+  <servlet>
+    <description></description>
+    <display-name>GServlet</display-name>
+    <servlet-name>GServlet</servlet-name>
+    <servlet-class>bioskopp.GServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GServlet</servlet-name>
+    <url-pattern>/GServlet</url-pattern>
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>KorisnikServlet</display-name>
@@ -79,9 +87,6 @@
     <servlet-name>ConnectionManager</servlet-name>
     <url-pattern>/ConnectionManager</url-pattern>
   </servlet-mapping>
-  <listener>
-    <listener-class>bioskopp.InitL</listener-class>
-  </listener>
   <servlet>
     <description></description>
     <display-name>RegistracijaServlet</display-name>
@@ -91,16 +96,6 @@
   <servlet-mapping>
     <servlet-name>RegistracijaServlet</servlet-name>
     <url-pattern>/RegistracijaServlet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>GServlet</display-name>
-    <servlet-name>GServlet</servlet-name>
-    <servlet-class>bioskopp.GServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>GServlet</servlet-name>
-    <url-pattern>/GServlet</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -141,5 +136,15 @@
   <servlet-mapping>
     <servlet-name>MojNalogServlet</servlet-name>
     <url-pattern>/MojNalogServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>KorisniciServlet</display-name>
+    <servlet-name>KorisniciServlet</servlet-name>
+    <servlet-class>bioskopp.KorisniciServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KorisniciServlet</servlet-name>
+    <url-pattern>/KorisniciServlet</url-pattern>
   </servlet-mapping>
 </web-app>

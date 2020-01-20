@@ -14,7 +14,6 @@ import biosko.DAO.KorisnikDAO;
 import bioskop.model.Film;
 import bioskop.model.Korisnik;
 import bioskop.model.Uloga;
-import bioskop.model.Zanr;
 
 /**
  * Servlet implementation class FilmServlet
@@ -34,7 +33,7 @@ public class FilmServlet extends HttpServlet {
 				request.getRequestDispatcher("/.OdjavaServlet").forward(request, response);
 				return;
 			}
-			String id = request.getParameter("id");
+			int id =(Integer.parseInt(request.getParameter("id")));
 			Film film = FilmDAO.get(id);
 			
 			Map<String,Object> data = new LinkedHashMap<>(); 
@@ -45,9 +44,8 @@ public class FilmServlet extends HttpServlet {
 				request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
 	} catch(Exception ex) {ex.printStackTrace();}
 	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ulogovanKorisnikIme = (String) request.getSession().getAttribute("ulogovanKorisnikIme");
 		if(ulogovanKorisnikIme == null) {
@@ -71,8 +69,9 @@ public class FilmServlet extends HttpServlet {
 				String naziv = request.getParameter("naziv"); 
 				naziv = (!"".equals(naziv)? naziv : "<empty>");
 				
-				Zanr zanr = Zanr.valueOf(request.getParameter("zanr"));
-				
+				String zanrovi = request.getParameter("zanrovi"); 
+				zanrovi = (!"".equals(zanrovi)? zanrovi: "<empty>");
+			
 				String trajanje = request.getParameter("trajanje"); 
 				trajanje = (!"".equals(trajanje)? trajanje: "<empty>");
 				
@@ -85,12 +84,13 @@ public class FilmServlet extends HttpServlet {
 				int godinaProizvodnje = Integer.parseInt(request.getParameter("godinaProizvodnje"));
 				godinaProizvodnje = (int) (godinaProizvodnje > 0? godinaProizvodnje: 2020);
 				
-				Film film = new Film ("",naziv,zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje);
+				Film film = new Film (1,naziv,zanrovi,trajanje,distributer,zemljaPorijekla,godinaProizvodnje);
+				System.out.println(film);
 				FilmDAO.add(film);
 				break;								
 			}
 			case "update" : {
-				String id = request.getParameter("id"); 
+				int id = Integer.parseInt(request.getParameter("id"));  
 				Film film = FilmDAO.get(id);
 				
 				String naziv = request.getParameter("naziv"); 
@@ -120,7 +120,7 @@ public class FilmServlet extends HttpServlet {
 				break;
 			} 
 			case "delete" : {
-				String id = request.getParameter("id"); 
+				int id = Integer.parseInt(request.getParameter("id")); 
 				FilmDAO.delete(id);
 				break;
 			}

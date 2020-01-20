@@ -11,32 +11,30 @@ import bioskop.model.Korisnik;
 import bioskop.model.Uloga;
 import biosko.DAO.ConnectionManager;
 
-//uloga toString jer baza ne prepoznaje enum
 
-//ovde radim update delete edit
 public class KorisnikDAO {
 	
 	public static List<Korisnik> getAll(String ime, Uloga uloga) throws Exception {
 		return new ArrayList<>();
 	}
 
-	public static Korisnik get(String userName, String password) throws SQLException {
+	public static Korisnik get(String korisnickoIme, String lozinka) throws SQLException {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT FROM korisnici WHERE userName = ?, password = ?, uloga = ?";
+			String query = "SELECT FROM korisnici WHERE korisnickoIme = ?, lozinka = ?, uloga = ?";
 			prep = conn.prepareStatement(query);
 			int index = 1; 	
-			prep.setString(index++, userName);
-			prep.setString(index++, password);
+			prep.setString(index++, korisnickoIme);
+			prep.setString(index++, lozinka);
 			System.out.println(prep);
 			
 			rs = prep.executeQuery();
-			if(rs.next()) { //sl red
+			if(rs.next()) {
 				Uloga uloga = Uloga.valueOf(rs.getString(1)); //column index
-				return new Korisnik(userName,password,uloga);
+				return new Korisnik(korisnickoIme,lozinka,uloga);
 			}
 		}
 		finally {
@@ -47,24 +45,24 @@ public class KorisnikDAO {
 		return null;
 	}	
 	
-	public static Korisnik get(String userName) throws SQLException {
+	public static Korisnik get(String korisnickoIme) throws SQLException {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT password,uloga FROM korisnici WHERE userName = ?";
+			String query = "SELECT lozinka,uloga FROM korisnici WHERE korisnickoIme = ?";
 			prep = conn.prepareStatement(query);
-			prep.setString(1, userName);
+			prep.setString(1, korisnickoIme);
 			System.out.println(prep);
 			
 			rs = prep.executeQuery();
 			
 			if(rs.next()) { //sl red
 				int index = 1;
-				String password = rs.getString(index++);
+				String lozinka = rs.getString(index++);
 				Uloga uloga = Uloga.valueOf(rs.getString(index++)); //column index
-				return new Korisnik(userName,password,uloga);
+				return new Korisnik(korisnickoIme,lozinka,uloga);
 			}
 		}
 		finally {
@@ -82,7 +80,7 @@ public class KorisnikDAO {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
 		try {
-			String query = "INSERT INTO korisnici (userName,password,uloga)" + "VALUES (?,?,?)";
+			String query = "INSERT INTO korisnici (korisnickoIme,lozinka,uloga)" + "VALUES (?,?,?)";
 			prep = conn.prepareStatement(query);
 			
 			int index = 1; 
@@ -104,7 +102,7 @@ public class KorisnikDAO {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
 		try {
-			String query = "UPDATE korisnici SET userName = ?, password = ?, role = ?";
+			String query = "UPDATE korisnici SET korisnickoIme = ?, lozinka = ?, uloga = ?";
 			prep = conn.prepareStatement(query);
 			
 			int index = 1;
@@ -126,7 +124,7 @@ public class KorisnikDAO {
 		PreparedStatement prep = null;
 		
 		try {
-			String query = "DELETE FROM korisnici WHERE userName = ?, password = ?, role = ?";
+			String query = "DELETE FROM korisnici WHERE korisnickoIme = ?, lozinka = ?, uloga = ?";
 			prep = conn.prepareStatement(query);
 			
 			int index = 1; 

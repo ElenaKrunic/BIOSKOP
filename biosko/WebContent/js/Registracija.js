@@ -1,20 +1,18 @@
 $(document).ready(function(){
-	alert("otvoren dokument");
-	var userName = $("#userName");
-	var password = $("#password");
-	var repeatedPassword = $("#repeatedPassword");
+	var korisnickoImeID = $("#korisnickoImeID");
+	var lozinkaID = $("#lozinkaID");
+	var ponovljenaLozinkaID = $("#ponovljenaLozinkaID");
 	var messageParagraph = $('#messageParagraph');
 	
 	$("#registracijaSubmit").on("click", function(event) {
-		alert("kliknuto dugme");
-		var userName = userName.val();
-		var password = password.val();
-		var repeatedPassword = repeatedPassword.val();
-		console.log("userName: " + userName);
-		console.log("password: " + password);
-		console.log("repeatedPassword: " + repeatedPassword);
+		var korisnickoIme = korisnickoImeID.val();
+		var lozinka = lozinkaID.val();
+		var ponovljenaLozinka = ponovljenaLozinkaID.val();
+		console.log("korisnicko ime: " + korisnickoIme);
+		console.log("lozinka: " + lozinka);
+		console.log("ponovljena lozinka: " + ponovljenaLozinka);
 
-		if (password != repeatedPassword) {
+		if (lozinka != ponovljenaLozinka) {
 			messageParagraph.text('Lozinke se ne podudaraju!');
 
 			event.preventDefault();
@@ -22,19 +20,19 @@ $(document).ready(function(){
 		}
 		
 		var params = {
-				"username" : username,
-				"password" : password
+				"korisnickoIme" : korisnickoIme,
+				"lozinka" : lozinka
 		}
 		$.post("RegistracijaServlet", params, function(data) {
 			console.log(data);
 			
-			if (data.status == 'nije uspjelo') {
+			if (data.status == 'failure') {
 				messageParagraph.text(data.message);
 				return;
 			}
 			
-			if (data.status == 'uspjelo') {
-				window.location.replace('Bioskop.html');
+			if (data.status == 'success') {
+				window.location.replace('Glavna.html');
 			}
 		});
 		event.preventDefault();

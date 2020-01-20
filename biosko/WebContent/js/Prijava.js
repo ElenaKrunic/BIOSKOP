@@ -1,10 +1,8 @@
 $(document).ready(function() {
-	alert("otvoren dokument");
 	var userNameID = $("#userNameID");
 	var passwordID = $("#passwordID");
 	
 	$("#prijavaSubmit").on("click", function(event){
-		alert("klik na dugme");
 		var userName = userNameID.val();
 		var password = passwordID.val();
 		console.log("userName: " + userName);
@@ -14,23 +12,24 @@ $(document).ready(function() {
 				"userName" : userName,
 				"password" : password
 		}
-		$.post("OdjavaServlet", params, function(data){
+		$.post("PrijavaServlet", params, function(data){
 			console.log("Stigao odgovor");
 			console.log(data); //served at: /bioskop
 			
-			if(data.status == "neuspjeh") {
+			if(data.status == "failure") {
 				userNameID.val(""); //prazn strng
 				passwrodID.val("");
 				
 				return;
 			}
 			
-			if(data.status == "uspjesno") {
-				window.location.replace("Bisokop.html");
+			if(data.status == "success") {
+				console.log("lala");
+				window.location.replace("Glavna.html");
 			}
 		});
 		
-		console.log("Poslat zahtjev");
+		console.log("otislo");
 		event.preventDefault();
 		return false;
 	});

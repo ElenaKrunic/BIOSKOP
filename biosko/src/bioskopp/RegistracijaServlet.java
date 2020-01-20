@@ -21,23 +21,22 @@ public class RegistracijaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String userName = request.getParameter("userName");
-			if (KorisnikDAO.get(userName) != null)
+			String korisnickoIme = request.getParameter("korisnickoIme");
+			if (KorisnikDAO.get(korisnickoIme) != null)
 				throw new Exception("Korisnicko ime vec postoji!");
-			if ("".equals(userName))
+			if ("".equals(korisnickoIme))
 				throw new Exception("Korisnicko ime je prazno!");
 
-			String password = request.getParameter("password");
-			if ("".equals(password))
+			String lozinka = request.getParameter("lozinka");
+			if ("".equals(lozinka))
 				throw new Exception("Lozinka je prazna!");
 			
-			Korisnik korisnik = new Korisnik(userName, password, Uloga.Korisnik);
+			Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, Uloga.Korisnik);
 			KorisnikDAO.dodajKorisnika(korisnik);
 
 			request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);

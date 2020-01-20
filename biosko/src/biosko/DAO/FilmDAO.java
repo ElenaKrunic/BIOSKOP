@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bioskop.model.Film;
-import bioskop.model.Zanr;
+import bioskop.model.Zanrovi;
 
 
 public class FilmDAO {
-	public static Film get(String id) throws SQLException {
+	public static Film get(int id) throws SQLException {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
 		ResultSet rs = null;
@@ -20,20 +20,20 @@ public class FilmDAO {
 		try {
 			String query = "SELECT naziv,zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje FROM filmovi WHERE id = ?";
 			prep = conn.prepareStatement(query);
-			prep.setString(1, id);
+			prep.setInt(1, id);
 			System.out.println(prep);
 			rs = prep.executeQuery();
 			
 			if(rs.next()) {
 				int index = 1;
 				String naziv = rs.getString(index++);
-				Zanr zanr = Zanr.valueOf(rs.getString(index++));
+				Zanrovi zanr = Zanrovi.valueOf(rs.getString(index++));
 				String trajanje = rs.getString(index++);
 				String distributer = rs.getString(index++); 
 				String zemljaPorijekla = rs.getString(index++); 
 				int godinaProizvodnje = rs.getInt(index++); 
 				
-				return new Film(id,naziv,zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje);
+				return new Film(id,naziv,zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje); 
 			}
 		} finally {
 			try {prep.close();} catch(Exception ex) {ex.printStackTrace();}
@@ -49,9 +49,10 @@ public class FilmDAO {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null; 
 		ResultSet rs = null ; 
-		// AND price >= ? AND price <= ?
+		
 		try {
-			String query = "SELECT id,naziv, zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje FROM filmovi WHERE" + "naziv like ? AND zanr like ?  AND trajanje LIKE ? AND trajanje LIKE ? AND distributer LIKE ? AND zemljaPorijekla LIKE ? AND godinaProizvodnje <= ? AND godinaProizvodnje >= ?"; 
+			String query = "SELECT id,naziv, zanr,trajanje,distributer,zemljaPorijekla,godinaProizvodnje FROM filmovi WHERE" +
+		"naziv like ? AND zanr like ?  AND trajanje LIKE ? AND trajanje LIKE ? AND distributer LIKE ? AND zemljaPorijekla LIKE ? AND godinaProizvodnje <= ? AND godinaProizvodnje >= ?"; 
 			prep = conn.prepareStatement(query);
 			int index = 1; 
 			prep.setString(index ++, "%" + naziv + "%");
@@ -68,16 +69,17 @@ public class FilmDAO {
 			
 			while (rs.next()) {
 				index = 1; 
-				String filmID = rs.getString(index++);
+				int filmID = rs.getInt(index++);
 				String nazivFilma = rs.getString(index++);
-				Zanr zanrFilma = Zanr.valueOf(rs.getString(index++));
+				Zanrovi zanrFilma = Zanrovi.valueOf(rs.getString(index++));
 				String trajanjeFilma = rs.getString(index++); 
 				String distributerFilma = rs.getString(index++); 
 				String zemljaPorijeklaFilma = rs.getString(index++); 
 				int godinaProizvodnjeFilma = rs.getInt(index++); 
-				
+					
 				Film film = new Film(filmID,nazivFilma,zanrFilma,trajanjeFilma,distributerFilma,zemljaPorijeklaFilma,godinaProizvodnjeFilma);
 				filmovi.add(film);	
+				System.out.println(film);
 			}
 			
 		}  finally {
@@ -96,8 +98,9 @@ public class FilmDAO {
 					+ "VALUES (?,?,?,?,?,?,?)";
 			prep = conn.prepareStatement(query);
 			int index = 1; 
+			
 			prep.setString(index++, film.getNaziv());
-			prep.setString(index++, film.getZanr().toString());
+			prep.setString(index++,film.getZanrovi().toString());
 			prep.setString(index++, film.getTrajanje());
 			prep.setString(index++, film.getDistributer());
 			prep.setString(index++, film.getZemljaPorijekla());
@@ -122,13 +125,14 @@ public class FilmDAO {
 			prep = conn.prepareStatement(query);
 			int index = 1; 
 			prep.setString(index++, film.getNaziv());
-			prep.setString(index++, film.getZanr().toString());
+			prep.setString(index++, film.getZanrovi().toString());
 			prep.setString(index++, film.getTrajanje());
 			prep.setString(index++, film.getDistributer());
 			prep.setString(index++, film.getZemljaPorijekla());
 			prep.setInt(index++, film.getGodinaProizvodnje());
-			prep.setString(index++, film.getId());
+			prep.setInt(index++, film.getId());
 			System.out.println(prep);			
+	
 			return prep.executeUpdate() == 1;
 		} 
 		finally {
@@ -137,13 +141,13 @@ public class FilmDAO {
 		} 
 	} 
 	
-	public static boolean delete (String id) throws Exception {
+	public static boolean delete (int id) throws Exception {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null; 
 		try {
 			String query = "DELETE FROM filmovi WHERE id = ?";
 			prep = conn.prepareStatement(query);
-			prep.setString(1, id);
+			prep.setInt(1, id);
 			System.out.println(prep); 
 			return prep.executeUpdate()==1;
 		} 

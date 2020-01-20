@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+<title>Filmovi</title>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/Filmovi.js"></script></head>
+<body>
+	<h3> Filmovi </h3>
+	<!-- osnovni podaci o svakom filmu -->
+	<table border="1" id="filmoviTabela">
+		<tr bgcolor="lightgrey"> 
+			<th>Naziv</th>
+			<th>Zanr</th> 
+			<th>Trajanje</th>
+			<th>Distributer</th>
+			<th>Zemlja porijekla</th>
+			<th>Godina proizvodnje</th>
+		</tr>
+	<!-- filteri -->
+		<tr bgcolor="lightgrey">
+			<td align="center"><input type="text" id="nazivFilterID"></td>
+			<td align="center"><input type="text" id="zanrFilterID"></td>
+			<td align="center">
+				od:&nbsp;<input type="text" id="najmanjaMinutazaFilterID"><br>
+				do:&nbsp;<input type="text" id="najvecaMinutazaFilterID">
+			</td>
+			<td align="center"><input type="text" id="distributerFilterID"></td>
+			<td align="center"><input type="text" id="zemljaPorijeklaFilterID"></td>
+			<td align="center">
+				od:&nbsp;<input type="text" id="najranijaGodinaFilterID">
+				do:&nbsp;<input type="text" id="posljednjaGodinaFilterID">
+			</td>		
+		</tr>
+		<!-- izabrace film po id u i iscitati iz baze  -->
+		<tr>
+			<td><a href="Film.html?id="></a></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		
+		</tr>
+			
+	</table>
+	<p id="adminParagraph">
+	<p><a href="" id="logoutLink">Odjava</a></p>
+</body>
+</html>

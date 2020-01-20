@@ -1,27 +1,27 @@
 package bioskop.model;
 
+import java.util.ArrayList;
+
 public class Film  {
-	
-	
-	private String id;  
+	private int id;  
 	private String naziv;
 	private String reziser; 
 	private String glumci;  
-	private Zanr zanr;
+	private Zanrovi zanrovi;
 	private String trajanje; 
 	private String distributer;
 	private String zemljaPorijekla;
 	private int godinaProizvodnje;
 	private String opis;
 	
-	public Film (String id, String naziv, String reziser, String glumci, Zanr zanr, String trajanje, String distributer,
+	public Film (int id, String naziv, String reziser, String glumci, Zanrovi zanrovi, String trajanje, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje, String opis) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.reziser = reziser;
 		this.glumci = glumci;
-		this.zanr = zanr;
+		this.zanrovi = zanrovi;
 		this.trajanje = trajanje;
 		this.distributer = distributer;
 		this.zemljaPorijekla = zemljaPorijekla;
@@ -29,34 +29,27 @@ public class Film  {
 		this.opis = opis;
 	}
 	
-	public Film (String id,String naziv, Zanr zanr, String trajanjeFilma, String distributer,
-			String zemljaPorijekla, int godinaProizvodnje) {
-		this.id = id;
-		this.naziv = naziv;
-		this.zanr = zanr;
-		this.trajanje = trajanjeFilma;
-		this.distributer = distributer;
-		this.zemljaPorijekla = zemljaPorijekla;
-		this.godinaProizvodnje = godinaProizvodnje;
+	public Film(int id, String naziv, Zanrovi zanrovi, String trajanje, String distributer, String zemljaPorijekla, int godinaProizvodnje) {
+		this.id = id; 
+		this.naziv = naziv; 
+		this.zanrovi = zanrovi; 
+		this.trajanje = trajanje; 
+		this.distributer = distributer; 
+		this.zemljaPorijekla = zemljaPorijekla; 
+		this.godinaProizvodnje = godinaProizvodnje; 
 	}
 	
-	public Film (String naziv, Zanr zanr, String trajanje, String distributer,
+	
+	public Film (String naziv, Zanrovi zanrovi, String trajanje, String distributer,
 			String zemljaPorijekla, int godinaProizvodnje) {
 		this.naziv = naziv;
-		this.zanr = zanr;
+		this.zanrovi = zanrovi;
 		this.trajanje = trajanje;
 		this.distributer = distributer;
 		this.zemljaPorijekla = zemljaPorijekla;
 		this.godinaProizvodnje = godinaProizvodnje;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getNaziv() {
 		return naziv;
@@ -80,14 +73,6 @@ public class Film  {
 
 	public void setGlumci(String glumci) {
 		this.glumci = glumci;
-	}
-
-	public Zanr getZanr() {
-		return zanr;
-	}
-
-	public void setZanr(Zanr zanr) {
-		this.zanr = zanr;
 	}
 
 	public String getTrajanje() {
@@ -138,6 +123,28 @@ public class Film  {
 
 	public void setOpis(String opis) {
 		this.opis = opis;
-	}	
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Zanrovi getZanrovi() {
+		return zanrovi;
+	}
+
+	public void setZanrovi(Zanrovi zanrovi) {
+		this.zanrovi = zanrovi;
+	}
+
+
+
+
 }
 

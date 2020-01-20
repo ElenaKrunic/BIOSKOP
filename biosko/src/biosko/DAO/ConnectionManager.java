@@ -23,18 +23,16 @@ public class ConnectionManager {
 			dataSourceProperties.setProperty("driverClassName", "org.sqlite.JDBC");
 			dataSourceProperties.setProperty("url", "jdbc:sqlite:" + PATH);
 			
-			dataSource = BasicDataSourceFactory.createDataSource(dataSourceProperties); // connection pool
+			dataSource = BasicDataSourceFactory.createDataSource(dataSourceProperties); 
 		} catch (Exception ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 	}
 
 	public static Connection getConnection() {
 		try {
-			return dataSource.getConnection(); // slobodna konekcija se vadi iz pool-a na zahtev
+			return dataSource.getConnection();
 		} catch (Exception ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 

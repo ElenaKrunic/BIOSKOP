@@ -14,11 +14,6 @@ public class TipProjekcije {
 		tipoviProjekcije.add("2D");
 		tipoviProjekcije.add("3D");
 		tipoviProjekcije.add("4D");
-		
-		//tipoviProjekcije.contains("2D");
-		//tipoviProjekcije.contains("3D");
-		//tipoviProjekcije.contains("4D");
-
 	}
 	
 	public int getId() {
