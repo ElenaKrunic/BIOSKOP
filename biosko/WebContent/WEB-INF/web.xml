@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>biosko</display-name>
+  <display-name>Bioskop</display-name>
   <welcome-file-list>
-    <welcome-file>Prijava.html</welcome-file>
+    <welcome-file>Filmovi.html</welcome-file>
   </welcome-file-list>
   <listener>
     <listener-class>bioskopp.InitL</listener-class>
   </listener>
   <servlet>
-    <description></description>
-    <display-name>GServlet</display-name>
     <servlet-name>GServlet</servlet-name>
     <servlet-class>bioskopp.GServlet</servlet-class>
   </servlet>
@@ -18,8 +16,6 @@
     <url-pattern>/GServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>KorisnikServlet</display-name>
     <servlet-name>KorisnikServlet</servlet-name>
     <servlet-class>bioskopp.KorisnikServlet</servlet-class>
   </servlet>
@@ -28,8 +24,6 @@
     <url-pattern>/KorisnikServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>OdjavaServlet</display-name>
     <servlet-name>OdjavaServlet</servlet-name>
     <servlet-class>bioskop.status.OdjavaServlet</servlet-class>
   </servlet>
@@ -38,8 +32,6 @@
     <url-pattern>/OdjavaServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>GreskaServlet</display-name>
     <servlet-name>GreskaServlet</servlet-name>
     <servlet-class>bioskop.status.GreskaServlet</servlet-class>
   </servlet>
@@ -48,8 +40,6 @@
     <url-pattern>/GreskaServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>UspjesnoServlet</display-name>
     <servlet-name>UspjesnoServlet</servlet-name>
     <servlet-class>bioskop.status.UspjesnoServlet</servlet-class>
   </servlet>
@@ -68,8 +58,6 @@
     <url-pattern>/NeovlascenoServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>PrijavaServlet</display-name>
     <servlet-name>PrijavaServlet</servlet-name>
     <servlet-class>bioskopp.PrijavaServlet</servlet-class>
   </servlet>
@@ -78,8 +66,6 @@
     <url-pattern>/PrijavaServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>ConnectionManager</display-name>
     <servlet-name>ConnectionManager</servlet-name>
     <servlet-class>biosko.DAO.ConnectionManager</servlet-class>
   </servlet>
@@ -88,8 +74,6 @@
     <url-pattern>/ConnectionManager</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>RegistracijaServlet</display-name>
     <servlet-name>RegistracijaServlet</servlet-name>
     <servlet-class>bioskopp.RegistracijaServlet</servlet-class>
   </servlet>
@@ -98,8 +82,6 @@
     <url-pattern>/RegistracijaServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>PrikazSvihFilmovaServlet</display-name>
     <servlet-name>PrikazSvihFilmovaServlet</servlet-name>
     <servlet-class>bioskopp.PrikazSvihFilmovaServlet</servlet-class>
   </servlet>
@@ -108,8 +90,6 @@
     <url-pattern>/PrikazSvihFilmovaServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>FilmoviServlet</display-name>
     <servlet-name>FilmoviServlet</servlet-name>
     <servlet-class>bioskopp.FilmoviServlet</servlet-class>
   </servlet>
@@ -118,8 +98,6 @@
     <url-pattern>/FilmoviServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>FilmServlet</display-name>
     <servlet-name>FilmServlet</servlet-name>
     <servlet-class>bioskopp.FilmServlet</servlet-class>
   </servlet>
@@ -128,8 +106,6 @@
     <url-pattern>/FilmServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>MojNalogServlet</display-name>
     <servlet-name>MojNalogServlet</servlet-name>
     <servlet-class>bioskopp.MojNalogServlet</servlet-class>
   </servlet>
@@ -138,8 +114,6 @@
     <url-pattern>/MojNalogServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
-    <display-name>KorisniciServlet</display-name>
     <servlet-name>KorisniciServlet</servlet-name>
     <servlet-class>bioskopp.KorisniciServlet</servlet-class>
   </servlet>

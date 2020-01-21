@@ -1,6 +1,5 @@
 package bioskop.model;
 
-import java.util.ArrayList;
 
 public class Film  {
 	private int id;  
@@ -50,6 +49,9 @@ public class Film  {
 		this.godinaProizvodnje = godinaProizvodnje;
 	}
 
+	public Film(int i, String naziv2, String zanrovi2, String trajanje2, String distributer2, String zemljaPorijekla2,
+			int godinaProizvodnje2) {
+	}
 
 	public String getNaziv() {
 		return naziv;

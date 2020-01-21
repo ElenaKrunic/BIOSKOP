@@ -14,8 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Servlet implementation class LogoutServlet
  */
+@SuppressWarnings("serial")
 public class OdjavaServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().invalidate();

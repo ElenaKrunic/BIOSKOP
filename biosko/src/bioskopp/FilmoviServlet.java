@@ -31,7 +31,7 @@ public class FilmoviServlet extends HttpServlet {
 				request.getRequestDispatcher("./OdjavaServlet").forward(request, response);
 				return;
 			}
-			//uzimam svaki filter i provjeravam
+			
 			String naziv = request.getParameter("nazivFilter");
 			naziv = (naziv != null? naziv:"" );
 			
@@ -72,12 +72,18 @@ public class FilmoviServlet extends HttpServlet {
 				posljednjaGodina = (posljednjaGodina > 0? posljednjaGodina:0);
 			} catch(Exception ex) {ex.printStackTrace();}
 			
-			//pravim listu filtriranih filmova i pozivam dao sloj te dao sloju prosljedjujem sve elemente filtriranog filma 
-			List<Film> filtriraniFilmovi = FilmDAO.getAll(naziv, zanr,najkraceTraje,najduzeTraje,distributer, zemljaPorijekla, najranijaGodina, posljednjaGodina);
-			Map<String,Object> data = new LinkedHashMap<>(); 
-			data.put("filtriraniFilmovi", filtriraniFilmovi); 
-			request.setAttribute("data", data);
-			request.getRequestDispatcher("/.UspjesnoServlet").forward(request, response);
+			List<Film> filtriraniFilmovi;
+			try {
+				filtriraniFilmovi = FilmDAO.getAll(naziv, zanr,najkraceTraje,najduzeTraje,distributer, zemljaPorijekla, najranijaGodina, posljednjaGodina);
+				Map<String,Object> data = new LinkedHashMap<>(); 
+				data.put("filtriraniFilmovi", filtriraniFilmovi); 
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("/.UspjesnoServlet").forward(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		//regulisi ovde 
 		} catch(Exception e) {e.printStackTrace();} 
 	}
 	

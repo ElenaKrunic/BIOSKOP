@@ -3,7 +3,7 @@ $(document).ready(function(){
 		$.get("LogoutServlet", function(data){
 			console.log(data); 
 			
-			if(data.status == "nije autentifikovano") {
+			if(data.status == "unauthenticated") {
 				window.location.replace("Prijava.html"); 
 				return;
 			}
@@ -46,11 +46,11 @@ $(document).ready(function(){
 		$.post("FilmServlet", params, function(event){
 			console.log(data); 
 			
-			if(data.status == "nije autentifikovanoo") {
+			if(data.status == "unauthenticated") {
 				window.location.return("Prijava.html"); 
 				return;
 			}
-			if(data.status == "uspjesno") {
+			if(data.status == "success") {
 				window.location.replace("Filmovi.html"); 
 			}
 		}); 

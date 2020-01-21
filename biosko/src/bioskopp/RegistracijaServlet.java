@@ -1,6 +1,8 @@
 package bioskopp;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,11 +16,8 @@ import bioskop.model.Korisnik;
 import bioskop.model.Uloga;
 
 
-/**
- * Servlet implementation class RegistracijaServlet
- */
+@SuppressWarnings("serial")
 public class RegistracijaServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
@@ -36,7 +35,11 @@ public class RegistracijaServlet extends HttpServlet {
 			if ("".equals(lozinka))
 				throw new Exception("Lozinka je prazna!");
 			
-			Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, Uloga.Korisnik);
+			Date trenutno = new java.util.Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+			String datumRegistracije = dateFormat.format(trenutno);
+			
+			Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, Uloga.KORISNIK);
 			KorisnikDAO.dodajKorisnika(korisnik);
 
 			request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);

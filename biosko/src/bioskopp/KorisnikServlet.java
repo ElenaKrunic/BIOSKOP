@@ -32,18 +32,18 @@ public class KorisnikServlet extends HttpServlet {
 				return;
 			}
 	
-			Map<String, Object> data = new LinkedHashMap<>();
-	
-			String action = request.getParameter("action");
-			switch (action) {
-				case "ulogaKorisnika": {
-					data.put("ulogaKorisnika", ulogovaniKorisnik.getUloga());
-					break;
-				}
-			}
-	
-			request.setAttribute("data", data);
-			request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
+		String korisnickoIme = request.getParameter("korisnickoImeKorisnik"); 
+		Korisnik korisnik = KorisnikDAO.get(korisnickoIme);
+		
+		
+		Map<String,Object> data = new LinkedHashMap<String,Object>(); 
+		data.put("korisnik", korisnik); 
+		//provjera 
+		System.out.println(data); 
+		
+		request.setAttribute("data", data);
+		request.getRequestDispatcher("/.SuccessServlet").forward(request, response);
+		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

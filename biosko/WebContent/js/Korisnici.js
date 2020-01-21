@@ -34,11 +34,11 @@ $(document).ready(function(){
 				tabelaKorisnika.find("tr:gt(1)").remove(); 
 				var filtriraniKorisnici = data.filtriraniKorisnici; 
 				for(fk in filtriraniKorisnici){
-					tabelaKorisnika.append( //DODATI DATUM REGISTRACIJE
+					tabelaKorisnika.append(
 							'<tr>' + 
-							'<td><a href="Korisnik.html?korisnickoIme=' + filtriraniKorisnici[fk].korisnickoIme + '">' + filtriraniKorisnici[fk].uloga + '</a></td>' + 
-							'<td>' + '</td>' +
-							'<td>' + '</td>' +							
+							'<td><a href="Korisnik.html?korisnickoIme=' + filtriraniKorisnici[fk].korisnickoIme + '</a></td>' +
+							 '<td>' +  filtriraniKorisnici[fk].uloga + '</a></td>' + 
+							'<td>' + '</td>' + //OVDE DODATI JOS DATUM REGISTRACIJE KORISNIKA 	
 						'</tr>'
 					);
 				}

@@ -14,6 +14,7 @@ import biosko.DAO.KorisnikDAO;
 import bioskop.model.Film;
 import bioskop.model.Korisnik;
 import bioskop.model.Uloga;
+import bioskop.model.Zanrovi;
 
 /**
  * Servlet implementation class FilmServlet
@@ -27,13 +28,13 @@ public class FilmServlet extends HttpServlet {
 			request.getRequestDispatcher("./OdjavaServlet").forward(request, response);
 			return;
 		}
-		try {
+	try {
 			Korisnik ulogovaniKorisnik = KorisnikDAO.get(ulogovanKorisnikIme);
 			if(ulogovaniKorisnik == null) {
 				request.getRequestDispatcher("/.OdjavaServlet").forward(request, response);
 				return;
 			}
-			int id =(Integer.parseInt(request.getParameter("id")));
+			int id =(Integer.parseInt(request.getParameter("id"))); 
 			Film film = FilmDAO.get(id);
 			
 			Map<String,Object> data = new LinkedHashMap<>(); 
@@ -43,7 +44,7 @@ public class FilmServlet extends HttpServlet {
 				request.setAttribute("data", data);
 				request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
 	} catch(Exception ex) {ex.printStackTrace();}
-	}
+}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -58,7 +59,7 @@ public class FilmServlet extends HttpServlet {
 				request.getRequestDispatcher("./OdjavaServlet").forward(request, response);
 				return;
 			}
-			if(ulogovaniKorisnik.getUloga() != Uloga.Administrator) {
+			if(ulogovaniKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
 				request.getRequestDispatcher("./NeovlascenoServlet").forward(request, response);
 				return;
 			}
@@ -66,6 +67,9 @@ public class FilmServlet extends HttpServlet {
 			String action = request.getParameter("action");
 			switch(action) {
 			case "add" : {
+				
+	
+				
 				String naziv = request.getParameter("naziv"); 
 				naziv = (!"".equals(naziv)? naziv : "<empty>");
 				
@@ -82,9 +86,11 @@ public class FilmServlet extends HttpServlet {
 				zemljaPorijekla = (!"".equals(zemljaPorijekla)? zemljaPorijekla : "<empty>");
 				
 				int godinaProizvodnje = Integer.parseInt(request.getParameter("godinaProizvodnje"));
-				godinaProizvodnje = (int) (godinaProizvodnje > 0? godinaProizvodnje: 2020);
+				if(godinaProizvodnje <= 0) {
+					throw new Exception ("Godina proizvodnje ne moze biti 0 ili manje od 0 ");
+				}
 				
-				Film film = new Film (1,naziv,zanrovi,trajanje,distributer,zemljaPorijekla,godinaProizvodnje);
+				Film film = new Film (0,naziv,zanrovi,trajanje, distributer,zemljaPorijekla, godinaProizvodnje);
 				System.out.println(film);
 				FilmDAO.add(film);
 				break;								
@@ -96,7 +102,7 @@ public class FilmServlet extends HttpServlet {
 				String naziv = request.getParameter("naziv"); 
 				naziv = (!"".equals(naziv)? naziv : film.getNaziv());
 				
-				Zanr zanr = Zanr.valueOf(request.getParameter("zanr"));
+				Zanrovi zanr = Zanrovi.valueOf(request.getParameter("zanr"));
 				
 				String trajanje = request.getParameter("trajanje"); 
 				trajanje = (!"".equals(trajanje)? trajanje: film.getTrajanje());
@@ -111,7 +117,7 @@ public class FilmServlet extends HttpServlet {
 				godinaProizvodnje = (int) (godinaProizvodnje > 0? godinaProizvodnje: film.getGodinaProizvodnje());
 				
 				film.setNaziv(naziv);
-				film.setZanr(zanr);
+				film.setZanrovi(zanr);
 				film.setTrajanje(trajanje);
 				film.setDistributer(distributer);
 				film.setZemljaPorijekla(zemljaPorijekla);

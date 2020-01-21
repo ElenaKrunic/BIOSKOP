@@ -12,16 +12,19 @@ import bioskop.model.Korisnik;
 
 @SuppressWarnings("serial")
 public class PrijavaServlet extends HttpServlet {
+	
+	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response); 
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		System.out.println(userName);
 		
 		try {
 			Korisnik korisnik = KorisnikDAO.get(userName,password);
 			
-			if(userName == null) {
+			if(korisnik == null) {
 				request.getRequestDispatcher("/.GreskaServlet").forward(request, response);
 				return;
 			}

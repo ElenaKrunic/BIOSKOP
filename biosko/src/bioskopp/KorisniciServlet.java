@@ -1,7 +1,6 @@
 package bioskopp;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class KorisniciServlet extends HttpServlet {
 			String korisnickoIme = request.getParameter("korisnickoImeF"); 
 			korisnickoIme = (korisnickoIme != null? korisnickoIme : "");
 			Uloga uloga = Uloga.valueOf(request.getParameter("uloga"));
-			uloga = (uloga != null? uloga : Uloga.Korisnik); //da dobijem listu obicnih
+			uloga = (uloga != null? uloga : Uloga.KORISNIK); //da dobijem listu obicnih
 			
 			List <Korisnik> filtriraniKorisnici = null; 
 			try {

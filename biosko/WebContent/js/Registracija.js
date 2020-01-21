@@ -8,7 +8,7 @@ $(document).ready(function(){
 		var korisnickoIme = korisnickoImeID.val();
 		var lozinka = lozinkaID.val();
 		var ponovljenaLozinka = ponovljenaLozinkaID.val();
-		console.log("korisnicko ime: " + korisnickoIme);
+		console.log("korisnici: " + korisnickoIme);
 		console.log("lozinka: " + lozinka);
 		console.log("ponovljena lozinka: " + ponovljenaLozinka);
 
@@ -24,10 +24,11 @@ $(document).ready(function(){
 				"lozinka" : lozinka
 		}
 		$.post("RegistracijaServlet", params, function(data) {
+			console.log("stigao odgovor");
 			console.log(data);
 			
 			if (data.status == 'failure') {
-				messageParagraph.text(data.message);
+				messageParagraph.text("Registracija neuspjesna, pokusajte ponovo!");
 				return;
 			}
 			

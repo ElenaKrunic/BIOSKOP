@@ -1,11 +1,9 @@
 package bioskop.model;
 
-import java.util.Date;
-
 public class Korisnik {
 	private String korisnickoIme;
 	private String lozinka;
-	private Date datumRegistracije;
+	private String datumRegistracije;
 	private Uloga uloga;
 	
 	public String getKorisnickoIme() {
@@ -20,10 +18,10 @@ public class Korisnik {
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
-	public Date getDatumRegistracije() {
+	public String getDatumRegistracije() {
 		return datumRegistracije;
 	}
-	public void setDatumRegistracije(Date datumRegistracije) {
+	public void setDatumRegistracije(String datumRegistracije) {
 		this.datumRegistracije = datumRegistracije;
 	}
 	public Uloga getUloga() {
@@ -33,7 +31,7 @@ public class Korisnik {
 		this.uloga = uloga;
 	}
 	
-	public Korisnik(String korisnickoIme, String lozinka, Date datumRegistracije, Uloga uloga) {
+	public Korisnik(String korisnickoIme, String lozinka, String datumRegistracije, Uloga uloga) {
 		super();
 		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
