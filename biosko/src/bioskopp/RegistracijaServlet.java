@@ -18,6 +18,8 @@ import bioskop.model.Uloga;
 
 @SuppressWarnings("serial")
 public class RegistracijaServlet extends HttpServlet {
+	
+	/*
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response);
@@ -57,5 +59,5 @@ public class RegistracijaServlet extends HttpServlet {
 			request.getRequestDispatcher("./GreskaServlet").forward(request, response);
 		}
 	}
-
+*/
 }

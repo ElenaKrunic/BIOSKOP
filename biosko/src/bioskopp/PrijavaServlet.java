@@ -13,6 +13,8 @@ import bioskop.model.Korisnik;
 @SuppressWarnings("serial")
 public class PrijavaServlet extends HttpServlet {
 	
+	/*
+	
 	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 		doPost(request,response); 
 	}
@@ -37,4 +39,5 @@ public class PrijavaServlet extends HttpServlet {
 		
 	}
 
+*/
 }

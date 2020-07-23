@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>Bioskop</display-name>
   <welcome-file-list>
-    <welcome-file>Filmovi.html</welcome-file>
+    <welcome-file>Prijava.html</welcome-file>
   </welcome-file-list>
   <listener>
     <listener-class>bioskopp.InitL</listener-class>

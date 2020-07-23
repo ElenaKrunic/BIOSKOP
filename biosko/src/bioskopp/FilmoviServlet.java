@@ -18,6 +18,8 @@ import bioskop.model.Korisnik;
 
 public class FilmoviServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	/*
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ulogovanKorisnikIme = (String) request.getSession().getAttribute("ulogovanKorisnikIme");
@@ -90,5 +92,5 @@ public class FilmoviServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
 	}
-
+*/
 }

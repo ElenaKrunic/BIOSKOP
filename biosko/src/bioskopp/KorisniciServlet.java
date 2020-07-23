@@ -19,6 +19,8 @@ import bioskop.model.Uloga;
  */
 @SuppressWarnings("serial")
 public class KorisniciServlet extends HttpServlet {
+	
+	/*
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ulogovanKorisnikIme = (String) request.getSession().getAttribute("ulogovanKorisnikIme");
@@ -55,5 +57,5 @@ public class KorisniciServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+*/
 }

@@ -1,54 +1,34 @@
-/*$(document).ready(function(){
-	$('#loginSubmit').click(function(){
-		var userName = $("userNameID").val(); 
-		var password = $("passwordID").val();
-		$.ajax({
-			type : "POST", 
-			url : "PrijavaServlet", 
-			data : {"korisnicko ime : " : userName, "sifra :" : password  },
-			success : function(data) {
-				if(data == "success") {
-					console.log("Uspjesno poslati podaci"); 
-					window.location.replace("Glavna.html");
-				}
-				else{
-					throw new Exception("Podaci nisu poslati!"); 
-				}
-			}
-		});
-	});
-});*/
-
-$(document).ready(function() {
-	var userNameID = $("#userNameID");
-	var passwordID = $("#passwordID");
+$(document).ready(function(){
+	var userNameInput = $('#userNameInput'); 
+	var passwordInput = $('#passwordInput'); 
 	
-	$('#prijavaSubmit').on('click', function(event){
-		var userName = userNameID.val();
-		var password = passwordID.val();
-		console.log('userName: ' + userName);
-		console.log('password: ' + password);
+	$('#loginSubmit').on('click', function(event) {
+		var userName = userNameInput.val(); 
+		var password = passwordInput.val(); 
+		console.log('username je ' + userName); 
+		console.log('password je ' + password); 
 		
 		var params = {
-				'userName' : userName,
+				 action : "login",
+				'userName' : userName, 
 				'password' : password
 		}
-		$.post('PrijavaServlet', params, function(data){
-			console.log(data);
+		
+		$.post('KorisnikServlet', params, function(data) {
 			
-			if(data.status == 'failure') {
-				userNameID.val(''); 
-				passwordID.val('');
-				return;
-			}
+			//ovo je duzi nacin 
+			var response = JSON.parse(data); 
 			
-			if(data.status == 'success') {
-				console.log('lala');
-				window.location.replace('Glavna.html');
+			if(response.status) {
+				window.location.href="Filmovi.html"; 
+			} else {
+				//pushNotification("red", response.message); 
+				alert("Niste se prijavili. Pokusajte ponovo!"); 
 			}
 		});
 		
-		event.preventDefault();
-		return false;
+		//console.log('Program se nastavlja prije izvrsavanja POSTa!'); 
+		event.preventDefault(); 
+		return false; 
 	});
 });

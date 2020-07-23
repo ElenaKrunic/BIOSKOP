@@ -1,43 +1,91 @@
 $(document).ready(function(){
-	var korisnickoImeID = $("#korisnickoImeID");
-	var lozinkaID = $("#lozinkaID");
-	var ponovljenaLozinkaID = $("#ponovljenaLozinkaID");
-	var messageParagraph = $('#messageParagraph');
+	var userNameInput = $('#userNameInput0'); 
+	var passwordInput = $('#passwordInput0'); 
+	var repeatedPasswordInput = $('#repeatedPasswordInput0'); 
 	
-	$("#registracijaSubmit").on("click", function(event) {
-		var korisnickoIme = korisnickoImeID.val();
-		var lozinka = lozinkaID.val();
-		var ponovljenaLozinka = ponovljenaLozinkaID.val();
-		console.log("korisnici: " + korisnickoIme);
-		console.log("lozinka: " + lozinka);
-		console.log("ponovljena lozinka: " + ponovljenaLozinka);
-
-		if (lozinka != ponovljenaLozinka) {
-			messageParagraph.text('Lozinke se ne podudaraju!');
-
-			event.preventDefault();
-			return false;
+	var messageParagraph = $('#messageParagraph'); 
+	
+	$('#registrationSubmit').on('click', function(event) {
+		var userName = userNameInput.val(); 
+		var password = passwordInput.val(); 
+		var repeatedPassword = repeatedPasswordInput.val(); 
+		
+		console.log('username je' + userName); 
+		console.log('password je ' + password); 
+		console.log('repeated password je ' + repeatedPassword); 
+		
+		if(password != repeatedPassword) {
+			alert('Lozinke se ne podudaraju!') ; 
+			event.preventDefault(); 
+			return false; 
 		}
 		
 		var params = {
-				"korisnickoIme" : korisnickoIme,
-				"lozinka" : lozinka
+				'action' : 'registration',
+				'username' : userName,  
+				'password' : password,
 		}
-		$.post("RegistracijaServlet", params, function(data) {
-			console.log("stigao odgovor");
-			console.log(data);
-			
-			if (data.status == 'failure') {
-				messageParagraph.text("Registracija neuspjesna, pokusajte ponovo!");
-				return;
-			}
-			
-			if (data.status == 'success') {
-				window.location.replace('Glavna.html');
-			}
-		});
-		event.preventDefault();
-		return false;
-	});
-});
 		
+		$.post('KorisnikServlet', params, function(data) {
+			//console.log('Status : '); 
+			console.log(data.status);
+			
+			var response = JSON.parse(data); 
+			
+			if(response.status) {
+				window.location.href = "Filmovi.html"; 
+			}
+			else {
+				alert("Niste se uspjeli ulogovati! Probajte ponovo!"); 
+			}
+			
+			/*
+			if(data.status == 'failure') {
+				alert(data.message);
+				return; 
+			}
+			if(data.status == 'success') {
+				alert('Uspjesna registracija! Cestitamo! '); 
+				window.location.replace('Prijava.html'); 
+			}
+			*/
+		});
+		
+		event.preventDefault(); 
+		return false; 
+	});
+}); 
+
+
+/*
+$('#registrationSubmit').on('click', function(){
+	var userNameInput = $('#userNameInput'); 
+	var passwordInput = $('#passwordInput'); 
+	var repeatedPasswordInput = $('#repeatedPasswordInput');
+		
+	if(userNameInput.length>0 && passwordInput==passwordRepeatedPassword && password.length>0) {
+		var params = {
+				action : "registrationSubmit", 
+				username : userNameInput, 
+				password : passwordInput
+		}
+		
+		$.post('KorisnikServlet', params, function(data) {
+			var odg = JSON.parse(data); 
+			if(odg.status) {
+				console.log("SVE OK"); 
+				window.location.href = "Prijava.html"; 
+			}
+			else {
+				pushNotification('red', odg.message); 
+			}
+		}); 
+	}
+	else {
+		pushNotification('red', 'Provjerite da li ste dobro unijeli podatke!'); 
+	}
+});
+
+*/
+
+

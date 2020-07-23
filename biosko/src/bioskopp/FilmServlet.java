@@ -21,6 +21,7 @@ import bioskop.model.Zanrovi;
  */
 public class FilmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	/*
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ulogovanKorisnikIme = (String) request.getSession().getAttribute("ulogovanKorisnikIme");
@@ -136,5 +137,5 @@ public class FilmServlet extends HttpServlet {
 	request.getRequestDispatcher("./NeuspjesnoServlet").forward(request, response);
 	}
 }
-
+*/
 }
