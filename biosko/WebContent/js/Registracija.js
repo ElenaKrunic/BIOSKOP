@@ -27,13 +27,11 @@ $(document).ready(function(){
 		}
 		
 		$.post('KorisnikServlet', params, function(data) {
-			//console.log('Status : '); 
-			console.log(data.status);
-			
+			console.log(status); 
 			var response = JSON.parse(data); 
 			
 			if(response.status) {
-				window.location.href = "Filmovi.html"; 
+				window.location.href = "Prijava.html"; 
 			}
 			else {
 				alert("Niste se uspjeli ulogovati! Probajte ponovo!"); 
@@ -55,37 +53,3 @@ $(document).ready(function(){
 		return false; 
 	});
 }); 
-
-
-/*
-$('#registrationSubmit').on('click', function(){
-	var userNameInput = $('#userNameInput'); 
-	var passwordInput = $('#passwordInput'); 
-	var repeatedPasswordInput = $('#repeatedPasswordInput');
-		
-	if(userNameInput.length>0 && passwordInput==passwordRepeatedPassword && password.length>0) {
-		var params = {
-				action : "registrationSubmit", 
-				username : userNameInput, 
-				password : passwordInput
-		}
-		
-		$.post('KorisnikServlet', params, function(data) {
-			var odg = JSON.parse(data); 
-			if(odg.status) {
-				console.log("SVE OK"); 
-				window.location.href = "Prijava.html"; 
-			}
-			else {
-				pushNotification('red', odg.message); 
-			}
-		}); 
-	}
-	else {
-		pushNotification('red', 'Provjerite da li ste dobro unijeli podatke!'); 
-	}
-});
-
-*/
-
-
