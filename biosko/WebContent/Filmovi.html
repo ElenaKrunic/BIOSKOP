@@ -7,32 +7,49 @@
 	<script src="js/Filmovi.js"></script></head>
 <body>
 	<h3> Filmovi </h3>
+	
 	<!-- osnovni podaci o svakom filmu -->
-	<table border="1" id="filmoviTabela">
+	  <table id="tabelaFilm" border="1">
+  	<tr>
+  		<th> <input id="nazivFilter"/> </th>
+  		<th> <input id="trajanjeFilter" type="number"/> </th>
+  		<th> <select id="zanroviFilter" multiple></select></th>
+  		<th> <input id="godinaFilter" type="number"/> </th>
+  		<th> <input id="distributerFilter"/> </th>
+  		<th> <input id="zemljaPorijeklaFilter"/> </th>
+  		<th> <button id="filterBtn" class="confirmbtn">Filtriraj</button> </th>
+  	</tr>
+    <tr>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item')">Naziv</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(2)')">Trajanje</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(3)')">Zanrovi</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(4)')">Godina Proizvodnje</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(5)')">Distributer</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja Porijekla</th>
+    </tr>
+  </table>
+	
+	<!-- 
+		<table border="1" id="filmoviTabela">
 		<tr bgcolor="lightgrey"> 
 			<th>Naziv</th>
-			<th>Zanr</th> 
-			<th>Trajanje</th>
+			<th>Trajanje</th> 
+			<th>Zanr</th>
+			<th>Godina</th>
 			<th>Distributer</th>
 			<th>Zemlja porijekla</th>
-			<th>Godina proizvodnje</th>
+			<th/>
 		</tr>
-	<!-- filteri -->
 		<tr bgcolor="lightgrey">
-			<td align="center"><input type="text" id="nazivFilterID"></td>
-			<td align="center"><input type="text" id="zanrFilterID"></td>
-			<td align="center">
-				od:&nbsp;<input type="text" id="najmanjaMinutazaFilterID"><br>
-				do:&nbsp;<input type="text" id="najvecaMinutazaFilterID">
-			</td>
-			<td align="center"><input type="text" id="distributerFilterID"></td>
-			<td align="center"><input type="text" id="zemljaPorijeklaFilterID"></td>
-			<td align="center">
-				od:&nbsp;<input type="text" id="najranijaGodinaFilterID">
-				do:&nbsp;<input type="text" id="posljednjaGodinaFilterID">
-			</td>		
+			<td align="center"><input type="text" id="nazivFilter"></td>
+			<td align="center"><input type="number" id="trajanjeFilter"></td>
+			<td align="center"><select id="zanrFilter" multiple></select></td>
+			<td align="center"><input type="number" id="godinaFilter"/></td>
+			<td align="center"><input type="text" id="distributerFilter"></td>
+			<td align="center"><input type="text" id="zemljaPorijeklaFilter"></td>
+			<td align="center"><button id="filterBtn"> Filtriraj </button>	
 		</tr>
-		<!-- izabrace film po id u i iscitati iz baze  -->
+		
 		<tr>
 			<td><a href="Film.html?id="></a></td>
 			<td></td>
@@ -40,10 +57,11 @@
 			<td></td>
 			<td></td>
 			<td></td>
-		
-		</tr>
-			
+			<td></td> 
+			</tr>		
 	</table>
+		 -->
+
 	<p id="adminParagraph">
 	<p><a href="" id="logoutLink">Odjava</a></p>
 </body>

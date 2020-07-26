@@ -7,11 +7,214 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 import bioskop.model.Film;
+import bioskop.model.Zanr;
 import bioskop.model.Zanrovi;
 
 
 public class FilmDAO {
+	
+	public static ArrayList<JSONObject> getMovies(String nazivF,int trajanjeF,String zanroviF,String opisF,String glumciF,String reziserF,String godinaF,String distributerF,String zemljaF) throws SQLException {
+		
+		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>(); 
+		
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		
+		try {
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi"
+					+ " WHERE Naziv LIKE ? AND Reziser LIKE ? AND Glumci LIKE ? AND Zanrovi LIKE ? AND Trajanje>? AND Distributer LIKE ? AND Zemlja_Porekla LIKE ? AND Godina_Proizvodnje LIKE ? AND Opis LIKE ?";
+			
+			prep = conn.prepareStatement(query); 
+			prep.setString(1,"%" + nazivF + "%");
+			prep.setString(2,"%" + reziserF + "%");
+			prep.setString(3,"%" + glumciF + "%");
+			prep.setString(4,"%" + zanroviF + "%");
+			prep.setInt(5,trajanjeF);
+			prep.setString(6,"%" + distributerF + "%");
+			prep.setString(7,"%" + zemljaF + "%");
+			prep.setString(8,"%" + godinaF + "%");
+			prep.setString(9,"%" + opisF + "%");
+			
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				int ID = Integer.valueOf(rs.getString(index++)); 
+				String Naziv = rs.getString(index++); 
+				String Reziser = rs.getString(index++); 
+				String Glumci = rs.getString(index++); 
+				String Zanrovi = rs.getString(index++); 
+				int Trajanje = Integer.valueOf(rs.getString(index++)); 
+				String Distributer = rs.getString(index++); 
+				String ZemljaPorijekla = rs.getString(index++); 
+				int godinaP = Integer.valueOf(rs.getString(index++)); 
+				String Opis = rs.getString(index++); 
+				String status = rs.getString(index++); 
+
+				ArrayList<Zanr> zanrovi = new ArrayList<Zanr>(); 
+				String[] zanrovi999 = Zanrovi.split(";");
+				if(zanrovi999.length>0) {
+					for (String z : zanrovi999) {
+						try {
+							zanrovi.add(Zanr.valueOf(z)); 
+						} catch(Exception e) {
+							System.out.println("Zanr zajebava"); 
+							e.printStackTrace();
+						}
+					}
+				} else {
+					zanrovi.add(Zanr.valueOf("Nista")); 
+				}
+				
+				Film film = new Film(ID, Naziv, Reziser, Glumci, zanrovi, Trajanje, Distributer, ZemljaPorijekla, godinaP, Opis);
+				JSONObject jsonFilm = new JSONObject(); 
+				jsonFilm.put("ID", film.getId()); 
+				jsonFilm.put("Naziv", film.getNaziv()); 
+				jsonFilm.put("Reziser", film.getReziser()); 
+				String[] gl = film.getGlumci().split(";"); 
+				ArrayList<String> glumci = new ArrayList<String>(); 
+				for(String s : gl) {
+					glumci.add(s);
+				}
+				jsonFilm.put("Glumci", glumci);
+				ArrayList<String> zanrovi2 = new ArrayList<String>(); 
+				for(Zanr zr : film.getZanr()) {
+					zanrovi2.add(zr.toString()); 
+				}
+				jsonFilm.put("Zanrovi", zanrovi2); 
+				jsonFilm.put("Trajanje", film.getTrajanje()); 
+				jsonFilm.put("Distributer", film.getDistributer()); 
+				jsonFilm.put("Zemlja_Porekla", film.getZemljaPorijekla()); 
+				jsonFilm.put("Godina_Proizvodnje", film.getGodinaProizvodnje()); 
+				jsonFilm.put("Opis",film.getOpis()); 
+				
+				if(status.equalsIgnoreCase("active")) {
+					filmovi.add(jsonFilm);
+				}
+			}
+			return filmovi; 
+
+		} finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			// ako se koristi DBCP2, konekcija se mora vratiti u pool
+		}
+	}
+	
+	public static Film get(int id1) throws Exception {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		try {
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, String.valueOf(id1));
+
+			rset = pstmt.executeQuery();
+			if (rset.next()) {
+				int index = 1;
+				int ID = Integer.valueOf(rset.getString(index++));
+				String Naziv = rset.getString(index++);
+				String Reziser = rset.getString(index++);
+				String Glumci = rset.getString(index++);
+				String Zanrovi = rset.getString(index++);
+				int Trajanje = Integer.valueOf(rset.getString(index++));
+				String Distributer = rset.getString(index++);
+				String Zemlja_Porekla = rset.getString(index++);
+				int Godina_Proizvodnje = Integer.valueOf(rset.getString(index++));
+				String Opis = rset.getString(index++);
+				String status = rset.getString(index++);
+				
+				//Sredjivanje za pravljenje objekta
+				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
+				String[] Zanrs = Zanrovi.split(";");
+				for (String znr : Zanrs) {
+					try{
+						Zanrovi_n.add(Zanr.valueOf(znr));
+					}
+					catch(Exception e){
+						System.out.println("Puklo kod unosa zanra - "+e);
+					}
+				}
+				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
+				
+				return film;
+			}
+			else {
+				System.out.println("Vraceno 0 redova");
+			}
+
+		} finally {
+			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+		}
+		
+		return null;
+	}
+	
+	public static ArrayList<Film> getNaziv(String naziv) throws Exception {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList filmovi = null; 
+		try {
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE naziv = ?";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, naziv);
+
+			rset = pstmt.executeQuery();
+			if (rset.next()) {
+				int index = 1;
+				int ID = Integer.valueOf(rset.getString(index++));
+				String Naziv = rset.getString(index++);
+				String Reziser = rset.getString(index++);
+				String Glumci = rset.getString(index++);
+				String Zanrovi = rset.getString(index++);
+				int Trajanje = Integer.valueOf(rset.getString(index++));
+				String Distributer = rset.getString(index++);
+				String Zemlja_Porekla = rset.getString(index++);
+				int Godina_Proizvodnje = Integer.valueOf(rset.getString(index++));
+				String Opis = rset.getString(index++);
+				String status = rset.getString(index++);
+				
+				//Sredjivanje za pravljenje objekta
+				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
+				String[] Zanrs = Zanrovi.split(";");
+				for (String znr : Zanrs) {
+					try{
+						Zanrovi_n.add(Zanr.valueOf(znr));
+					}
+					catch(Exception e){
+						System.out.println("Puklo kod unosa zanra - "+e);
+					}
+				}
+				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
+				filmovi.add(film);
+				return filmovi;
+			}
+			else {
+				System.out.println("Vraceno 0 redova");
+			}
+
+		} finally {
+			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+		}
+		
+		return null;
+	}
+	
+	/*	
+	/*
 	public static Film get(int id) throws SQLException {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement prep = null;
@@ -156,7 +359,7 @@ public class FilmDAO {
 			try {conn.close();} catch(Exception ex) {ex.printStackTrace();}
 		}
 	}
-	
-	}
+	*/
+}
 	
 
