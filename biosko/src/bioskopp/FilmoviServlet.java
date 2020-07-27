@@ -51,8 +51,13 @@ public class FilmoviServlet extends HttpServlet {
 		case "loadMovies" : 
 			out.print(ucitajFilmove());
 			break; 
+			
+		case "loadGenres" : 
+			out.print(ucitajZanrove());
+			break;
 		}
 	}
+
 
 	private JSONObject ucitajFilmove() {
 		Boolean status = false; 
@@ -67,11 +72,24 @@ public class FilmoviServlet extends HttpServlet {
 			System.out.println("Ucitaj sve"); 
 			e.printStackTrace(); 
 		}
+		
 		response.put("status", status); 
 		response.put("filmovi", filmovi);
 		return response;
 	}
 	
+	private JSONObject ucitajZanrove() {
+		boolean status = false; 
+		JSONObject response = new JSONObject(); 
+		ArrayList<String> listaZanrova = FilmDAO.getGenres(); 
+		if(listaZanrova.size() > 0) {
+			status = true; 
+		}
+		response.put("status", status); 
+		response.put("zanrovi", listaZanrova); 
+		System.out.println("Zanrovi su:  " + listaZanrova); 
+		return response;
+	}
 	
 	/*
 
