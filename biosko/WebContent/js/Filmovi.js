@@ -29,14 +29,7 @@ $(document).ready(function(){
 				tr.className="item";
 				tr.setAttribute('data-FilmID',film.ID);
 				var btn = "";
-				if(localStorage['uloga']=="Admin"){
-					//The <span> tag is easily styled by CSS or manipulated with JavaScript using the class or id attribute.
-					btn = "<span class='editMovie' data-movieID='"+film.ID+"'></span>" +
-							"<span class='deleteMovie' data-movieID='"+film.ID+"'></span>";
-				}
-				else{
-					btn = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
-				}
+				
 				tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
 				tabela.appendChild(tr);
 			}
@@ -55,6 +48,7 @@ $(document).ready(function(){
 	}
 	
 	$.post('FilmoviServlet', params, function(data){
+	console.log(data); 
 	var response = JSON.parse(data); 
 	if(response.status) {
 		for (i = 0; i < response.zanrovi.length; i++) {
@@ -66,8 +60,51 @@ $(document).ready(function(){
 	}
 });
 	
+	$("#filterBtn").on('click',function(){
+	var nazivF = $('#nazivFilter').val(); 
+	var trajanjeF = $('#trajanjeFilter').val(); 
+	var zanrF = $('#zanroviFilter').val(); 
+	var godinaF = $('#godinaFilter').val(); 
+	var distributerF = $('#distributerFilter').val(); 
+	var zemljaF = $('#zemljaPorijeklaFilter').val();
 	
+	//for w?
+	zanrF.sort(); 
+	zanrF = zanrF.join(";"); 
 	
+	var params = {
+			action : 'filter', 
+			naziv : nazivF, 
+			trajanje : trajanjeF, 
+			zanr : zanrF, 
+			opis: "",
+			glumci: "", 
+			reziser : "",
+			godina : godinaF, 
+			distributer : distributerF, 
+			zemlja : zemljaF
+	}
+	
+	$.post('FilmoviServlet', params, function(data){
+		var response = JSON.parse(data); 
+		if(response.status) {
+			if(response.filmovi.length>0){
+				$('tr').slice(2).remove(); //w
+				for(i=0; i<response.filmovi.length; i++) {
+					var film = response.filmovi[i]; 
+					var tabela = document.getElementById('tabelaFilm'); 
+					var tr = document.createElement('tr'); 
+					tr.className = "item"; 
+					tr.setAttribute('data-FilmID', film.ID);
+					var btn = ""; 
+					
+					tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
+					tabela.appendChild(tr);
+				}
+			}
+		}
+	}); 
+	});
 });
 
 			//$(".editMovie").on('click',function(){
@@ -93,6 +130,21 @@ $(document).ready(function(){
 					//});
 				//}
 			//})
+
+
+//slice operator 
+/*
+ * The slice() method returns the selected elements in an array, as a new array object.
+
+The slice() method selects the elements starting at the given start argument, and ends at, but does not include, the given end argument.
+ * 
+ * 
+ *  var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+  var citrus = fruits.slice(1, 3); daje 1 i 2 
+  document.getElementById("demo").innerHTML = citrus; 
+ * 
+ */
+
 
 //sortiranje : 
 /*

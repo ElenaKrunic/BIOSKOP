@@ -74,7 +74,6 @@ public class FilmDAO {
 				JSONObject jsonFilm = new JSONObject(); 
 				jsonFilm.put("ID", film.getId()); 
 				jsonFilm.put("Naziv", film.getNaziv()); 
-				jsonFilm.put("Reziser", film.getReziser()); 
 				String[] gl = film.getGlumci().split(";"); 
 				ArrayList<String> glumci = new ArrayList<String>(); 
 				for(String s : gl) {
@@ -143,11 +142,9 @@ public class FilmDAO {
 					}
 				}
 				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
-				
 				return film;
 			}
 			else {
-				System.out.println("Vraceno 0 redova");
 			}
 
 		} finally {

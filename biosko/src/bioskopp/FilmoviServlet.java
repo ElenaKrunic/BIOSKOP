@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.json.simple.JSONObject;
 
@@ -55,9 +56,48 @@ public class FilmoviServlet extends HttpServlet {
 		case "loadGenres" : 
 			out.print(ucitajZanrove());
 			break;
+			
+		case "filter" : 
+			out.print(filterFilm(request));
+			break; 
 		}
 	}
+	
 
+	private JSONObject filterFilm(HttpServletRequest request) {
+		JSONObject response = new JSONObject();
+
+		String naziv = request.getParameter("naziv"); 
+		int trajanje = 32432432; 
+		try{
+			trajanje = Integer.valueOf(request.getParameter("trajanje"));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		String zanrovi = request.getParameter("zanr"); 
+		String opis = request.getParameter("opis"); 
+		String glumci = request.getParameter("glumci"); 
+		String reziser = request.getParameter("reziser"); 
+		String godina = request.getParameter("godina"); 
+		String distributer = request.getParameter("distributer");
+		String zemljaPorijekla = request.getParameter("zemlja"); 
+		Boolean status = false; 
+
+		
+		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>(); 
+		try {
+			filmovi = FilmDAO.getMovies(naziv, trajanje, zanrovi, opis, glumci, reziser, godina, distributer, zemljaPorijekla); 
+			if(filmovi.size() > 0) {
+				status = true; 
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		response.put("status", status); 
+		response.put("filmovi",filmovi); 
+		return response;
+	}
 
 	private JSONObject ucitajFilmove() {
 		Boolean status = false; 
