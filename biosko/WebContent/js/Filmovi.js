@@ -14,6 +14,19 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+function ucitajFilm(idFilma){
+	var params = {
+			action: "loadMovie",
+			filmID: idFilma
+		}
+		// kontrola toka se račva na 2 grane
+		$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
+			// tek kada stigne odgovor izvršiće se ova anonimna funkcija
+			console.log(data);
+			return data;
+		});
+}
+	
 	var params = {
 			action : "loadMovies", 
 			filmId : "1"
@@ -27,18 +40,31 @@ $(document).ready(function(){
 				var tabela = document.getElementById('tabelaFilm');
 				var tr = document.createElement('tr');
 				tr.className="item";
-				tr.setAttribute('data-FilmID',film.ID);
+				//filmovi iz tabele imaju atribut filmID
+				tr.setAttribute('filmID',film.ID);
 				var btn = "";
-				
-				tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
+				if(localStorage['uloga']=="Admin"){
+					btn = 'adminskaposla';
+				}
+				else{
+					btn = "<span class='detalji' movieID='"+film.ID+"'></span>"
+				}
+				tr.innerHTML = "<td class='nazivFilma' filmID='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
 				tabela.appendChild(tr);
 			}
-			$(".pogledajMovie").on('click',function(){
-				var id = this.getAttribute('data-movieID');
+			//ovako manipulisem elementima .
+			$(".detalji").on('click',function(){
+				var id = this.getAttribute('movieID');
 				if(id>0 && id!=null && id!=undefined){
 					window.location.href="Film.html?id="+id;
 				}
 			});	
+			$(".nazivFilma").on("click", function(){
+				var id = this.getAttribute('filmID');
+				if(id>0 && id!=null && id!=undefined){
+					window.location.href="Film.html?id="+id;
+				}
+			});
 		}
 	});
 	
@@ -95,10 +121,10 @@ $(document).ready(function(){
 					var tabela = document.getElementById('tabelaFilm'); 
 					var tr = document.createElement('tr'); 
 					tr.className = "item"; 
-					tr.setAttribute('data-FilmID', film.ID);
+					tr.setAttribute('filmID', film.ID);
 					var btn = ""; 
 					
-					tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
+					tr.innerHTML = "<td class='nazivFilma' filmID='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
 					tabela.appendChild(tr);
 				}
 			}

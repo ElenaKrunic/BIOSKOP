@@ -60,15 +60,40 @@ public class FilmoviServlet extends HttpServlet {
 		case "filter" : 
 			out.print(filterFilm(request));
 			break; 
+			
+		case "loadMovie" : 
+			out.print(load1Movie(filmId));
+			break; 
+			
+		default: break;
 		}
 	}
 	
+
+	private JSONObject load1Movie(String filmId) {
+		JSONObject response = new JSONObject(); 
+		boolean status = false; 
+		JSONObject film = null; 
+		try {
+			System.out.println("ID filma je " + filmId); 
+			film = FilmDAO.getById(filmId); 
+			if(film!=null) {
+				status = true; 
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		response.put("status", status); 
+		response.put("film", film); 
+		return response;
+	}
 
 	private JSONObject filterFilm(HttpServletRequest request) {
 		JSONObject response = new JSONObject();
 
 		String naziv = request.getParameter("naziv"); 
-		int trajanje = 32432432; 
+		int trajanje = 0; 
 		try{
 			trajanje = Integer.valueOf(request.getParameter("trajanje"));
 		} catch(Exception e) {

@@ -4,19 +4,67 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script src="js/jquery-3.3.1.js"></script>
-	<script src="js/Film.js"></script>
+	<script src="js/Film.js"></script>	
+	<link rel="stylesheet" href="./css/film.css">
+	
 </head>
 <body>
 	<h3>Film</h3>
-	<table id="userTable">
-		<tr><td align="right"><b>Naziv</b></td><td id="nazivFilma"></td></tr>
-		<tr><td align="right"><b>Zanr</b></td><td id="zanrFilma"></td></tr>
-		<tr><td align="right"><b>Trajanje</b></td><td id="trajanje"></td></tr>
-		<tr><td align="right"><b>Distributer</b></td><td id="distributer"></td></tr>
-		<tr><td align="right"><b>Zemlja porijekla</b></td><td id="zemljaPorijekla"></td></tr>
-		<tr><td align="right"><b>Godina proizvodnje</b></td><td id="godinaProizvodnje"></td></tr>
+	
+	<div id="pojedinacanFilm">
+    <div class="row">
+      <span>Naziv : </span> <span id="nazivFilma3"></span>
+    </div>
+    <div class="row">
+      <span>Reziser : </span> <span id="reziserFilma3"></span>
+    </div>
+    <div class="row">
+      <span>Glumci : </span> <span id="glumciFilma3"></span>
+    </div>
+    <div class="row">
+      <span>Trajanje : </span> <span id="trajanje3"></span>
+    </div>
+    <div class="row">
+      <span>Zanrovi : </span> <span id="zanrFilma3"></span>
+    </div>
+    <div class="row">
+      <span>Distributer : </span> <span id="distributer3"></span>
+    </div>
+    <div class="row">
+      <span>Zemlja porijekla : </span> <span id="zemljaPorijekla3"></span>
+    </div>
+    <div class="row">
+      <span>Godina proizvodnje : </span> <span id="godinaProizvodnje3"></span>
+    </div>
+    <div class="row">
+    	<span>Opis : </span> <span id="opis3"></span>
+    </div>
+    <div class="row" id="prikazFilmaBtn">
+    </div>
+  </div>
+
+	<p><a href="Filmovi.html">Povratak</a></p>
+	<p><a href="" id="logoutLink">Odjava</a></p>
+	
+	<!-- 
+		<table id="userTable">
+		<tr><td align="right"><b>Naziv</b></td><td id="nazivFilma3"></td></tr>
+		<tr><td align="right"><b>Reziser</b></td><td id="reziserFilma3"></td></tr>
+		<tr><td align="right"><b>Glumci</b></td><td id="glumciFilma3"></td></tr>
+		<tr><td align="right"><b>Trajanje</b></td><td id="trajanje3"></td></tr>
+		<tr><td align="right"><b>Zanr</b></td><td id="zanrFilma3"></td></tr>
+		<tr><td align="right"><b>Distributer</b></td><td id="distributer3"></td></tr>
+		<tr><td align="right"><b>Zemlja porijekla</b></td><td id="zemljaPorijekla3"></td></tr>
+		<tr><td align="right"><b>Godina proizvodnje</b></td><td id="godinaProizvodnje3"></td></tr>
+		<tr><td align="right"><b>Opis</b></td><td id="opis3"></td></tr>
 	</table>
-	<form id="adminForm">
+		
+	<div id="prikazPojedinacnogFilma">
+		 <div class="row" id="prikazFilmaBtn">
+		
+		</div>
+    </div>
+	<form id="adminTable">
 		<table>
 			<tr><td align="right"><b>Naziv</b></td><td><input type="text" id="nazivFilmaAd"></td></tr>
 			<tr><td align="right"><b>Zanr</b></td><td id="zanrFilma"><input type="text" id="zanrAd"></td></tr>
@@ -31,6 +79,9 @@
 	</form>
 	<p><a href="Filmovi.html">Povratak</a></p>
 	<p><a href="" id="logoutLink">Odjava</a></p>
+
+	 -->
+
 </body>
 </html>
 

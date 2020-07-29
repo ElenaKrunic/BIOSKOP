@@ -1,0 +1,30 @@
+.detalji::after{
+  content: "Detalji";
+  background-color: grey;
+  color: black;
+  display: block;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.5s all ease;
+}
+
+.nazivFilma{
+	font-size: 18px;
+    text-decoration: underline;
+}
+
+.confirmbtn{
+	content: "Filtriraj";
+  background-color: blue;
+  color: black;
+  display: block;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.5s all ease;
+}

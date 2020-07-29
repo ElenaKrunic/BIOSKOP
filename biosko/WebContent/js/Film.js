@@ -1,4 +1,67 @@
 $(document).ready(function(){
+	//ako korisnik klikne na logout 
+	$('#logoutLink').on('click', function(event){
+		$.get('OdjavaServlet', function(data){
+			console.log(data); 
+			
+			if(data.status == 'unauthenticated') {
+				window.location.replace('Prijava.html'); 
+				return; 
+			}
+		});
+		
+		event.preventDefault(); 
+		return false; 
+	});
+
+var id = window.location.search.slice(1).split('&')[0].split('=')[1];
+ucitajFilm(id); 
+
+function ucitajFilm(IDfilma){
+	var params = {
+			action : "loadMovie", 
+			filmId : IDfilma
+	}
+	
+	console.log("Saljem na servlet ===> " + params); //dodati params koje saljem 
+	
+	$.post('FilmoviServlet', params, function(data){
+		var response = JSON.parse(data); 
+		console.log("Ovo je otislo na servlet ===> " + response); //dodati response 
+		
+		if(response.status){
+			var pojedinacanFilm = response.film; 
+			console.log(pojedinacanFilm); 
+			//probati i sa val(f.Nesto)
+			//.Naziv,.Reziser itd moraju biti istih naziva kao u bazi 
+			//promijeni zemlja i god
+			$("#nazivFilma3").text(pojedinacanFilm.Naziv); 
+			$("#reziserFilma3").text(pojedinacanFilm.Reziser); 
+			$("#glumciFilma3").text(pojedinacanFilm.Glumci.join(","));//ima ih vise 
+			$("#trajanje3").text(pojedinacanFilm.Trajanje);
+			$("#zanrFilma3").text(pojedinacanFilm.Zanrovi.join(",")); 
+			$("#distributer3").text(pojedinacanFilm.Distributer); 
+			$("#zemljaPorijekla3").text(pojedinacanFilm.Zemlja_Porekla); 
+			//$("#godinaProizvodnje3").text(pojedinacanFilm.GodinaProizvodnje);
+			$("#godinaProizvodnje3").text(pojedinacanFilm.Godina_Proizvodnje); 
+			$("#opis3").text(pojedinacanFilm.Opis);
+			
+			if(localStorage['status']!="false") {
+				var btn = document.createElement("button"); 
+				btn.className = "nekiBtn"; //zasto ovo nije kupikartu btn
+				btn.innerText = "Kupi kartu"; 
+				btn.setAttribute("filmID",response.film.ID); //film 
+				btn.setAttribute("ID", "kupiKartuBtn"); //dugme 
+				document.getElementById("prikazFilmaBtn").appendChild(btn); 
+				
+			}
+		}
+	});
+}
+});
+
+
+/*$(document).ready(function(){
 	$("#logoutLink").on("click", function(event){
 		$.get("PrijavaServlet",function(data){
 			console.log(data);
@@ -113,9 +176,7 @@ $(document).ready(function(){
 						});
 						event.preventDefault();
 						return false;
-					});
-					
-					
+					});		
 				}
 			}
 			
@@ -123,3 +184,4 @@ $(document).ready(function(){
 	}
 	getFilm();
 });
+*/

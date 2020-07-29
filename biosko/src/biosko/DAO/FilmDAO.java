@@ -16,6 +16,8 @@ import bioskop.model.Zanrovi;
 
 public class FilmDAO {
 	
+	
+	//SVI FILMOVI
 	public static ArrayList<JSONObject> getMovies(String nazivF,int trajanjeF,String zanroviF,String opisF,String glumciF,String reziserF,String godinaF,String distributerF,String zemljaF) throws SQLException {
 		
 		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>(); 
@@ -74,6 +76,7 @@ public class FilmDAO {
 				JSONObject jsonFilm = new JSONObject(); 
 				jsonFilm.put("ID", film.getId()); 
 				jsonFilm.put("Naziv", film.getNaziv()); 
+				jsonFilm.put("Reziser", film.getReziser()); 
 				String[] gl = film.getGlumci().split(";"); 
 				ArrayList<String> glumci = new ArrayList<String>(); 
 				for(String s : gl) {
@@ -105,30 +108,31 @@ public class FilmDAO {
 		}
 	}
 	
-	public static Film get(int id1) throws Exception {
+	//PO ID-u
+	public static JSONObject getById(String id) throws Exception {
 		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
+		PreparedStatement prep = null;
+		ResultSet rs = null;
 		try {
 			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
 
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, String.valueOf(id1));
+			prep = conn.prepareStatement(query);
+			prep.setString(1,id); 
 
-			rset = pstmt.executeQuery();
-			if (rset.next()) {
+			rs = prep.executeQuery();
+			if (rs.next()) {
 				int index = 1;
-				int ID = Integer.valueOf(rset.getString(index++));
-				String Naziv = rset.getString(index++);
-				String Reziser = rset.getString(index++);
-				String Glumci = rset.getString(index++);
-				String Zanrovi = rset.getString(index++);
-				int Trajanje = Integer.valueOf(rset.getString(index++));
-				String Distributer = rset.getString(index++);
-				String Zemlja_Porekla = rset.getString(index++);
-				int Godina_Proizvodnje = Integer.valueOf(rset.getString(index++));
-				String Opis = rset.getString(index++);
-				String status = rset.getString(index++);
+				int ID = Integer.valueOf(rs.getString(index++));
+				String Naziv = rs.getString(index++);
+				String Reziser = rs.getString(index++);
+				String Glumci = rs.getString(index++);
+				String Zanrovi = rs.getString(index++);
+				int Trajanje = Integer.valueOf(rs.getString(index++));
+				String Distributer = rs.getString(index++);
+				String Zemlja_Porekla = rs.getString(index++);
+				int Godina_Proizvodnje = Integer.valueOf(rs.getString(index++));
+				String Opis = rs.getString(index++);
+				String status = rs.getString(index++);
 				
 				//Sredjivanje za pravljenje objekta
 				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
@@ -142,20 +146,44 @@ public class FilmDAO {
 					}
 				}
 				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
-				return film;
+				
+				JSONObject jsonFilm = new JSONObject(); 
+				jsonFilm.put("ID", film.getId()); 
+				jsonFilm.put("Naziv", film.getNaziv()); 
+				jsonFilm.put("Reziser", film.getReziser()); 
+				String[] gl = film.getGlumci().split(";"); 
+				ArrayList<String> glumci = new ArrayList<String>(); 
+				for(String s : gl) {
+					glumci.add(s);
+				}
+				jsonFilm.put("Glumci", glumci);
+				ArrayList<String> zanrovi2 = new ArrayList<String>(); 
+				for(Zanr zr : film.getZanr()) {
+					zanrovi2.add(zr.toString()); 
+				}
+				jsonFilm.put("Zanrovi", zanrovi2); 
+				jsonFilm.put("Trajanje", film.getTrajanje()); 
+				jsonFilm.put("Distributer", film.getDistributer()); 
+				jsonFilm.put("Zemlja_Porekla", film.getZemljaPorijekla()); 
+				jsonFilm.put("Godina_Proizvodnje", film.getGodinaProizvodnje()); 
+				jsonFilm.put("Opis",film.getOpis()); 
+				
+				if(status.equalsIgnoreCase("active")) {
+					return jsonFilm;
+				}
+				else { 
+					System.out.println("Ne vraca 1 film"); 
+				}
 			}
-			else {
-			}
-
 		} finally {
-			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
 			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
 		}
 		
-		return null;
-	}
-	
+		return null; 
+}
+
 	public static ArrayList<Film> getNaziv(String naziv) throws Exception {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement pstmt = null;
