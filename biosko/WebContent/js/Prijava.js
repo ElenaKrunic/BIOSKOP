@@ -20,7 +20,7 @@ $(document).ready(function(){
 			var response = JSON.parse(data); 
 			
 			if(response.status) {
-				window.location.href="Filmovi.html"; 
+				window.location.href="Glavna.html"; 
 			} else {
 				//pushNotification("red", response.message); 
 				alert("Niste se prijavili. Pokusajte ponovo!"); 

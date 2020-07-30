@@ -97,13 +97,13 @@
     <servlet-name>FilmoviServlet</servlet-name>
     <url-pattern>/FilmoviServlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>FilmServlet</servlet-name>
-    <servlet-class>bioskopp.FilmServlet</servlet-class>
+   <servlet>
+    <servlet-name>ProjekcijeServlet</servlet-name>
+    <servlet-class>bioskopp.ProjekcijeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FilmServlet</servlet-name>
-    <url-pattern>/FilmServlet</url-pattern>
+    <servlet-name>ProjekcijeServlet</servlet-name>
+    <url-pattern>/ProjekcijeServlet</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>MojNalogServlet</servlet-name>
@@ -112,13 +112,5 @@
   <servlet-mapping>
     <servlet-name>MojNalogServlet</servlet-name>
     <url-pattern>/MojNalogServlet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>KorisniciServlet</servlet-name>
-    <servlet-class>bioskopp.KorisniciServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>KorisniciServlet</servlet-name>
-    <url-pattern>/KorisniciServlet</url-pattern>
   </servlet-mapping>
 </web-app>

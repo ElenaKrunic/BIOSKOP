@@ -183,50 +183,89 @@ public class FilmDAO {
 		
 		return null; 
 }
-
-	public static ArrayList<Film> getNaziv(String naziv) throws Exception {
+	
+	public static Film getFilmObjectById(int id1) throws Exception {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList filmovi = null; 
 		try {
-			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE naziv = ?";
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
 
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, naziv);
+			pstmt.setString(1, String.valueOf(id1));
 
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
 				int index = 1;
 				int ID = Integer.valueOf(rset.getString(index++));
-				String Naziv = rset.getString(index++);
-				String Reziser = rset.getString(index++);
-				String Glumci = rset.getString(index++);
-				String Zanrovi = rset.getString(index++);
-				int Trajanje = Integer.valueOf(rset.getString(index++));
-				String Distributer = rset.getString(index++);
-				String Zemlja_Porekla = rset.getString(index++);
-				int Godina_Proizvodnje = Integer.valueOf(rset.getString(index++));
-				String Opis = rset.getString(index++);
+				String naziv = rset.getString(index++);
+				String reziser = rset.getString(index++);
+				String glumci = rset.getString(index++);
+				String zanrovi = rset.getString(index++);
+				int trajanje = Integer.valueOf(rset.getString(index++));
+				String distributer = rset.getString(index++);
+				String zemljaPorijekla = rset.getString(index++);
+				int godinaProizvodnje = Integer.valueOf(rset.getString(index++));
+				String opis = rset.getString(index++);
 				String status = rset.getString(index++);
-				
-				//Sredjivanje za pravljenje objekta
-				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
-				String[] Zanrs = Zanrovi.split(";");
-				for (String znr : Zanrs) {
-					try{
-						Zanrovi_n.add(Zanr.valueOf(znr));
-					}
-					catch(Exception e){
-						System.out.println("Puklo kod unosa zanra - "+e);
-					}
+			
+				ArrayList<Zanr> nizZanrovi = new ArrayList<Zanr>();
+				String[] stringZanrovi = zanrovi.split(";");
+				for (String zanr : stringZanrovi) {
+					nizZanrovi.add(Zanr.valueOf(zanr));
 				}
-				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
-				filmovi.add(film);
-				return filmovi;
+				Film film = new Film(ID, naziv, reziser, glumci, nizZanrovi, trajanje, distributer, zemljaPorijekla, godinaProizvodnje, opis);
+				return film;
 			}
 			else {
-				System.out.println("Vraceno 0 redova");
+				System.out.println("Podaci nisu pronadjeni");
+			}
+
+		} finally {
+			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+		}
+		
+		return null;
+	}
+
+	
+	public static Film getNaziv(String naziv) throws Exception {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		try {
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE naziv = ?";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,naziv);
+
+			rset = pstmt.executeQuery();
+			if (rset.next()) {
+				int index = 1;
+				int ID = Integer.valueOf(rset.getString(index++));
+				//String naziv = rset.getString(index++);
+				String reziser = rset.getString(index++);
+				String glumci = rset.getString(index++);
+				String zanrovi = rset.getString(index++);
+				int trajanje = Integer.valueOf(rset.getString(index++));
+				String distributer = rset.getString(index++);
+				String zemljaPorijekla = rset.getString(index++);
+				int godinaProizvodnje = Integer.valueOf(rset.getString(index++));
+				String opis = rset.getString(index++);
+				String status = rset.getString(index++);
+			
+				ArrayList<Zanr> nizZanrovi = new ArrayList<Zanr>();
+				String[] stringZanrovi = zanrovi.split(";");
+				for (String zanr : stringZanrovi) {
+					nizZanrovi.add(Zanr.valueOf(zanr));
+				}
+				Film film = new Film(ID, naziv, reziser, glumci, nizZanrovi, trajanje, distributer, zemljaPorijekla, godinaProizvodnje, opis);
+				return film;
+			}
+			else {
+				System.out.println("Podaci nisu pronadjeni");
 			}
 
 		} finally {
@@ -259,13 +298,13 @@ public class FilmDAO {
 		}
 		
 		catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("Zanr nije pronadjen"); 
 		}
 		
 		finally {
 			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
 			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
 		}
 		return zanrovi;
 	}

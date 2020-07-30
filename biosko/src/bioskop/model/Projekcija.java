@@ -1,78 +1,94 @@
 package bioskop.model;
 
+import java.util.Date;
+
 public class Projekcija {
 	private int id; 
-	private Film film;
-	private TipProjekcije tipProjekcije; 
-	private Sala sala; 
-	private int datumPrikazivanje;
-	private int cijenaKarte;
-	private Administrator dodaoProjekciju;
+	private int filmId;
+	private String tipProjekcije; 
+	private int salaId; 
+	private Date datumPrikazivanje;
+	private double cijenaKarte;
+	private String adminDodaoProjekciju;
+	private String status; 
+	private int maxKarata; 
+	private int prodanoKarata;
 	
-	public Projekcija(int id, Film film, TipProjekcije tipProjekcije, Sala sala, int datumPrikazivanje, int cijenaKarte,
-			Administrator dodaoProjekciju) {
+	public Projekcija(int id, int filmId, String tipProjekcije, int salaId,
+			Date datumPrikazivanje, double cijenaKarte, String adminDodaoProjekciju,String status,int maxKarata,int prodanoKarata) {
+		super();
 		this.id = id;
-		this.film = film;
-		this.tipProjekcije = tipProjekcije;
-		this.sala = sala;
-		this.datumPrikazivanje = datumPrikazivanje;
-		this.cijenaKarte = cijenaKarte;
-		this.dodaoProjekciju = dodaoProjekciju;
+		this.filmId = filmId; 
+		this.tipProjekcije = tipProjekcije; 
+		this.salaId = salaId; 
+		this.datumPrikazivanje = datumPrikazivanje; 
+		this.cijenaKarte = cijenaKarte; 
+		this.adminDodaoProjekciju = adminDodaoProjekciju; 
+		this.status = status; 
+		this.maxKarata = maxKarata; 
+		this.prodanoKarata = prodanoKarata; 
 	}
-
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public Film getFilm() {
-		return film;
+	public int getFilmId() {
+		return filmId;
 	}
-
-	public void setFilm(Film film) {
-		this.film = film;
+	public void setFilmId(int filmId) {
+		this.filmId = filmId;
 	}
-
-	public TipProjekcije getTipProjekcije() {
+	public String getTipProjekcije() {
 		return tipProjekcije;
 	}
-
-	public void setTipProjekcije(TipProjekcije tipProjekcije) {
+	public void setTipProjekcije(String tipProjekcije) {
 		this.tipProjekcije = tipProjekcije;
 	}
-
-	public Sala getSala() {
-		return sala;
+	public int getSalaId() {
+		return salaId;
 	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
+	public void setSalaId(int salaId) {
+		this.salaId = salaId;
 	}
-
-	public int getDatumPrikazivanje() {
+	public Date getDatumPrikazivanje() {
 		return datumPrikazivanje;
 	}
-
-	public void setDatumPrikazivanje(int datumPrikazivanje) {
+	public void setDatumPrikazivanje(Date datumPrikazivanje) {
 		this.datumPrikazivanje = datumPrikazivanje;
 	}
-
-	public int getCijenaKarte() {
+	public double getCijenaKarte() {
 		return cijenaKarte;
 	}
-
-	public void setCijenaKarte(int cijenaKarte) {
+	public void setCijenaKarte(double cijenaKarte) {
 		this.cijenaKarte = cijenaKarte;
 	}
-
-	public Administrator getDodaoProjekciju() {
-		return dodaoProjekciju;
+	public String getAdminDodaoProjekciju() {
+		return adminDodaoProjekciju;
 	}
-
-	public void setDodaoProjekciju(Administrator dodaoProjekciju) {
-		this.dodaoProjekciju = dodaoProjekciju;
+	public void setAdminDodaoProjekciju(String adminDodaoProjekciju) {
+		this.adminDodaoProjekciju = adminDodaoProjekciju;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public int getMaxKarata() {
+		return maxKarata;
+	}
+	public void setMaxKarata(int maxKarata) {
+		this.maxKarata = maxKarata;
+	}
+	public int getProdanoKarata() {
+		return prodanoKarata;
+	}
+	public void setProdanoKarata(int prodanoKarata) {
+		this.prodanoKarata = prodanoKarata;
+	} 
+	
+	
+	
 }

@@ -31,7 +31,7 @@ $(document).ready(function(){
 			var response = JSON.parse(data); 
 			
 			if(response.status) {
-				window.location.href = "Prijava.html"; 
+				window.location.href = "Glavna.html"; 
 			}
 			else {
 				alert("Niste se uspjeli ulogovati! Probajte ponovo!"); 

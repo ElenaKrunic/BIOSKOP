@@ -25,22 +25,6 @@ public class FilmoviServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String nazivF = request.getParameter("naziv"); 
-		
-		ArrayList<Film> pronadjeniF = null;
-		try {
-			pronadjeniF = FilmDAO.getNaziv(nazivF);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		Map<String, Object> data = new LinkedHashMap<>(); 
-		data.put("pronadjeniF", pronadjeniF); 
-		
-		request.setAttribute("data", data);
-		request.getRequestDispatcher("./UspjesnoServlet").forward(request, response);
-		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
