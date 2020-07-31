@@ -12,6 +12,48 @@ public class SalaDAO {
 	public static Sala getSalaObjectById(int salaId) {
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		Sala sala = null; 
+		
+		try {
+			String query = "SELECT ID,Naziv,ID_Tipova_Projekcija FROM Sale WHERE ID = ?";
+			
+			prep = conn.prepareStatement(query); 
+			prep.setString(1, String.valueOf(salaId));
+			rs = prep.executeQuery(); 
+			
+			if(rs.next()) {
+				int index = 1; 
+				int id = Integer.valueOf(rs.getString(index++)); 
+				String naziv = rs.getString(index++); 
+				String[] idProjekcija = rs.getString(index++).split(";");
+				ArrayList<TipProjekcije> listaTipovaProj = new ArrayList<TipProjekcije>();
+				for(String idProjekcije : idProjekcija) {
+					TipProjekcije tip = TipProjekcijeDAO.getTipProjekcijeObjectById(Integer.valueOf(idProjekcije));
+					listaTipovaProj.add(tip);
+				}
+				
+				sala = new Sala(id,naziv,listaTipovaProj); 
+			} else {
+				
+			}
+		} catch(Exception e) {
+			System.out.println("Ne postoji sala"); 
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		return sala;
+	}
+	/*
+
+	public static Sala getSalaObjectById(int salaId) {
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
 		ResultSet rs = null;
 		
 		Sala sala = null; 
@@ -47,7 +89,14 @@ public class SalaDAO {
 		} catch(Exception e) {
 			System.out.println("Ne moze se pronaci sala sa tim id-jem"); 
 		}
+		
+		 finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		 }
+		
 		return sala;
 	}
-
+*/
 }

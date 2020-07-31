@@ -16,7 +16,6 @@ import bioskop.model.Zanrovi;
 
 public class FilmDAO {
 	
-	
 	//SVI FILMOVI
 	public static ArrayList<JSONObject> getMovies(String nazivF,int trajanjeF,String zanroviF,String opisF,String glumciF,String reziserF,String godinaF,String distributerF,String zemljaF) throws SQLException {
 		
@@ -198,23 +197,23 @@ public class FilmDAO {
 			if (rset.next()) {
 				int index = 1;
 				int ID = Integer.valueOf(rset.getString(index++));
-				String naziv = rset.getString(index++);
-				String reziser = rset.getString(index++);
-				String glumci = rset.getString(index++);
-				String zanrovi = rset.getString(index++);
-				int trajanje = Integer.valueOf(rset.getString(index++));
-				String distributer = rset.getString(index++);
-				String zemljaPorijekla = rset.getString(index++);
-				int godinaProizvodnje = Integer.valueOf(rset.getString(index++));
-				String opis = rset.getString(index++);
+				String Naziv = rset.getString(index++);
+				String Reziser = rset.getString(index++);
+				String Glumci = rset.getString(index++);
+				String Zanrovi = rset.getString(index++);
+				int Trajanje = Integer.valueOf(rset.getString(index++));
+				String Distributer = rset.getString(index++);
+				String Zemlja_Porekla = rset.getString(index++);
+				int Godina_Proizvodnje = Integer.valueOf(rset.getString(index++));
+				String Opis = rset.getString(index++);
 				String status = rset.getString(index++);
 			
 				ArrayList<Zanr> nizZanrovi = new ArrayList<Zanr>();
-				String[] stringZanrovi = zanrovi.split(";");
+				String[] stringZanrovi = Zanrovi.split(";");
 				for (String zanr : stringZanrovi) {
 					nizZanrovi.add(Zanr.valueOf(zanr));
 				}
-				Film film = new Film(ID, naziv, reziser, glumci, nizZanrovi, trajanje, distributer, zemljaPorijekla, godinaProizvodnje, opis);
+				Film film = new Film(ID, Naziv, Reziser, Glumci, nizZanrovi, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
 				return film;
 			}
 			else {
