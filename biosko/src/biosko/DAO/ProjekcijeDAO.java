@@ -10,7 +10,10 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
+
 import bioskop.model.Projekcija;
+import bioskop.model.TipProjekcije;
 
 public class ProjekcijeDAO {
 	
@@ -93,6 +96,44 @@ public class ProjekcijeDAO {
 		}
 		
 		return projekcija; 
+	}
+
+	public static JSONObject getById(String projekcijaId) {
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		
+		try {
+			String query = "SELECT ID,ID_Filma,TipProjekcije,ID_Sale,Termin,CenaKarte,Administrator,Status,MaksimumKarata,BrojProdanihKarata FROM Projekcije  WHERE ID=?;";
+			
+			prep = conn.prepareStatement(query); 
+			prep.setString(1, projekcijaId);
+			
+			rs = prep.executeQuery(); 
+			
+			if(rs.next()) {
+				int index = 1; 
+				int ID = Integer.valueOf(rs.getString(index++)); 
+				int ID_Filma = Integer.valueOf(rs.getString(index++)); 
+				String Tipovi_Projekcija = rs.getString(index++); 	
+				int ID_Sale = Integer.valueOf(rs.getString(index++)); 
+				String Termin = rs.getString(index++); 
+				int CenaKarte = Integer.valueOf(rs.getString(index++)); 
+				String Administrator = rs.getString(index++); 
+				String Status = rs.getString(index++); 
+				int MaksimumKarata = Integer.valueOf(rs.getString(index++)); 
+				int BrojProdanihKarata = Integer.valueOf(rs.getString(index++)); 
+				String KrajTermina = rs.getString(index++); 
+				
+			} else {
+				
+			}
+		} catch(Exception e) {
+			System.out.println("Ne moze se ucita projekcija sa tim id-jem"); 
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	/*

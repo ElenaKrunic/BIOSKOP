@@ -12,6 +12,18 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	function ucitajProjekciju(idProjekcije) {
+		var params = {
+				action : 'loadProjection', 
+				projekcijaID : idProjekcije
+		}
+		
+		$.post('ProjekcijeServlet', params, function(data){
+			console.log(data); 
+			return data; 
+		});
+	}
+	
 	var params = {
 			'action' : "projekcijeZaDanas"
 	}
@@ -46,12 +58,24 @@ $(document).ready(function(){
 		      var cijenaKarte = document.createElement('td');
 		      cijenaKarte.innerText = p.cijena;
 		      tr.appendChild(cijenaKarte);
+		      
+		      var td6 = document.createElement('td');
+		      var btn1 = document.createElement('button');
+		      btn1.innerText = "Detalji";
+		      btn1.className="confirmbtn detaljiBtn";
+		      btn1.setAttribute('idProjekcije',p.id_projekcije);
+		      td6.appendChild(btn1);
+		      tr.appendChild(td6);
 
 		      document.getElementById('tabelaProjekcije').appendChild(tr);
 
 		      $(".ponudjenFilmIzProjekcije").on('click',function(data){
 		        window.location.href="Film.html?id="+this.getAttribute('idFilma');
 		      });
+		      
+		      $(".detaljiBtn").on('click',function(data){
+		          window.location.href="PrikazProjekcije.html?id="+this.getAttribute('idProjekcije');
+		        })
 		    }
 		  }
 	});

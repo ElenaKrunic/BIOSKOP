@@ -53,22 +53,16 @@ public class FilmoviServlet extends HttpServlet {
 		}
 	}
 	
-
 	private JSONObject load1Movie(String filmId) {
 		JSONObject response = new JSONObject(); 
-		boolean status = false; 
 		JSONObject film = null; 
 		try {
 			System.out.println("ID filma je " + filmId); 
 			film = FilmDAO.getById(filmId); 
-			if(film!=null) {
-				status = true; 
-			}
+	
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		response.put("status", status); 
 		response.put("film", film); 
 		return response;
 	}

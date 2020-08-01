@@ -23,7 +23,6 @@ public class TipProjekcije {
 		this.naziv = naziv;
 	}
 	
-	
 }
 
 

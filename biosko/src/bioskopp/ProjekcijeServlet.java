@@ -26,15 +26,60 @@ public class ProjekcijeServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter ispis = response.getWriter();
 		String action = request.getParameter("action"); 
+		String projekcijaId = request.getParameter("projekcijaId"); 
 		
 		if(action != null && request != null) {
 			switch(action) {
 			case "projekcijeZaDanas" :
 				ispis.print(ucitajProjekcijeZaDanasMetoda(request));
 				break; 
+				
+			case "loadProjection" : 
+				ispis.print(ucitajJednuProjekciju(request)); 
+				break;
 			}
 		}
 	}
+	
+		private JSONObject ucitajJednuProjekciju(HttpServletRequest request) {
+			JSONObject response = new JSONObject(); 
+			Sala sala = null; 
+			Film film = null; 
+			//obavezno ovja format 
+			//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			JSONObject odg = new JSONObject(); 
+
+			try {
+				int id = Integer.valueOf(request.getParameter("idProjekcije"));
+				Projekcija p = ProjekcijeDAO.getProjekcijaById(id); 
+				sala = SalaDAO.getSalaObjectById(Integer.valueOf(p.getSalaId())); 
+				film = FilmDAO.getFilmObjectById(Integer.valueOf(p.getFilmId())); 
+				//odg.put("id", p.getId()); 
+				//mogu li da stavim film.getid
+				odg.put("idProjekcije", p.getId());
+	    		odg.put("idFilma", p.getFilmId());
+	    		odg.put("nazivFilma",film.getNaziv());
+	    		odg.put("tipProjekcije",p.getTipProjekcije());
+	    		odg.put("idSale",sala.getId());
+	    		odg.put("nazivSale",sala.getNaziv());
+	    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");   
+	    		String date = df.format(p.getDatumPrikazivanje());
+	    		odg.put("terminProjekcije",date);
+	    		odg.put("cijenaKarte",p.getCijenaKarte());
+	    		odg.put("status",p.getStatus());
+	    		int brojKarata = p.getMaxKarata() - p.getProdanoKarata();
+	    		odg.put("brojKarata",brojKarata);
+	    	
+	    		response.put("projekcija", odg);
+			} catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("Projekcija se nije ucitala "); 
+			}
+			
+			
+			return odg; 
+		}
+	
 	
 	   private JSONObject ucitajProjekcijeZaDanasMetoda(HttpServletRequest request) {
 	    	JSONObject obj = new JSONObject();

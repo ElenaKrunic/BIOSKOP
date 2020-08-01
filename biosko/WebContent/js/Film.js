@@ -30,6 +30,7 @@ function ucitajFilm(IDfilma){
 		console.log("Ovo je otislo na servlet ===> " + response); //dodati response 
 		
 		if(response.status){
+			//console.log(status);
 			var pojedinacanFilm = response.film; 
 			console.log(pojedinacanFilm); 
 			//probati i sa val(f.Nesto)

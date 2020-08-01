@@ -133,7 +133,6 @@ public class FilmDAO {
 				String Opis = rs.getString(index++);
 				String status = rs.getString(index++);
 				
-				//Sredjivanje za pravljenje objekta
 				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
 				String[] Zanrs = Zanrovi.split(";");
 				for (String znr : Zanrs) {
