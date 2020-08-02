@@ -136,6 +136,87 @@ public class ProjekcijeDAO {
 		return null;
 	}
 
+	public static JSONObject getProjekcije(String idFilm, String pocetakProjekcije,
+			String zavrsetakProjekcije, String salaProjekcije, String tipP, String najmanjaCijena,
+			String najvecaCijena) {
+		
+		JSONObject response = new JSONObject(); 
+		ArrayList<Projekcija> lista = new ArrayList<Projekcija>(); 
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		
+		try {
+			String query = "SELECT ID FROM Projekcije WHERE Status='Active' AND (Termin BETWEEN ? AND ?) AND ID_Filma LIKE ?"
+					+ " AND ID_sale LIKE ? AND TipProjekcije LIKE ? AND CenaKarte BETWEEN ? AND ?  ORDER BY ID_Filma ASC,Termin ASC";
+			
+			prep = conn.prepareStatement(query); 
+			
+			prep.setString(1, pocetakProjekcije);
+			prep.setString(2, zavrsetakProjekcije);
+			prep.setString(3, idFilm);
+			prep.setString(4, salaProjekcije);
+			prep.setString(5, tipP);
+			prep.setString(6, najmanjaCijena);
+			prep.setString(7, najvecaCijena);
+			
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				String id = rs.getString(index++); 
+				Projekcija projekcija = getProjekcijaById(Integer.valueOf(id));
+				lista.add(projekcija);
+			}
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace(); 
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		response.put("listaProjekcija",lista);
+		return response;
+	}
+
+	public static ArrayList<String> getTipoviProjekcija() {
+		ArrayList<String> tipoviProjekcija = new ArrayList<String>(); 
+		
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		
+		try {
+			String query = "SELECT Naziv FROM Tipovi_Projekcija WHERE 1"; 
+			
+			prep = conn.prepareStatement(query);
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				String naziv = rs.getString(index++); 
+				tipoviProjekcija.add(naziv); 
+			}
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Nema tipa projekcije"); 
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		return tipoviProjekcija;
+	}
+
 	/*
 	public static ArrayList<Projekcija> ucitajZaDanasnjiDatum(HttpServletRequest request, String danasnjiDatum) {
 		ArrayList<Projekcija> lista = new ArrayList<Projekcija>(); 

@@ -37,9 +37,102 @@ public class ProjekcijeServlet extends HttpServlet{
 			case "loadProjection" : 
 				ispis.print(ucitajJednuProjekciju(request)); 
 				break;
+				
+			case "filterProjekcije" : 
+				ispis.print(filtriranjeProjekcije(request));
+				break;
+				
+			case "ucitajTipoveProjekcija":
+				ispis.print(ucitajTipoveProjekcija()); 
+				break; 
+				
+			case "ucitajSale" :
+				ispis.print(ucitajSale());
+				break; 
 			}
 		}
 	}
+	
+		private JSONObject ucitajSale() {
+		JSONObject response = new JSONObject(); 
+		ArrayList<String> listaSala = SalaDAO.getSale(); 
+		boolean status = false; 
+		if(listaSala.size() > 0) {
+			status = true; 
+		}
+		response.put("status",status); 
+		response.put("listaSala",listaSala); 
+		return response;
+	}
+
+		private JSONObject ucitajTipoveProjekcija() {
+		boolean status = false; 
+		JSONObject response = new JSONObject(); 
+		ArrayList<String> listaTipovaProjekcija = ProjekcijeDAO.getTipoviProjekcija(); 
+		//System.out.println(listaTipovaProjekcija);
+		if(listaTipovaProjekcija.size() > 0) {
+			status = true; 
+		}
+		
+		response.put("status", status); 
+		response.put("listaTipovaProjekcija", listaTipovaProjekcija); 
+		System.out.println("Tipovi projekcija su : " + listaTipovaProjekcija); 
+		return response;
+	}
+
+		private JSONObject filtriranjeProjekcije(HttpServletRequest request)  {
+			JSONObject response = new JSONObject(); 
+			
+	    	ArrayList<JSONObject> lista = new ArrayList<JSONObject>();
+			String idFilm = request.getParameter("idFilm"); 
+			String pocetakProjekcije = request.getParameter("pocetakProjekcije"); 
+			String zavrsetakProjekcije = request.getParameter("zavrsetakProjekcije"); 
+			String salaProjekcije = request.getParameter("salaProjekcije"); 
+			String tipP = request.getParameter("tipP");
+			String najmanjaCijena = request.getParameter("najmanjaCijena"); 
+			String najvecaCijena = request.getParameter("najvecaCijena");
+			
+			
+			try {
+		    	if(!(Integer.valueOf(najvecaCijena)>0)) {
+	        		najvecaCijena = String.valueOf(0);
+	        	}
+	        	if(Integer.valueOf(najmanjaCijena)>Integer.valueOf(najvecaCijena)) {
+	        		najvecaCijena = najmanjaCijena;
+	        	}
+	        	if(pocetakProjekcije.length()!=16) {
+	        		pocetakProjekcije = "2000-12-31 10:10";
+	        	}
+	        	if(zavrsetakProjekcije.length()!=16) {
+	        		zavrsetakProjekcije = "2100-12-31 14:02";
+	        	}
+				
+	        	System.out.println("ID FILMA : "+idFilm);
+	    		JSONObject srv = ProjekcijeDAO.getProjekcije(idFilm,pocetakProjekcije,zavrsetakProjekcije,salaProjekcije,tipP,najmanjaCijena,najvecaCijena);
+	    		if((Boolean) srv.get("status")) {
+	    			ArrayList<Projekcija> l = (ArrayList<Projekcija>) srv.get("listaProjekcija");
+	    			for (Projekcija projekcija : l) {
+						JSONObject pr = new JSONObject();
+						pr.put("ID",projekcija.getId());
+						pr.put("ID_Filma",projekcija.getFilmId());
+						pr.put("Naziv_Filma",FilmDAO.getFilmObjectById(projekcija.getFilmId()).getNaziv());
+						DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+						String datum = df.format(projekcija.getDatumPrikazivanje());
+						pr.put("Termin",datum);
+						pr.put("Sala",SalaDAO.getSalaObjectById(projekcija.getSalaId()).getNaziv());
+						pr.put("TipProjekcije",projekcija.getTipProjekcije());
+						pr.put("Cena",projekcija.getCijenaKarte());
+						lista.add(pr);
+					}	
+	    			response.put("lista",lista);
+	    		}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+
+    			
+    			return response;
+		}
 	
 		private JSONObject ucitajJednuProjekciju(HttpServletRequest request) {
 			JSONObject response = new JSONObject(); 

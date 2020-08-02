@@ -23,19 +23,13 @@ function ucitajFilm(IDfilma){
 			filmId : IDfilma
 	}
 	
-	console.log("Saljem na servlet ===> " + params); //dodati params koje saljem 
+	//console.log("Saljem na servlet ===> " + params); //dodati params koje saljem 
 	
 	$.post('FilmoviServlet', params, function(data){
-		var response = JSON.parse(data); 
-		console.log("Ovo je otislo na servlet ===> " + response); //dodati response 
-		
+		var response = JSON.parse(data); 		
 		if(response.status){
-			//console.log(status);
 			var pojedinacanFilm = response.film; 
-			console.log(pojedinacanFilm); 
-			//probati i sa val(f.Nesto)
-			//.Naziv,.Reziser itd moraju biti istih naziva kao u bazi 
-			//promijeni zemlja i god
+
 			$("#nazivFilma3").text(pojedinacanFilm.Naziv); 
 			$("#reziserFilma3").text(pojedinacanFilm.Reziser); 
 			$("#glumciFilma3").text(pojedinacanFilm.Glumci.join(","));//ima ih vise 
@@ -47,6 +41,8 @@ function ucitajFilm(IDfilma){
 			$("#godinaProizvodnje3").text(pojedinacanFilm.Godina_Proizvodnje); 
 			$("#opis3").text(pojedinacanFilm.Opis);
 			
+			console.log("Ovo je var pojedinacan film " + pojedinacanFilm); 
+			//System.out.println("Ovo je var pojedinacan film " + pojedinacanFilm); 
 			if(localStorage['status']!="false") {
 				var btn = document.createElement("button"); 
 				btn.className = "nekiBtn"; //zasto ovo nije kupikartu btn

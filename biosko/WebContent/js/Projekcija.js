@@ -25,9 +25,7 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 		var response = JSON.parse(data); 
 		//console.log("Na servlet " + response); 
 		if(response.status) {
-			//console.log(status);
-			//var pojedinacnaProjekcija = response.projekcija; 
-			//console.log(pojedinacnaProjekcija);
+			
 			$("#nazivProjekcije").html("<a href='Film.html?id="+response.idFilma+"''>"+response.nazivFilma+"</a>");
 			$("#tipProjekcije4").text(response.tipProjekcije); 
 			$("#salaProjekcije4").text(response.nazivSale);  

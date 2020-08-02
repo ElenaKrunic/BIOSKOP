@@ -99,4 +99,35 @@ public class SalaDAO {
 		return sala;
 	}
 */
+
+	public static ArrayList<String> getSale() {
+		ArrayList<String> sale = new ArrayList<String>(); 
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECT Naziv FROM Sale WHERE 1"; 
+			
+			prep = conn.prepareStatement(query); 
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				String naziv = rs.getString(index++); 
+				sale.add(naziv); 
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Ne mogu se ucitati sale"); 
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
+		}
+		
+		return sale;
+	}
 }

@@ -113,10 +113,11 @@ public class FilmDAO {
 		PreparedStatement prep = null;
 		ResultSet rs = null;
 		try {
+	
 			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
 
 			prep = conn.prepareStatement(query);
-			prep.setString(1,id); 
+			prep.setString(1, id);
 
 			rs = prep.executeQuery();
 			if (rs.next()) {
@@ -140,46 +141,47 @@ public class FilmDAO {
 						Zanrovi_n.add(Zanr.valueOf(znr));
 					}
 					catch(Exception e){
-						System.out.println("Puklo kod unosa zanra - "+e);
+						e.printStackTrace();
 					}
 				}
 				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
-				
-				JSONObject jsonFilm = new JSONObject(); 
-				jsonFilm.put("ID", film.getId()); 
-				jsonFilm.put("Naziv", film.getNaziv()); 
-				jsonFilm.put("Reziser", film.getReziser()); 
-				String[] gl = film.getGlumci().split(";"); 
-				ArrayList<String> glumci = new ArrayList<String>(); 
-				for(String s : gl) {
-					glumci.add(s);
+				JSONObject obj = new JSONObject();
+				obj.put("ID",film.getId());
+				obj.put("Naziv",film.getNaziv());
+				obj.put("Reziser",film.getReziser());
+				String[] glumci1 = film.getGlumci().split(";");
+				ArrayList<String> glumci = new ArrayList<String>();
+				for (String string : glumci1) {
+					glumci.add(string);
 				}
-				jsonFilm.put("Glumci", glumci);
-				ArrayList<String> zanrovi2 = new ArrayList<String>(); 
-				for(Zanr zr : film.getZanr()) {
-					zanrovi2.add(zr.toString()); 
+				obj.put("Glumci",glumci);
+				ArrayList<String> zanrovi = new ArrayList<String>();
+				for (Zanr z : film.getZanr()) {
+					zanrovi.add(z.toString());
 				}
-				jsonFilm.put("Zanrovi", zanrovi2); 
-				jsonFilm.put("Trajanje", film.getTrajanje()); 
-				jsonFilm.put("Distributer", film.getDistributer()); 
-				jsonFilm.put("Zemlja_Porekla", film.getZemljaPorijekla()); 
-				jsonFilm.put("Godina_Proizvodnje", film.getGodinaProizvodnje()); 
-				jsonFilm.put("Opis",film.getOpis()); 
-				
+				obj.put("Zanrovi",zanrovi);
+				obj.put("Trajanje",film.getTrajanje());
+				obj.put("Distributer",film.getDistributer());
+				obj.put("Zemlja_Porekla",film.getZemljaPorijekla());
+				obj.put("Godina_Proizvodnje",film.getGodinaProizvodnje());
+				obj.put("Opis",film.getOpis());
+				obj.put("status",status);
 				if(status.equalsIgnoreCase("active")) {
-					return jsonFilm;
+					return obj;
 				}
-				else { 
-					System.out.println("Ne vraca 1 film"); 
-				}
+				return null;
 			}
+			else {
+				System.out.println("nista nije vraceno");
+			}
+
 		} finally {
 			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
 			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
 		}
 		
-		return null; 
+		return null;
 }
 	
 	public static Film getFilmObjectById(int id1) throws Exception {
