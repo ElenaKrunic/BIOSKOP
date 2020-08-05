@@ -45,26 +45,52 @@ public class FilmoviServlet extends HttpServlet {
 			out.print(filterFilm(request));
 			break; 
 			
-		case "loadMovie" : 
-			out.print(load1Movie(filmId));
-			break; 
+		case "ucitajFilm" : 
+			out.print(ucitajJedanFilm(filmId));
+			break;
+		
 			
 		default: break;
 		}
 	}
-	
+	/*
 	private JSONObject load1Movie(String filmId) {
 		JSONObject response = new JSONObject(); 
+		boolean status = false; 
 		JSONObject film = null; 
 		try {
-			//System.out.println("ID filma je " + filmId); 
+			System.out.println("ID filma je " + filmId); 
 			film = FilmDAO.getById(filmId); 
-	
+			if(film!=null) {
+				status = true; 
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
+		response.put("status", status); 
 		response.put("film", film); 
 		return response;
+	}
+	*/
+
+	private JSONObject ucitajJedanFilm(String id) {
+		// TODO Auto-generated method stub
+		JSONObject response = new JSONObject(); 
+		JSONObject film = null; 
+		boolean status = false; 
+		
+		try {
+			film = FilmDAO.getById(id);
+			System.out.println("Film je " + film); 
+			System.out.println("ID filma je " + id); 
+			status = true; 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		response.put("film",film); 
+		response.put("status",status); 
+		return response; 
 	}
 
 	private JSONObject filterFilm(HttpServletRequest request) {
@@ -125,7 +151,7 @@ public class FilmoviServlet extends HttpServlet {
 		}
 		response.put("status", status); 
 		response.put("zanrovi", listaZanrova); 
-		System.out.println("Zanrovi su:  " + listaZanrova); 
+		//System.out.println("Zanrovi su:  " + listaZanrova); 
 		return response;
 	}
 	

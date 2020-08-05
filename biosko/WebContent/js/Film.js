@@ -13,6 +13,53 @@ $(document).ready(function(){
 		event.preventDefault(); 
 		return false; 
 	});
+	
+var url = window.location.href; 
+var newUrl = new URL(url); 
+var id = newUrl.searchParams.get("id"); 
+
+ucitajFilm(id); 
+
+function ucitajFilm(idFILMA) {
+	var params = {
+			action : "ucitajFilm", 
+			filmId : idFILMA
+	}
+	
+	$.post('FilmoviServlet', params, function(data){
+		var response = JSON.parse(data);
+		
+		console.log("response sa servleta " + response); 
+		
+		if(response.status) {
+			var pojedinacanFilm  = response.film; 
+			console.log("var jedan film " + pojedinacanFilm ); 
+			$("#nazivFilma3").text(pojedinacanFilm.Naziv);
+			$("#reziserFilma3").text(pojedinacanFilm.Reziser);
+			$("#glumciFilma3").text(pojedinacanFilm.Glumci.join(","));
+			$("#trajanje3").text(pojedinacanFilm.Trajanje);
+			$("#zanrFilma3").text(pojedinacanFilm.Zanrovi.join(","));
+			$("#distributer3").text(pojedinacanFilm.Distributer);
+			$("#zemljaPorijekla3").text(pojedinacanFilm.Zemlja_Porekla);
+			$("#godinaProizvodnje3").text(pojedinacanFilm.Godina_Proizvodnje);
+			$("#opis3").text(pojedinacanFilm.Opis);
+			
+			if(localStorage['status'] != "false") {
+				var btn = document.createElement('button'); 
+				btn.className = "confirmbtn"; 
+				btn.innerText= "Kupi kartu"; 
+				btn.setAttribute('idFilma', response.film.ID); 
+				btn.setAttribute('ID', "kupiKartuBtn"); 
+				document.getElementById('prikazFilmaBtn').appendChild(btn); 
+			}
+		}
+	});
+}
+
+	});
+
+
+/*
 
 var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 ucitajFilm(id); 
@@ -22,14 +69,19 @@ function ucitajFilm(IDfilma){
 			action : "loadMovie", 
 			filmId : IDfilma
 	}
-	
-	//console.log("Saljem na servlet ===> " + params); //dodati params koje saljem 
-	
+
+	console.log("Saljem na servlet ===> " + params); //dodati params koje saljem 
+
 	$.post('FilmoviServlet', params, function(data){
-		var response = JSON.parse(data); 		
+		var response = JSON.parse(data); 
+		console.log("Ovo je otislo na servlet ===> " + response); //dodati response 
+
 		if(response.status){
 			var pojedinacanFilm = response.film; 
-
+			console.log(pojedinacanFilm); 
+			//probati i sa val(f.Nesto)
+			//.Naziv,.Reziser itd moraju biti istih naziva kao u bazi 
+			//promijeni zemlja i god
 			$("#nazivFilma3").text(pojedinacanFilm.Naziv); 
 			$("#reziserFilma3").text(pojedinacanFilm.Reziser); 
 			$("#glumciFilma3").text(pojedinacanFilm.Glumci.join(","));//ima ih vise 
@@ -40,9 +92,7 @@ function ucitajFilm(IDfilma){
 			//$("#godinaProizvodnje3").text(pojedinacanFilm.GodinaProizvodnje);
 			$("#godinaProizvodnje3").text(pojedinacanFilm.Godina_Proizvodnje); 
 			$("#opis3").text(pojedinacanFilm.Opis);
-			
-			console.log("Ovo je var pojedinacan film " + pojedinacanFilm); 
-			//System.out.println("Ovo je var pojedinacan film " + pojedinacanFilm); 
+
 			if(localStorage['status']!="false") {
 				var btn = document.createElement("button"); 
 				btn.className = "nekiBtn"; //zasto ovo nije kupikartu btn
@@ -50,12 +100,18 @@ function ucitajFilm(IDfilma){
 				btn.setAttribute("filmID",response.film.ID); //film 
 				btn.setAttribute("ID", "kupiKartuBtn"); //dugme 
 				document.getElementById("prikazFilmaBtn").appendChild(btn); 
-				
+
 			}
 		}
 	});
 }
-});
+*/
+
+
+
+
+
+
 
 
 /*$(document).ready(function(){

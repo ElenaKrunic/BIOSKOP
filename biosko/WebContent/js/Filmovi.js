@@ -14,10 +14,10 @@ $(document).ready(function(){
 		return false; 
 	});
 	
-function ucitajFilm(idFilma){
+function ucitajFilm(idFILMA){
 	var params = {
 			action: "loadMovie",
-			filmID: idFilma
+			filmId: idFILMA
 		}
 		// kontrola toka se račva na 2 grane
 		$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev

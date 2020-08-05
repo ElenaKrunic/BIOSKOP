@@ -80,83 +80,6 @@ $(document).ready(function(){
 		  }
 	});
 	
-	$("filterProjekcijaBtn").on('click', function(){
-		var idFilma = $('#filterFilm').val(); 
-		var pocetakPrikazivanja = $('#pocetakProjekcije').val(); 
-		var krajProjekcije = $('#krajProjekcije').val(); 
-		var sala = $('#filterSala').val(); 
-		var tipProjekcije = $('#filterTipProjekcije'); 
-		var najmanjaCijenaKarte = $('#najmanjaCijena'); 
-		var najvecaCijenaKarte = $('#najvecaCijena'); 
-		
-		var params = {
-				//dodati ostale parametre 
-				action : "filterProjekcije", 
-				'idFilm' : idFilma, 
-				'pocetakProjekcije' : pocetakPrikazivanja, 
-				'zavrsetakProjekcije' : krajProjekcije, 
-				'salaProjekcije' : sala, 
-				'tipP' : tipProjekcije, 
-				'najmanjaCijena' : najmanjaCijenaKarte, 
-				'najvecaCijena' : najvecaCijenaKarte
-		}
-		
-		$.post("ProjekcijeServlet", params, function(data){
-			var response = JSON.parse(data); 
-			
-			if(response.status) {
-				if(response.projekcije.length>0) {
-					$("tr").slice(2).remove(); 
-					for(i=0; i<response.projekcije.length; i++) {
-						var projekcija = response.projekcije[i]; 
-						var tabela = document.getElementById('tabelaProjekcije'); 
-						var tr = document.createElement("tr"); 
-						tr.className = "item"; 
-						tr.setAttribute("projekcijaId", projekcija.ID); 
-						var btn = ""; 
-						
-						  var nazivFilma = document.createElement('td');
-					      nazivFilma.innerText = p.naziv_filma;
-					      nazivFilma.setAttribute('idFilma',p.id_filma);
-					      nazivFilma.className="ponudjenFilmIzProjekcije";
-					      tr.appendChild(nazivFilma);
-
-					      var termin = document.createElement('td');
-					      termin.innerText = p.terminProjekcije;
-					      tr.appendChild(termin);
-
-					      var sala = document.createElement('td');
-					      sala.innerText = p.nazivSale;
-					      tr.appendChild(sala);
-
-					      var tipP = document.createElement('td');
-					      tipP.innerText = p.tipProjekcije;
-					      tr.appendChild(tipP);
-
-					      var cijenaKarte = document.createElement('td');
-					      cijenaKarte.innerText = p.cijena;
-					      tr.appendChild(cijenaKarte);
-					      
-					      var td6 = document.createElement('td');
-					      var btn1 = document.createElement('button');
-					      btn1.innerText = "Detalji";
-					      btn1.className="confirmbtn detaljiBtn";
-					      btn1.setAttribute('idProjekcije',p.id_projekcije);
-					      td6.appendChild(btn1);
-					      tr.appendChild(td6);
-
-					      document.getElementById('tabelaProjekcije').appendChild(tr);
-
-					      $(".ponudjenFilmIzProjekcije").on('click',function(data){
-					        window.location.href="Film.html?id="+this.getAttribute('idFilma');
-					      });
-					
-					}
-				}
-			}
-		}); 
-	});
-	
 	var params = {
 			action : "ucitajTipoveProjekcija"
 	}
@@ -189,4 +112,86 @@ $(document).ready(function(){
 		}
 	});
 });
-		   
+		
+
+/*
+
+FILTER PROJEKCIJA BUTTON OBRADJEN 
+$("filterProjekcijaBtn").on('click', function(){
+	var idFilma = $('#filterFilm').val(); 
+	var pocetakPrikazivanja = $('#pocetakProjekcije').val(); 
+	var krajProjekcije = $('#krajProjekcije').val(); 
+	var sala = $('#filterSala').val(); 
+	var tipProjekcije = $('#filterTipProjekcije'); 
+	var najmanjaCijenaKarte = $('#najmanjaCijena'); 
+	var najvecaCijenaKarte = $('#najvecaCijena'); 
+	
+	var params = {
+			//dodati ostale parametre 
+			action : "filterProjekcije", 
+			'idFilm' : idFilma, 
+			'pocetakProjekcije' : pocetakPrikazivanja, 
+			'zavrsetakProjekcije' : krajProjekcije, 
+			'salaProjekcije' : sala, 
+			'tipP' : tipProjekcije, 
+			'najmanjaCijena' : najmanjaCijenaKarte, 
+			'najvecaCijena' : najvecaCijenaKarte
+	}
+	
+	$.post("ProjekcijeServlet", params, function(data){
+		var response = JSON.parse(data); 
+		
+		if(response.status) {
+			if(response.projekcije.length>0) {
+				$("tr").slice(2).remove(); 
+				for(i=0; i<response.projekcije.length; i++) {
+					var projekcija = response.projekcije[i]; 
+					var tabela = document.getElementById('tabelaProjekcije'); 
+					var tr = document.createElement("tr"); 
+					tr.className = "item"; 
+					tr.setAttribute("projekcijaId", projekcija.ID); 
+					var btn = ""; 
+					
+					  var nazivFilma = document.createElement('td');
+				      nazivFilma.innerText = p.naziv_filma;
+				      nazivFilma.setAttribute('idFilma',p.id_filma);
+				      nazivFilma.className="ponudjenFilmIzProjekcije";
+				      tr.appendChild(nazivFilma);
+
+				      var termin = document.createElement('td');
+				      termin.innerText = p.terminProjekcije;
+				      tr.appendChild(termin);
+
+				      var sala = document.createElement('td');
+				      sala.innerText = p.nazivSale;
+				      tr.appendChild(sala);
+
+				      var tipP = document.createElement('td');
+				      tipP.innerText = p.tipProjekcije;
+				      tr.appendChild(tipP);
+
+				      var cijenaKarte = document.createElement('td');
+				      cijenaKarte.innerText = p.cijena;
+				      tr.appendChild(cijenaKarte);
+				      
+				      var td6 = document.createElement('td');
+				      var btn1 = document.createElement('button');
+				      btn1.innerText = "Detalji";
+				      btn1.className="confirmbtn detaljiBtn";
+				      btn1.setAttribute('idProjekcije',p.id_projekcije);
+				      td6.appendChild(btn1);
+				      tr.appendChild(td6);
+
+				      document.getElementById('tabelaProjekcije').appendChild(tr);
+
+				      $(".ponudjenFilmIzProjekcije").on('click',function(data){
+				        window.location.href="Film.html?id="+this.getAttribute('idFilma');
+				      });
+				
+				}
+			}
+		}
+	}); 
+});
+
+*/

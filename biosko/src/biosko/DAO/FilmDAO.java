@@ -113,7 +113,6 @@ public class FilmDAO {
 		PreparedStatement prep = null;
 		ResultSet rs = null;
 		try {
-	
 			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
 
 			prep = conn.prepareStatement(query);
@@ -180,7 +179,6 @@ public class FilmDAO {
 			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
 			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
 		}
-		
 		return null;
 }
 	
