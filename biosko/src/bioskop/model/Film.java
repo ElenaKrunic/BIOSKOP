@@ -63,7 +63,12 @@ public class Film  {
 		return trajanje;
 	}
 	public void setTrajanje(int trajanje) {
-		this.trajanje = trajanje;
+		if(trajanje > 0) {
+			this.trajanje = trajanje; 
+		} else {
+			this.trajanje = 222;
+		}
+		//this.trajanje = trajanje;
 	}
 	public String getDistributer() {
 		return distributer;
@@ -81,7 +86,11 @@ public class Film  {
 		return godinaProizvodnje;
 	}
 	public void setGodinaProizvodnje(int godinaProizvodnje) {
-		this.godinaProizvodnje = godinaProizvodnje;
+		if(godinaProizvodnje > 0) {
+			this.godinaProizvodnje = godinaProizvodnje; 
+		} else {
+			this.godinaProizvodnje = 2222;
+		}
 	}
 	public String getOpis() {
 		return opis;

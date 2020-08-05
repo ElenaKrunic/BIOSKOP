@@ -13,20 +13,7 @@ $(document).ready(function(){
 		event.preventDefault(); 
 		return false; 
 	});
-	
-function ucitajFilm(idFILMA){
-	var params = {
-			action: "loadMovie",
-			filmId: idFILMA
-		}
-		// kontrola toka se račva na 2 grane
-		$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
-			// tek kada stigne odgovor izvršiće se ova anonimna funkcija
-			console.log(data);
-			return data;
-		});
-}
-	
+		
 	var params = {
 			action : "loadMovies", 
 			filmId : "1"
@@ -39,8 +26,6 @@ function ucitajFilm(idFILMA){
 				var film = response.filmovi[i];
 				var tabela = document.getElementById('tabelaFilm');
 				var tr = document.createElement('tr');
-				tr.className="item";
-				//filmovi iz tabele imaju atribut filmID
 				tr.setAttribute('filmID',film.ID);
 				var btn = "";
 				if(localStorage['uloga']=="Admin"){
@@ -86,51 +71,88 @@ function ucitajFilm(idFILMA){
 	}
 });
 	
-	$("#filterBtn").on('click',function(){
-	var nazivF = $('#nazivFilter').val(); 
-	var trajanjeF = $('#trajanjeFilter').val(); 
-	var zanrF = $('#zanroviFilter').val(); 
-	var godinaF = $('#godinaFilter').val(); 
-	var distributerF = $('#distributerFilter').val(); 
-	var zemljaF = $('#zemljaPorijeklaFilter').val();
+$("#filterBtn").on("click",function(){
+	var nazivFilma = $("#nazivFilter").val(); 
+	var trajanjeFilma = $("#trajanjeFilter").val(); 
+	var zanroviFilma = $("#zanroviFilter").val(); 
+	var godinaFilma = $("#godinaFilter").val(); 
+	var distributerFilma = $("#distributerFilter").val(); 
+	var zemljaPorijeklaFilma = $("#zemljaPorijeklaFilter").val(); 
 	
-	//for w?
-	zanrF.sort(); 
-	zanrF = zanrF.join(";"); 
+	zanroviFilma.sort(); 
+	zanroviFilma = zanroviFilma.join(";"); 
 	
 	var params = {
-			action : 'filter', 
-			naziv : nazivF, 
-			trajanje : trajanjeF, 
-			zanr : zanrF, 
-			opis: "",
-			glumci: "", 
-			reziser : "",
-			godina : godinaF, 
-			distributer : distributerF, 
-			zemlja : zemljaF
+			action : "filtrirajFilm", 
+			naziv:nazivFilma, 
+			trajanje:trajanjeFilma,
+			zanr:zanroviFilma,
+			opis:"", 
+			glumci:"",
+			reziser:"", 
+			godina:godinaFilma, 
+			distributer:distributerFilma, 
+			zemlja:zemljaPorijeklaFilma
 	}
 	
 	$.post('FilmoviServlet', params, function(data){
-		var response = JSON.parse(data); 
-		if(response.status) {
-			if(response.filmovi.length>0){
-				$('tr').slice(2).remove(); //w
-				for(i=0; i<response.filmovi.length; i++) {
-					var film = response.filmovi[i]; 
-					var tabela = document.getElementById('tabelaFilm'); 
-					var tr = document.createElement('tr'); 
-					tr.className = "item"; 
-					tr.setAttribute('filmID', film.ID);
-					var btn = ""; 
+		console.log("Film po odabranom kriterijumu: " + data); 
+		var res = JSON.parse(data); 
+		if(res.status) {
+			if(res.odredjeniFilmovi.length>0) {
+				$('tr').slice(2).remove(); 
+				for(i=0; i<res.odredjeniFilmovi.length;i++) {
+					var movie = res.odredjeniFilmovi[i]; 
+					var table = document.getElementById('tabelaFilm'); 
+					var tr = document.createElement('tr');
+					tr.setAttribute("filmID", movie.ID); 
 					
-					tr.innerHTML = "<td class='nazivFilma' filmID='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
-					tabela.appendChild(tr);
+					if(localStorage['uloga']=="Admin") {
+						var btn = "<span class='urediFilm' movieID='"+movie.ID+"'></span>" +
+								"<span class='obrisiFilm' movieID='"+movie.ID+"'></span>" + 
+								"<span class='dodajFilm' movieID='"+movie.ID+"'></span>";
+					}
+					else {
+						var btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
+					}
+					
+					tr.innerHTML = "<td class='nazivFilma' filmID='"+movie.ID+"'>"+movie.Naziv+"</td><td>"+movie.Trajanje+"</td><td>"+movie.Zanrovi+"</td><td>"+movie.Godina_Proizvodnje+"</td><td>"+movie.Distributer+"</td><td>"+movie.Zemlja_Porekla+"</td><td>"+btn+"</td>";
+					table.appendChild(tr); 
 				}
+				
+				$(".detalji").on('click',function(){
+					var id = this.getAttribute("movieID"); 
+					if(id>0) {
+						window.location.href= "Film.html?id=" + id; 
+					}
+				});
+				
+				$(".nazivFilma").on('click', function(){
+					var id = this.getAttribute("filmID"); 
+					if(id>0) {
+						window.location.href = "Film.html?id" + id; 
+					}
+				});
+				
+				$(".urediFilm").on('click',function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "urediFilm.html?id" + id;  
+				});
+				
+				$(".obrisiFilm").on('click', function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "obrisiFilm.html?id" + id; 
+				});
+				
+				$(".dodajFilm").on('click',function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "dodajFilm.html?id" + id; 
+				}); 
 			}
 		}
-	}); 
 	});
+	
+});
 });
 
 			//$(".editMovie").on('click',function(){
