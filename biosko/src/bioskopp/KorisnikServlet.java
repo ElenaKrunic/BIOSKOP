@@ -63,10 +63,19 @@ public class KorisnikServlet extends HttpServlet {
 			case "login" :
 				out.print(loginUser(request));
 				break; 
+				
+			case "getUserSessionInfo" : 
+				out.print(podaciOulogovanomKorisniku(request));
+				break;
 			}
 		}
 	}
 	
+	private JSONObject podaciOulogovanomKorisniku(HttpServletRequest request) {
+		// TODO Auto-tub
+	return KorisnikDAO.getKorisnikInfo(request); 	
+	}
+
 	private JSONObject loginUser(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		response = KorisnikDAO.login(request);

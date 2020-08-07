@@ -27,29 +27,50 @@ $(document).ready(function(){
 				var tabela = document.getElementById('tabelaFilm');
 				var tr = document.createElement('tr');
 				tr.setAttribute('filmID',film.ID);
-				var btn = "";
-				if(localStorage['uloga']=="Admin"){
-					btn = 'adminskaposla';
+				//var btn = "";
+				//console.log(film); 
+				//console.log(localStorage);
+				if(localStorage['uloga'] == 'obicanKorisnik'){
+				var	btn =  "<span class='urediFilm' movieID='"+film.ID+"'></span>" 
+					}
+				else {
+					var btn =  "<span class='detalji' movieID='"+film.ID+"'></span>";
 				}
-				else{
-					btn = "<span class='detalji' movieID='"+film.ID+"'></span>"
-				}
+				
 				tr.innerHTML = "<td class='nazivFilma' filmID='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
 				tabela.appendChild(tr);
 			}
 			//ovako manipulisem elementima .
 			$(".detalji").on('click',function(){
 				var id = this.getAttribute('movieID');
-				if(id>0 && id!=null && id!=undefined){
+				if(id>0){
 					window.location.href="Film.html?id="+id;
 				}
 			});	
 			$(".nazivFilma").on("click", function(){
 				var id = this.getAttribute('filmID');
-				if(id>0 && id!=null && id!=undefined){
+				if(id>0){
 					window.location.href="Film.html?id="+id;
 				}
 			});
+			
+			$(".urediFilm").on('click',function(){
+				var id = this.getAttribute("movieID"); 
+				if(id>0) {
+					window.location.href = "urediFilm.html?id" + id;  
+				}
+			});
+/*			
+			$(".obrisiFilm").on('click', function(){
+				var id = this.getAttribute("movieID"); 
+				window.location.href = "obrisiFilm.html?id" + id; 
+			});
+			
+			$(".dodajFilm").on('click',function(){
+				var id = this.getAttribute("movieID"); 
+				window.location.href = "dodajFilm.html?id" + id; 
+			}); 
+			*/
 		}
 	});
 	
@@ -106,14 +127,22 @@ $("#filterBtn").on("click",function(){
 					var table = document.getElementById('tabelaFilm'); 
 					var tr = document.createElement('tr');
 					tr.setAttribute("filmID", movie.ID); 
-					
+					var btn = ""; 
 					if(localStorage['uloga']=="Admin") {
-						var btn = "<span class='urediFilm' movieID='"+movie.ID+"'></span>" +
-								"<span class='obrisiFilm' movieID='"+movie.ID+"'></span>" + 
-								"<span class='dodajFilm' movieID='"+movie.ID+"'></span>";
+						var btnUrediFilm = document.createElement('button'); 
+						btnUrediFilm.innerText = "Uredi film"; 
+						btnUrediFilm.setAtrribute("filmID", res.movie.ID);
+						btnUrediFilm.setAttribute("ID", "urediFilmBtn"); 
+						btnUrediFilm.getElementById('filterBtn').appendChild(btnUrediFilm); 
 					}
 					else {
-						var btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
+						btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
+
+						/*
+						btn = "<span class='urediFilm' movieID='"+movie.ID+"'></span>" +
+						"<span class='obrisiFilm' movieID='"+movie.ID+"'></span>" + 
+						"<span class='dodajFilm' movieID='"+movie.ID+"'></span>";
+						*/
 					}
 					
 					tr.innerHTML = "<td class='nazivFilma' filmID='"+movie.ID+"'>"+movie.Naziv+"</td><td>"+movie.Trajanje+"</td><td>"+movie.Zanrovi+"</td><td>"+movie.Godina_Proizvodnje+"</td><td>"+movie.Distributer+"</td><td>"+movie.Zemlja_Porekla+"</td><td>"+btn+"</td>";
@@ -133,7 +162,7 @@ $("#filterBtn").on("click",function(){
 						window.location.href = "Film.html?id" + id; 
 					}
 				});
-				
+				/*
 				$(".urediFilm").on('click',function(){
 					var id = this.getAttribute("movieID"); 
 					window.location.href = "urediFilm.html?id" + id;  
@@ -147,7 +176,8 @@ $("#filterBtn").on("click",function(){
 				$(".dodajFilm").on('click',function(){
 					var id = this.getAttribute("movieID"); 
 					window.location.href = "dodajFilm.html?id" + id; 
-				}); 
+				});
+				*/ 
 			}
 		}
 	});

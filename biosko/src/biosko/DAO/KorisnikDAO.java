@@ -179,11 +179,11 @@ public class KorisnikDAO {
 					if(b>0) {
 						status = true; 
 						poruka = "Uspjesno ste se registrovali!"; 
-						request.getSession().setAttribute("username",username); 
+						request.getSession().setAttribute("userName",username); 
 						request.getSession().setAttribute("password", password);
 						request.getSession().setAttribute("uloga", "obicanKorisnik");
 						request.getSession().setAttribute("status", "Active");
-						request.getSession().setAttribute("ID", String.valueOf(ucitajBrojKorisnika()));
+						request.getSession().setAttribute("ID", String.valueOf(ucitajIDKorisnika()));
 					}
 					else {
 						poruka = "Neuspjesan unos u bazu!"; 
@@ -202,7 +202,7 @@ public class KorisnikDAO {
 			}
 		}
 		
-		public static int ucitajBrojKorisnika() {
+		public static int ucitajIDKorisnika() {
 			int broj = 0;
 			
 			Connection conn = ConnectionManager.getConnection();
@@ -327,167 +327,53 @@ public class KorisnikDAO {
 			
 			return response; 		
 		}
-	
-	/*
-	
-	public static Korisnik get(String korisnickoIme, String lozinka) throws SQLException {
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		ResultSet rs = null;
+
+		public static JSONObject getKorisnikInfo(HttpServletRequest request) {
+			JSONObject response = new JSONObject(); 
+			String username = (String) request.getSession().getAttribute("userName");
+			System.out.println("Korisnicko ime iz  sesije je " + username);
+			String password = (String) request.getSession().getAttribute("password"); 
+			String uloga = (String) request.getSession().getAttribute("uloga"); 
+			String status = (String) request.getSession().getAttribute("status"); 
+			String id = (String) request.getSession().getAttribute("ID"); 
+			
+			response.put("status",status); 
+			response.put("userName", username); 			
+			response.put("password",password); 
+			response.put("uloga",uloga);
+			response.put("ID",id); 
+			
+			return response;
+		}
 		
-		try {
-			String query = "SELECT uloga,datumRegistracije FROM korisnici WHERE korisnickoIme = ? AND lozinka = ?";
-			prep = conn.prepareStatement(query);
-			int index = 1; 	
-			prep.setString(index++, korisnickoIme);
-			prep.setString(index++, lozinka);
+		public static boolean validUserInfo(String username, String password) {
+			boolean ulogovan = false; 
 			
-			rs = prep.executeQuery();
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			ResultSet rs = null; 
 			
-			if(rs.next()) {
-				Uloga uloga = Uloga.valueOf(rs.getString(1)); //column index
-				String datumRegistracije = rs.getString("datumRegistracije"); 
-				return new Korisnik(korisnickoIme,lozinka,datumRegistracije,uloga);
-			}
-		}
-		finally {
-			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
-		}
-		return null;
-	}	
-	
-	public static Korisnik get(String korisnickoIme) throws SQLException {
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		ResultSet rs = null;
-		
-		try {
-			String query = "SELECT lozinka,datumRegistracije, uloga FROM korisnici WHERE korisnickoIme = ?";
-			prep = conn.prepareStatement(query);
-			prep.setString(1, korisnickoIme);
-			System.out.println(prep);
-			
-			rs = prep.executeQuery();
-			
-			if(rs.next()) { //sl red
-				int index = 1;
-				String lozinka = rs.getString(index++);
-				String datumRegistracije = rs.getString(index++); 
-				Uloga uloga = Uloga.valueOf(rs.getString(index++)); //column index
-				return new Korisnik(korisnickoIme,datumRegistracije,lozinka,uloga);
-			}
-		}
-		finally {
-			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
-		}
-		return null;
-	}	
-	
-	public static List<Korisnik> getAll(String korisnickoIme, Uloga uloga) throws Exception {
-		List<Korisnik> korisnici = new ArrayList<>(); 
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null; 
-		ResultSet rs = null; 
-		
-		try {
-			String query = "SELECT * FROM korisnici WHERE korisnickoIme LIKE ? AND uloga LIKE ?"; 
-			prep = conn.prepareStatement(query);
-			int index = 1; 
-			
-			prep.setString(index++, "%" + korisnickoIme + "%");
-			prep.setString(index++, "%" + uloga + "%");
-			
-			rs = prep.executeQuery();
-			
-			while(rs.next()) {
-				String korisnickoImeKorisnikk = rs.getString("korisnickoIme"); 
-				String lozinka = rs.getString("lozinka"); 
-				String datumRegistracije = rs.getString("datumRegistracije"); 
-				Uloga ulogaa = Uloga.valueOf(rs.getString("uloga")); 
+			try {
+				String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users WHERE Username=? AND Password=? AND Status='Active'";
 				
-				Korisnik korisnik = new Korisnik(korisnickoImeKorisnikk,lozinka,datumRegistracije,ulogaa); 
-				korisnici.add(korisnik);
+				prep = conn.prepareStatement(query); 
+				prep.setString(1,username);
+				prep.setString(2, password);
+				
+				rs = prep.executeQuery(); 
+				
+				if(rs.next()) {
+					ulogovan = true;
+				}
+			} catch(Exception e) {
+				
 			}
-		} finally {
-			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} 
-		} 		
-		return korisnici;
-	}
-	
-	
-	public static boolean dodajKorisnika(Korisnik korisnik) throws SQLException, Exception {
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		try {
-			String query = "INSERT INTO korisnici (korisnickoIme,lozinka,datumRegistracije,uloga)" + "VALUES (?,?,?,?)";
-			prep = conn.prepareStatement(query);
-			int index = 1; 
-			prep.setString(index++, korisnik.getKorisnickoIme());
-			prep.setString(index++, korisnik.getLozinka());
-			prep.setString(index++, korisnik.getDatumRegistracije());
-			prep.setString(index++, korisnik.getUloga().toString()); //jer baza ne prepoznaje enum
 			
-			return prep.executeUpdate() == 1;
-			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			return ulogovan; 
 		}
-		finally {
-			try {prep.close();} catch(Exception ex) {ex.printStackTrace();}
-			try {conn.close();} catch(Exception ex) {ex.printStackTrace();}
-		}
-	}
-	
-	public static boolean izmijeniKorisnika(Korisnik korisnik) throws SQLException {
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		try {
-			String query = "UPDATE korisnici SET korisnickoIme LIKE ? , lozinka LIKE ?, uloga LIKE ?";
-			prep = conn.prepareStatement(query);
-			
-			int index = 1;
-			prep.setString(index++, korisnik.getKorisnickoIme());
-			prep.setString(index++, korisnik.getLozinka());
-			prep.setString(index++, korisnik.getDatumRegistracije());
-			prep.setString(index++, korisnik.getUloga().toString());
-			
-			System.out.println(prep);
-			
-			return prep.executeUpdate() == 1;
-		} finally {
-			try {prep.close();} catch(Exception ec) {ec.printStackTrace();}
-			try {prep.close();} catch(Exception ec) {ec.printStackTrace();}
-		}
-	}
-	
-	public static boolean obrisiKorisnika(Korisnik korisnik) throws SQLException, Exception {
-		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement prep = null;
-		
-		try {
-			String query = "DELETE FROM korisnici WHERE korisnickoIme = ? , lozinka = ?, uloga = ?";
-			prep = conn.prepareStatement(query);
-			
-			int index = 1; 
-			prep.setString(index++, korisnik.getKorisnickoIme());
-			prep.setString(index++, korisnik.getLozinka());
-			prep.setString(index++, korisnik.getDatumRegistracije());
-			prep.setString(index++, korisnik.getUloga().toString());
-			
-			System.out.println(prep);
-			
-			return prep.executeUpdate() == 1;
-		} finally {
-			try {prep.close();} catch(Exception ex) {ex.printStackTrace();}
-			try {conn.close();} catch(Exception ex) {ex.printStackTrace();}
-		}
-	
-	}
-	
-	*/
-	
 }
