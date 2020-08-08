@@ -1,5 +1,5 @@
-.urediFilm{
-	content: "Uredi film";
+.urediFilm::after{
+  content: "Uredi";
   background-color: grey;
   color: black;
   display: block;

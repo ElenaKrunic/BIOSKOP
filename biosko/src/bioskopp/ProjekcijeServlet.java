@@ -76,7 +76,7 @@ public class ProjekcijeServlet extends HttpServlet{
 		
 		response.put("status", status); 
 		response.put("listaTipovaProjekcija", listaTipovaProjekcija); 
-		System.out.println("Tipovi projekcija su : " + listaTipovaProjekcija); 
+		//System.out.println("Tipovi projekcija su : " + listaTipovaProjekcija); 
 		return response;
 	}
 
@@ -107,7 +107,7 @@ public class ProjekcijeServlet extends HttpServlet{
 	        		zavrsetakProjekcije = "2100-12-31 14:02";
 	        	}
 				
-	        	System.out.println("ID FILMA : "+idFilm);
+	        	//System.out.println("ID FILMA : "+idFilm);
 	    		JSONObject srv = ProjekcijeDAO.getProjekcije(idFilm,pocetakProjekcije,zavrsetakProjekcije,salaProjekcije,tipP,najmanjaCijena,najvecaCijena);
 	    		if((Boolean) srv.get("status")) {
 	    			ArrayList<Projekcija> l = (ArrayList<Projekcija>) srv.get("listaProjekcija");
@@ -212,96 +212,4 @@ public class ProjekcijeServlet extends HttpServlet{
 	    	obj.put("listaProjekcija", listaProjekcija);
 	    	return obj;
 	    }
-	/*
-	private JSONObject projekcijeZaDanasMetoda(HttpServletRequest request) {
-		JSONObject projekcijaObj = new JSONObject(); 
-		ArrayList<JSONObject> listaProjekcijaObj = new ArrayList<JSONObject>();
-		Film film = null; 
-		Sala sala = null; 
-		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date date = new Date();
-		String danasnjiDatum = df1.format(date);
-		ArrayList<Projekcija> obicnaListaProjekcija = ProjekcijeDAO.ucitajProjekcijuZaDanasnjiDatum(request, danasnjiDatum);
-		for(Projekcija obicnaProjekcija : obicnaListaProjekcija) {
-			try {
-				film = FilmDAO.getFilmObjectById(obicnaProjekcija.getFilmId()); 
-				sala = SalaDAO.getSalaObjectById(obicnaProjekcija.getSalaId());
-				JSONObject jsonProjekcija = new JSONObject(); 
-				if(film!=null && sala !=null) {
-					jsonProjekcija.put("idProjekcije", obicnaProjekcija.getId()); 
-					jsonProjekcija.put("idFilma", film.getId()); 
-					jsonProjekcija.put("nazivFilma", film.getNaziv()); 
-					String d = df2.format(obicnaProjekcija.getDatumPrikazivanje()); 
-					jsonProjekcija.put("terminProjekcije", d); 
-					jsonProjekcija.put("tipProjekcije", obicnaProjekcija.getTipProjekcije());
-					jsonProjekcija.put("idS", sala.getId()); 
-					jsonProjekcija.put("nazivSale", sala.getNaziv());
-					jsonProjekcija.put("cijenaK",obicnaProjekcija.getCijenaKarte()); 
-				}
-				listaProjekcijaObj.add(jsonProjekcija);
-			} catch(Exception e) {
-				System.out.println("Ne postoji projekcija u listi"); 
-			}
-		}
-		projekcijaObj.put("listaProjekcijaObj",listaProjekcijaObj); 
-		return projekcijaObj; 
-	}
-	*/
-	
 }
-	/*
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		PrintWriter out = response.getWriter(); 
-		String action = request.getParameter("action"); 
-		
-		if(action != null && request != null) {
-			switch(action) {
-			case "danasProjekcije": 
-				out.print(ucitajProjekcijeZaDanas(request));
-				break;
-			}
-		}
-	}
-
-	private JSONObject ucitajProjekcijeZaDanas(HttpServletRequest request) {
-    	JSONObject obj = new JSONObject();
-    	boolean status = false;
-    	ArrayList<JSONObject> listaProjekcija = new ArrayList<JSONObject>();
-    	
-    	Film film = null;
-    	Sala sala = null;
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date date = new Date();
-		String sredjenDatum = dateFormat.format(date);
-    	ArrayList<Projekcija> lista = ProjekcijeDAO.ucitajZaDatum(request,sredjenDatum);
-    	for (Projekcija projekcija : lista) {
-			try {
-				film = FilmDAO.getFilmObjectById(projekcija.getFilmId());
-				sala = SalaDAO.getSalaObjectById(projekcija.getSalaId());
-				JSONObject t_p = new JSONObject();
-				if(film!=null && sala!=null) {
-					t_p.put("id_projekcije", projekcija.getId());
-					t_p.put("id_filma", film.getId());
-					t_p.put("naziv_filma", film.getNaziv());
-					String datumProj = dateFormat1.format(projekcija.getDatumPrikazivanje());
-					t_p.put("terminProjekcije", datumProj);
-					t_p.put("tip_projekcije", projekcija.getTipProjekcije());
-					t_p.put("id_sale", sala.getId());
-					t_p.put("naziv_sale", sala.getNaziv());
-					t_p.put("cena", projekcija.getCijenaKarte());
-				}
-				listaProjekcija.add(t_p);
-				status = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-    	obj.put("status", status);
-    	obj.put("listaProjekcija", listaProjekcija);
-    	return obj;
-    }
-}
-	*/

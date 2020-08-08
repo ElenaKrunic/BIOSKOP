@@ -30,11 +30,12 @@ $(document).ready(function(){
 				//var btn = "";
 				//console.log(film); 
 				//console.log(localStorage);
-				if(localStorage['uloga'] == 'obicanKorisnik'){
-				var	btn =  "<span class='urediFilm' movieID='"+film.ID+"'></span>" 
+				btn = " "; 
+				if(localStorage['uloga'] == "Admin"){
+					btn =  "<span class='urediFilm' movieID='"+film.ID+"'></span>";
 					}
 				else {
-					var btn =  "<span class='detalji' movieID='"+film.ID+"'></span>";
+					 btn =  "<span class='detalji' movieID='"+film.ID+"'></span>";
 				}
 				
 				tr.innerHTML = "<td class='nazivFilma' filmID='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+btn+"</td>";
@@ -55,22 +56,16 @@ $(document).ready(function(){
 			});
 			
 			$(".urediFilm").on('click',function(){
-				var id = this.getAttribute("movieID"); 
+				var id = this.getAttribute('movieID'); 
 				if(id>0) {
-					window.location.href = "urediFilm.html?id" + id;  
+					window.location.href = "urediFilm.html?id=" + id;  
 				}
 			});
-/*			
+			
 			$(".obrisiFilm").on('click', function(){
 				var id = this.getAttribute("movieID"); 
 				window.location.href = "obrisiFilm.html?id" + id; 
 			});
-			
-			$(".dodajFilm").on('click',function(){
-				var id = this.getAttribute("movieID"); 
-				window.location.href = "dodajFilm.html?id" + id; 
-			}); 
-			*/
 		}
 	});
 	
@@ -129,20 +124,10 @@ $("#filterBtn").on("click",function(){
 					tr.setAttribute("filmID", movie.ID); 
 					var btn = ""; 
 					if(localStorage['uloga']=="Admin") {
-						var btnUrediFilm = document.createElement('button'); 
-						btnUrediFilm.innerText = "Uredi film"; 
-						btnUrediFilm.setAtrribute("filmID", res.movie.ID);
-						btnUrediFilm.setAttribute("ID", "urediFilmBtn"); 
-						btnUrediFilm.getElementById('filterBtn').appendChild(btnUrediFilm); 
+						
 					}
 					else {
 						btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
-
-						/*
-						btn = "<span class='urediFilm' movieID='"+movie.ID+"'></span>" +
-						"<span class='obrisiFilm' movieID='"+movie.ID+"'></span>" + 
-						"<span class='dodajFilm' movieID='"+movie.ID+"'></span>";
-						*/
 					}
 					
 					tr.innerHTML = "<td class='nazivFilma' filmID='"+movie.ID+"'>"+movie.Naziv+"</td><td>"+movie.Trajanje+"</td><td>"+movie.Zanrovi+"</td><td>"+movie.Godina_Proizvodnje+"</td><td>"+movie.Distributer+"</td><td>"+movie.Zemlja_Porekla+"</td><td>"+btn+"</td>";
@@ -162,22 +147,6 @@ $("#filterBtn").on("click",function(){
 						window.location.href = "Film.html?id" + id; 
 					}
 				});
-				/*
-				$(".urediFilm").on('click',function(){
-					var id = this.getAttribute("movieID"); 
-					window.location.href = "urediFilm.html?id" + id;  
-				});
-				
-				$(".obrisiFilm").on('click', function(){
-					var id = this.getAttribute("movieID"); 
-					window.location.href = "obrisiFilm.html?id" + id; 
-				});
-				
-				$(".dodajFilm").on('click',function(){
-					var id = this.getAttribute("movieID"); 
-					window.location.href = "dodajFilm.html?id" + id; 
-				});
-				*/ 
 			}
 		}
 	});
@@ -185,29 +154,6 @@ $("#filterBtn").on("click",function(){
 });
 });
 
-			//$(".editMovie").on('click',function(){
-				//window.location.href="dodajIzmeniFilm.html?id="+this.getAttribute('data-movieID');
-			//})
-			//$(".deleteMovie").on("click",function(){
-				//if(confirm("Da li ste sigurni da zelite da obrisete?")){
-				//	var params = {
-					//		action: "obrisiFilm",
-						//	filmID: this.getAttribute('data-movieID')
-						//}
-						// kontrola toka se račva na 2 grane
-				//	$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
-							// tek kada stigne odgovor izvršiće se ova anonimna funkcija
-					//		var odg = JSON.parse(data);
-						//	if(odg.status){
-							//	window.location.href="Filmovi.html";
-							//}
-							//else{
-								//alert("Greska prilikom brisanja!");
-								//pushNotification('red',"Greska prilikom brisanja");
-						//	}
-					//});
-				//}
-			//})
 
 
 //slice operator 

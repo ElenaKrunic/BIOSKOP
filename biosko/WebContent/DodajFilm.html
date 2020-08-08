@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>Dodavanje filma</title>
-<script src="js/jquery-3.1.1.js"></script>
-<script src="js/DodajFilm.js"></script> 
+<script src="./js/jquery-3.3.1.js"></script>
+<script src="js/DodajFilm.js"></script>
+<meta charset="UTF-8">
 </head>
 <body>
 
@@ -12,33 +12,34 @@
 	
 	<div id="dodajFilm">
     <div class="row">
-      <span>Naziv : </span> <span id="dodajNazivFilma"></span>
+      <span>Naziv : </span> <input id="dodajNazivFilma"></input>
     </div>
     <div class="row">
-      <span>Reziser : </span> <span id="dodajReziserFilma"></span>
+      <span>Reziser : </span> <input id="dodajReziserFilma"></input>
     </div>
     <div class="row">
-      <span>Glumci : </span> <span id="dodajGlumciFilma"></span>
+      <span>Glumci : </span> <input id="dodajGlumciFilma"></input>
     </div>
     <div class="row">
-      <span>Trajanje : </span> <span id="dodajTrajanje"></span>
+      <span>Trajanje : </span> <input id="dodajTrajanje"></input>
     </div>
     <div class="row">
-      <span>Zanrovi : </span> <span id="dodajZanrFilma"></span>
+      <span>Zanrovi : </span> <select id="dodajZanrFilma" multiple></select>
     </div>
     <div class="row">
-      <span>Distributer : </span> <span id="dodajDistributer"></span>
+      <span>Distributer : </span> <input id="dodajDistributer"></input>
     </div>
     <div class="row">
-      <span>Zemlja porijekla : </span> <span id="dodajZemljaPorijekla"></span>
+      <span>Zemlja porijekla : </span> <input id="dodajZemljaPorijekla"></input>
     </div>
     <div class="row">
-      <span>Godina proizvodnje : </span> <span id="dodajGodinaProizvodnje"></span>
+      <span>Godina proizvodnje : </span> <input id="dodajGodinaProizvodnje"></input>
     </div>
     <div class="row">
-    	<span>Opis : </span> <span id="dodajOpis"></span>
+    	<span>Opis : </span> <input id="dodajOpis"></input>
     </div>
-    <div class="row" id="dodajFilmBtn">
+    <div class="row">
+    <button type="button" id="dodajFilmBtnStranica"> Potvrdi </button>
     </div>
   </div>
 

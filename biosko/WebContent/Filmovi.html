@@ -5,6 +5,7 @@
 <title>Filmovi</title>
 	<script src="js/jquery-3.3.1.js"></script>
 	<script src="js/Filmovi.js"></script>
+	<script src="js/Sesija.js"></script>
 	<script src="./js/w3.js" charset="utf-8"></script>
 	<link rel="stylesheet" href="./css/filmovi.css">
 	<link rel="stylesheet" href="./css/urediDodajObrisiFilm.css">
@@ -22,6 +23,7 @@
   		<th> <input id="distributerFilter"/> </th>
   		<th> <input id="zemljaPorijeklaFilter"/> </th>
   		<th> <button id="filterBtn" class="confirmbtn">Filtriraj</button> </th>
+  		
   	</tr>
     <tr>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(1)')">Naziv</th>
@@ -31,7 +33,11 @@
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(5)')">Distributer</th>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja Porijekla</th>
     </tr>
+    
   </table>
+  <a href="DodajFilm.html">
+    <button id="dodajFilmBtn">Dodaj film</button>
+  </a>
 	
 	<!-- 
 		<table border="1" id="filmoviTabela">
