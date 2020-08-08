@@ -415,4 +415,57 @@ public class FilmDAO {
 		}
 		return false;
 	}
+
+
+public static boolean deleteMovie(String id) {
+	Connection conn = ConnectionManager.getConnection();
+	PreparedStatement prep = null;
+	try {
+		String query = "UPDATE Filmovi SET Status='Deleted' WHERE ID = ?";
+
+		prep = conn.prepareStatement(query);
+		prep.setString(1, id);
+		
+		prep.executeUpdate(); 
+
+	} 
+	catch(Exception e) {
+		System.out.println("Nije se obrisao film"); 
+	}
+	finally {
+		try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+		
+	}
+	return false;
+	
 }
+}
+	
+	/*
+
+	public static boolean deleteMovie(String filmId) {
+		// TODO Auto-generated method stub
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		
+		try {
+			String query = "UPDATE Filmovi SET Status='Deleted' WHERE ID = ?";
+			
+			prep  = conn.prepareStatement(query); 
+			prep.setString(1, filmId);
+			prep.executeUpdate();
+			
+			System.out.println("Izvrseno brisanje filma"); 
+			
+		} catch(Exception e) {
+			System.out.println("Nije se obrisao"); 
+		}
+		
+		 finally {
+			 try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}  
+		 }
+		return false;
+	}
+}*/

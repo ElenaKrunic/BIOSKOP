@@ -102,4 +102,22 @@ $(document).ready(function(){
 			}
 		}); 
 	});
+	
+	$("#obrisiFilmBtn").on('click',function(){
+		if(confirm("Da li zelite da obrisete film? ")) {
+			var params = {
+					action : "deleteMovie",
+					filmId : idF
+			}
+			
+			console.log("Id koji se salje servletu " + idF); 
+			
+			$.post('FilmoviServlet',params,function(data){
+				var response = JSON.parse(data); 
+				if(response.status) {
+					window.location.href = "Filmovi.html"; 
+				} 
+			});
+		}
+	});
 });

@@ -62,15 +62,29 @@ public class FilmoviServlet extends HttpServlet {
 			out.print(addMovie(request)); 
 			break;
 			
+		case "deleteMovie": 
+			out.print(deleteMovie(filmId));
+			break;
+			
 		default: break;
 		}
 	}
+
+	private JSONObject deleteMovie(String filmId) {
+		boolean status = FilmDAO.deleteMovie(filmId);
+    	JSONObject response = new JSONObject();
+
+	    response.put("status", status);
+	    
+	    return response;
+	}
+
 
 	private JSONObject addMovie(HttpServletRequest request) {
     	JSONObject response = new JSONObject();
 		boolean status = FilmDAO.addMovie(request);
     	response.put("status", status);
-    	System.out.println("Film dodat " + status); 
+    	//System.out.println("Film dodat " + status); 
 	    return response;
 	}
 

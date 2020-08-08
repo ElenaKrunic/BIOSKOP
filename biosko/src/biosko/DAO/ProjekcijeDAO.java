@@ -37,6 +37,8 @@ public class ProjekcijeDAO {
 				Projekcija projekcija = getProjekcijaById(Integer.valueOf(id)); 
 				listaProjekcija.add(projekcija); 
 			}
+			
+			System.out.println("Lista projekcija za danas su " + listaProjekcija); 
 		} catch(Exception e) {
 			System.out.println("Ne postoje projekcije za danasnji dan"); 
 		}

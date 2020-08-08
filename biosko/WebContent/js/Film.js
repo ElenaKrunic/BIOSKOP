@@ -29,11 +29,11 @@ function ucitajFilm(idFILMA) {
 	$.post('FilmoviServlet', params, function(data){
 		var response = JSON.parse(data);
 		
-		console.log("response sa servleta " + response); 
+		//console.log("response sa servleta " + response); 
 		
 		if(response.status) {
 			var pojedinacanFilm  = response.film; 
-			console.log("var jedan film " + pojedinacanFilm ); 
+			//console.log("var jedan film " + pojedinacanFilm ); 
 			$("#nazivFilma3").text(pojedinacanFilm.Naziv);
 			$("#reziserFilma3").text(pojedinacanFilm.Reziser);
 			$("#glumciFilma3").text(pojedinacanFilm.Glumci.join(","));

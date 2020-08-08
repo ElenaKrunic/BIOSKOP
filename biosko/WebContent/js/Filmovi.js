@@ -112,7 +112,7 @@ $("#filterBtn").on("click",function(){
 	}
 	
 	$.post('FilmoviServlet', params, function(data){
-		console.log("Film po odabranom kriterijumu: " + data); 
+		//console.log("Film po odabranom kriterijumu: " + data); 
 		var res = JSON.parse(data); 
 		if(res.status) {
 			if(res.odredjeniFilmovi.length>0) {
