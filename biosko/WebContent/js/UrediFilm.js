@@ -92,15 +92,13 @@ $(document).ready(function(){
 				opis:opisF
 		}
 		
-		$.post('FilmoviServlet', params,function(data){
+		
+		$.post('FilmoviServlet',params,function(data){
 			var response = JSON.parse(data); 
 			if(response.status) {
 				window.location.href = "Filmovi.html"; 
 			} 
-			else {
-				alert("Uspjesno ste izmijenili Film!"); 
-			}
-		}); 
+		});
 	});
 	
 	$("#obrisiFilmBtn").on('click',function(){

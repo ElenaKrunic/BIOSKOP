@@ -95,14 +95,13 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject filtrirajFilm(HttpServletRequest request) {
-		JSONObject response = new JSONObject(); 
 		String naziv = request.getParameter("naziv");
     	int trajanje = 0;
     	try {
     		trajanje = Integer.valueOf(request.getParameter("trajanje"));
     	}
     	catch(Exception e) {
-    		
+
     	}
     	String zanrovi = request.getParameter("zanr");
     	String opis = request.getParameter("opis");
@@ -114,13 +113,22 @@ public class FilmoviServlet extends HttpServlet {
     	Boolean status = false;
     	ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
     	try {
-    		filmovi = FilmDAO.getMovies(naziv,trajanje,zanrovi,opis,glumci,reziser,godina,distributer,zemlja);    		
+    		//String naziv1,int trajanje1,String zanrovi1,String opis1,String glumci1,String reziser1,String godina1,String distributer1,String zemlja1
+    		filmovi = FilmDAO.getMovies(naziv,trajanje,zanrovi,opis,glumci,reziser,godina,distributer,zemlja);
+    		if(filmovi.size()>0) {
+    			status = true;
+    		}
+
     	}
     	catch (Exception e) {
+    		System.out.println("Puklo je ovde na ucitaj sve filmove.");
     	}
-    	
-    	response.put("odredjeniFilmovi", filmovi);
-	    return response;
+    	JSONObject odg = new JSONObject();
+
+	    odg.put("status", status);
+	    odg.put("odredjeniFilmovi", filmovi);
+
+	    return odg;
 	}
 
 	private JSONObject ucitajJedanFilm(String id) {

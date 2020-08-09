@@ -112,7 +112,7 @@ $("#filterBtn").on("click",function(){
 	}
 	
 	$.post('FilmoviServlet', params, function(data){
-		//console.log("Film po odabranom kriterijumu: " + data); 
+		console.log("Film po odabranom kriterijumu: " + data); 
 		var res = JSON.parse(data); 
 		if(res.status) {
 			if(res.odredjeniFilmovi.length>0) {
@@ -122,12 +122,14 @@ $("#filterBtn").on("click",function(){
 					var table = document.getElementById('tabelaFilm'); 
 					var tr = document.createElement('tr');
 					tr.setAttribute("filmID", movie.ID); 
-					var btn = ""; 
+					
 					if(localStorage['uloga']=="Admin") {
-						
+						var btn = "<span class='urediFilm' movieID='"+movie.ID+"'></span>" +
+								"<span class='obrisiFilm' movieID='"+movie.ID+"'></span>" + 
+								"<span class='dodajFilm' movieID='"+movie.ID+"'></span>";
 					}
 					else {
-						btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
+						var btn =  "<span class='detalji' movieID='"+movie.ID+"'></span>";
 					}
 					
 					tr.innerHTML = "<td class='nazivFilma' filmID='"+movie.ID+"'>"+movie.Naziv+"</td><td>"+movie.Trajanje+"</td><td>"+movie.Zanrovi+"</td><td>"+movie.Godina_Proizvodnje+"</td><td>"+movie.Distributer+"</td><td>"+movie.Zemlja_Porekla+"</td><td>"+btn+"</td>";
@@ -147,6 +149,21 @@ $("#filterBtn").on("click",function(){
 						window.location.href = "Film.html?id" + id; 
 					}
 				});
+				
+				$(".urediFilm").on('click',function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "urediFilm.html?id" + id;  
+				});
+				
+				$(".obrisiFilm").on('click', function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "obrisiFilm.html?id" + id; 
+				});
+				
+				$(".dodajFilm").on('click',function(){
+					var id = this.getAttribute("movieID"); 
+					window.location.href = "dodajFilm.html?id" + id; 
+				}); 
 			}
 		}
 	});

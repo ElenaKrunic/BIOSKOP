@@ -48,15 +48,13 @@ $(document).ready(function(){
 				'opisFilma' : $("#dodajOpis").val() 
 		}
 		//console.log("Pokupljeni parametri " + params); 
-		$.post('FilmoviServlet',params, function(data){
-			
+		
+		$.post('FilmoviServlet',params,function(data){
 			var response = JSON.parse(data); 
-			if(response.status ) {
-				console.log(status);
-			alert("Uspjesno ste dodali novi film");
-			window.location.href = "Filmovi.html"; 
+			if(response.status) {
+				window.location.href = "Filmovi.html"; 
 			} 
-		}); 
+		});
 	}); 
 });
 
