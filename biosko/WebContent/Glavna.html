@@ -13,28 +13,27 @@
 
 <h1>Projekcije</h1>
 
-<table id="tabelaProjekcije" border="1">
-<tr>
-	<th> <input id="filterFilm"/></th>
-<!-- <th> <input id="pocetakProjekcije" type="datetime-local" /> </th>
-	<th> <input type="datetime-local" id="krajProjekcije"/></th> -->
-	<th> <input id="terminProjekcije" type="datetime-local"/> </th>	
-	<th> <select id="filterSala"></select> </th>
-	<th> <select id="filterTipProjekcije"></select> </th>
-	<th> <input id="cijena" type="number"/></th>
-	<th> <button id="filterProjekcijaBtn" class = "confirmbtn">Filtriraj</button></th>
-</tr>
+  <div id="filtriranjeProjekcije">
+      <div>Film : <select id="filterFilm"> <option value="" idFilma=""></option> </select> </div>
+      <div>Pocetak od : <input type="datetime-local" id="terminProjekcijeStart" value="2000-01-01M00:00"></div>
+      <div>Pocetak do : <input type="datetime-local" id="terminProjekcijeEnd" value="2022-01-01M00:00"></div>
+      <div>Sala : <select id="filterSala"> <option value="" idSale=""></option></select></div>
+      <div>Tip projekcije : <select id="filterTipProjekcije"> <option value="" tipovi='[{"ID":null,"Naziv":""}]'></option></select></div>
+      <div>Cijena karte od : <input type="number" value="0" id="cijenaNajmanja"> </div>
+      <div>Cijena karte do : <input type="number" value="5000" id="cijenaNajveca"> </div>
+      <div > <button type="button" name="button"  id="filterProjekcijaBtn">Filtriraj</button> </div>
+    </div>
 
- <tr>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(1)')">Film</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(2)')">Termin</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(3)')">Sala</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(4)')">Tip projekcije</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(5)')">Cijena</th>
+    <table id="tabelaProjekcije" border="1">
+      <tr>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(1)')">Film</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(2)')">Termin</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(3)')">Sala</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(4)')">Tip Projekcije</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(5)')">Cijena</th>
         <th></th>
       </tr>
-</table>
-
+    </table>
 <!-- 
 
 <div id="filterProjekcije">

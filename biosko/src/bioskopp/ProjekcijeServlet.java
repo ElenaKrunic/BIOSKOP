@@ -2,6 +2,7 @@ package bioskopp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ProjekcijeServlet extends HttpServlet{
 				ispis.print(ucitajJednuProjekciju(request)); 
 				break;
 				
-			case "filterProjekcije" : 
+			case "filtrirajProjekciju" : 
 				ispis.print(filtriranjeProjekcije(request));
 				break;
 				
@@ -49,10 +50,33 @@ public class ProjekcijeServlet extends HttpServlet{
 			case "ucitajSale" :
 				ispis.print(ucitajSale());
 				break; 
+				
+			case "ucitajFilmProjekcija":
+				ispis.print(ucitajFilm(request));
+				break;
 			}
 		}
 	}
 	
+		private JSONObject ucitajFilm(HttpServletRequest request)  {
+			 JSONObject odg = new JSONObject();
+			   boolean status = false;
+			   String message = "Unexpected error";
+			   
+			   try {
+				   ArrayList<JSONObject> filmovi = FilmDAO.getMovies("", 0, "", "", "", "", "", "", "");
+				   odg.put("filmovi", filmovi);
+				   status = true;
+				   message = "Ucitano";
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+			   
+			   odg.put("status", status);
+			   odg.put("message", message);
+			   return odg;
+	}
+
 		private JSONObject ucitajSale() {
 		JSONObject response = new JSONObject(); 
 		ArrayList<String> listaSala = SalaDAO.getSale(); 
@@ -81,6 +105,21 @@ public class ProjekcijeServlet extends HttpServlet{
 	}
 
 		private JSONObject filtriranjeProjekcije(HttpServletRequest request)  {
+			
+			String naziv = request.getParameter("nazivFilma");
+			//kako da rijesim kraj termina 
+			String termin = request.getParameter("termin");
+			//za ovo mi tebaju id 
+			String sala = request.getParameter("sala"); 
+			String tip = request.getParameter("tip"); 
+			int cijena = 322;
+			try {
+				 cijena = Integer.valueOf(request.getParameter("cijena"));
+			} catch(Exception e) {
+				System.out.println("Greska kod cijene projekcije"); 
+			}
+			return null; 
+			/*
 			JSONObject response = new JSONObject(); 
 			
 	    	ArrayList<JSONObject> lista = new ArrayList<JSONObject>();
@@ -132,6 +171,7 @@ public class ProjekcijeServlet extends HttpServlet{
 
     			
     			return response;
+    			*/
 		}
 	
 		private JSONObject ucitajJednuProjekciju(HttpServletRequest request) {

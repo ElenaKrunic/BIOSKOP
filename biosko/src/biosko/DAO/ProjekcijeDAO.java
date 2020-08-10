@@ -219,6 +219,12 @@ public class ProjekcijeDAO {
 		return tipoviProjekcija;
 	}
 
+	public static ArrayList<JSONObject> getProjekcije2(String naziv, String termin, String sala, String tip,
+			int cijena) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/*
 	public static ArrayList<Projekcija> ucitajZaDanasnjiDatum(HttpServletRequest request, String danasnjiDatum) {
 		ArrayList<Projekcija> lista = new ArrayList<Projekcija>(); 

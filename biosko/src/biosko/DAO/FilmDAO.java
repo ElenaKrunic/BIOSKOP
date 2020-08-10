@@ -72,7 +72,7 @@ public class FilmDAO {
 				} 
 				
 				Film film = new Film(ID, Naziv, Reziser, Glumci, zanrovi, Trajanje, Distributer, ZemljaPorijekla, godinaP, Opis);
-				System.out.println("Obican film iz FilmDAO je " + film); 
+				//System.out.println("Obican film iz FilmDAO je " + film); 
 				JSONObject jsonFilm = new JSONObject(); 
 				jsonFilm.put("ID", film.getId()); 
 				jsonFilm.put("Naziv", film.getNaziv()); 
@@ -94,7 +94,7 @@ public class FilmDAO {
 				jsonFilm.put("Godina_Proizvodnje", film.getGodinaProizvodnje()); 
 				jsonFilm.put("Opis",film.getOpis()); 
 				
-				System.out.println("Json film iz FilmDAO je " + jsonFilm); 
+				//System.out.println("Json film iz FilmDAO je " + jsonFilm); 
 				
 				if(status.equalsIgnoreCase("active")) {
 					filmovi.add(jsonFilm);

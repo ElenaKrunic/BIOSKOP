@@ -3,7 +3,12 @@ package biosko.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.xml.ws.Response;
+
+import org.json.simple.JSONObject;
 
 import bioskop.model.Sala;
 import bioskop.model.TipProjekcije;
@@ -129,5 +134,85 @@ public class SalaDAO {
 		}
 		
 		return sale;
+	}
+
+	public static ArrayList<JSONObject> getSaleProjekcije() {
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null;
+		
+		ArrayList<JSONObject> listaSala = new ArrayList<JSONObject>();
+		
+		try {
+			String query = "SELECT ID,Naziv,ID_Tipova_Projekcija FROM Sale WHERE 1";
+
+			prep = conn.prepareStatement(query); 
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				int id = Integer.valueOf(rs.getString(index++));
+				String naziv = rs.getString(index++);
+				String[] tipoviProjekcijaID = rs.getString(index++).split(";");
+				ArrayList<TipProjekcije> listaProjekcija = new ArrayList<TipProjekcije>();
+				for (String string : tipoviProjekcijaID) {
+					TipProjekcije tip = TipProjekcijeDAO.getTipProjekcijeObjectById(Integer.valueOf(string));
+					if(tip!=null) {
+						listaProjekcija.add(tip);
+					}
+				}
+				
+				Sala sala = new Sala(id, naziv, listaProjekcija);
+				JSONObject odg = new JSONObject();
+				odg.put("ID", sala.getId());
+				odg.put("Naziv",sala.getNaziv());
+				odg.put("MaksimumSedista",brojMaksimumSedistaSale(String.valueOf(sala.getId())));
+				
+				ArrayList<JSONObject> tipovi = new ArrayList<JSONObject>();
+				for (TipProjekcije tipProjekacije : sala.getTipProjekcije()){
+					JSONObject t = new JSONObject();
+					t.put("ID", tipProjekacije.getId());
+					t.put("Naziv",tipProjekacije.getNaziv());
+					tipovi.add(t);
+				}
+				odg.put("listaTipova",tipovi);
+				listaSala.add(odg);
+			}
+		} catch(Exception e) {
+			System.out.println("Nije se ucitala sala u projekciju");
+		}
+		
+		 finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+			}
+			
+		return null;
+	}
+	public static int brojMaksimumSedistaSale(String idSale) throws SQLException{
+		int broj = 0;
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Sala sala = null;
+		try {
+			String query = "SELECT * FROM Sedista WHERE ID_Sale = ?";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, String.valueOf(idSale));
+
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				broj++;
+			}
+
+		} finally {
+			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+		}
+
+		return broj;
 	}
 }

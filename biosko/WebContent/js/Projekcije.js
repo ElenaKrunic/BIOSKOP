@@ -81,6 +81,23 @@ $(document).ready(function(){
 	});
 	
 	var params = {
+			action : 'ucitajFilmProjekcija'
+	}
+	
+$.post('ProjekcijeServlet',params,function(data){
+	var response = JSON.parse(data); 
+	if(response.status) {
+		for(i=0; i<response.filmovi.length;i++){
+			var film = response.filmovi[i];
+			var o = document.createElement('option'); 
+			o.setAttribute('idFilma', film.ID); 
+			o.innerText = film.Naziv; 
+			document.getElementById('filterFilm').appendChild(o); 
+		}
+	}
+});
+	
+	var params = {
 			action : "ucitajTipoveProjekcija"
 	}
 	
@@ -111,6 +128,37 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	
+$("#filterProjekcijaBtn").on("click",function(){
+	
+	var idProjekcije = $("#filterFilm :selected").attr('idFilma'); 
+	var terminProjekcijePocetak = $("#terminProjekcijeStart").val().split("M").join(" ");
+	var terminProjekcijeKraj = $("#terminProjekcijeEnd").val().split("M").join(" ");
+	var idSala = $("#filterSala :selected").attr("idSale"); 
+	var tipProjekcije = $("#filterTipProjekcije").val(); 
+	var cijenaMin = $("#cijenaNajmanja").val(); 
+	var cijenaMax = $("#cijenaNajveca").val(); 
+	
+	
+	//da li za termin i sala ?? 
+	
+	var params = {
+			action : "filtrirajProjekciju", 
+			'filmId' : idProjekcije,
+			'pocetakProjekcije':terminProjekcijePocetak, 
+			'krajProjekcije':terminProjekcijeKraj, 
+			'idSala': idSala, 
+			'tipProjekcije':tipProjekcije,
+			'cijenaMin' : cijenaMin, 
+			'cijenaMax' : cijenaMax
+	}
+	
+	$.post("ProjekcijeServlet",params,function(data){
+		console.log('Parametri se poslali na servlet'); 
+	}); 
+});
+	
 });
 		
 

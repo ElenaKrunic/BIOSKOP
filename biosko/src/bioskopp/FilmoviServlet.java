@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 
 import biosko.DAO.FilmDAO;
 import biosko.DAO.KorisnikDAO;
+import biosko.DAO.SalaDAO;
 import bioskop.model.Film;
 import bioskop.model.Korisnik;
 
