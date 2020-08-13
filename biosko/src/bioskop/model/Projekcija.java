@@ -28,6 +28,10 @@ public class Projekcija {
 		this.maxKarata = maxKarata; 
 		this.prodanoKarata = prodanoKarata; 
 	}
+	public Projekcija(int id2, Integer valueOf, String naziv, Integer valueOf2, String pocetakProjekcije,
+			Double valueOf3, String administrator, String status2, int brojMaksimumSedistaSale, int prodanoKarata2) {
+		// TODO Auto-generated constructor stub
+	}
 	public int getId() {
 		return id;
 	}

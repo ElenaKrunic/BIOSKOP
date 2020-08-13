@@ -9,7 +9,7 @@ import bioskop.model.TipProjekcije;
 
 public class TipProjekcijeDAO {
 
-	public static TipProjekcije getTipProjekcijeObjectById(Integer id) {
+	public static TipProjekcije getTipProjekcijeObjectById(int id) {
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
 		ResultSet rs = null; 

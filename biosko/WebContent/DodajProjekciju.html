@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dodavanje projekcije</title>
+<script src="./js/jquery-3.3.1.js"></script>
+<script src="js/DodajProjekciju.js"></script>
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h3>Dodavanje projekcije</h3>
+	
+	<div id="dodajProjekciju">
+    <div class="row">
+      <span>Naziv filma : </span> <select id="filmID"></select>
+    </div>
+    <div class="row">
+      <span>Sala : </span> <select id="dodajSaluProjekcije"></select>
+    </div>
+    <div class="row">
+      <span>Tip projekcije : </span> <select id="dodajTipProjekcijeProjekcije"></select>
+    </div>
+    <div class="row">
+      <span>Pocetak : </span> <input id="pocetakProjekcije" type="datetime-local"></input>
+    </div>
+    <div class="row">
+      <span> Cijena karte : </span> <input id="cijenaKarteProjekcije" type="number"></input>
+    </div>
+    <div class="row">
+    <button type="button" id="btndodajprojekciju"> Potvrdi </button>
+    </div>
+  </div>
+	<p><a href="Filmovi.html">Povratak</a></p>
+	<p><a href="" id="logoutLink">Odjava</a></p>
+	
+</body>
+</html>

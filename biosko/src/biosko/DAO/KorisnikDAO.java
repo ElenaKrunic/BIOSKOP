@@ -258,7 +258,6 @@ public class KorisnikDAO {
 		public static JSONObject login(HttpServletRequest request) {
 			//inicijalizacija 
 			JSONObject response = new JSONObject(); 
-			String poruka = ""; 
 			Korisnik korisnik = null; 
 			boolean status = false;
 			JSONObject jsonKorisnik = null; 
@@ -304,10 +303,8 @@ public class KorisnikDAO {
 					request.getSession().setAttribute("status", korisnik.getStatus());
 					request.getSession().setAttribute("ID", String.valueOf(korisnik.getID()));
 					
-					poruka = "Uspjesno ste se ulogovali!! Cestitamo!"; 
 				}
 				else { 
-					poruka = "Logovanje nije uspjelo!"; 
 				}
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -323,7 +320,6 @@ public class KorisnikDAO {
 			//response.put("korisnik",korisnik);
 			response.put("status", status); 
 			response.put("jsonKorisnik",jsonKorisnik);
-			response.put("poruka",poruka); 
 			
 			return response; 		
 		}

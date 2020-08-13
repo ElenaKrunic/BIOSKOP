@@ -188,7 +188,7 @@ public class SalaDAO {
 				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
 			}
 			
-		return null;
+		return listaSala;
 	}
 	public static int brojMaksimumSedistaSale(String idSale) throws SQLException{
 		int broj = 0;
@@ -214,5 +214,57 @@ public class SalaDAO {
 		}
 
 		return broj;
+	}
+
+	public static ArrayList<JSONObject> getSaleSaProjekcijama() {
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		ArrayList<JSONObject> listaSala = new ArrayList<JSONObject>(); 
+		try {
+			String query = "SELECT ID,Naziv,ID_Tipova_Projekcija FROM Sale WHERE 1";
+
+			prep = conn.prepareStatement(query); 
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				int id = Integer.valueOf(rs.getString(index++)); 
+				String naziv = rs.getString(index++); 
+				String[] tipoviProjekcija_id = rs.getString(index++).split(";"); 
+				
+				ArrayList<TipProjekcije> listaProjekcija = new ArrayList<TipProjekcije>(); 
+				for(String string : tipoviProjekcija_id) {
+					TipProjekcije tip = TipProjekcijeDAO.getTipProjekcijeObjectById(Integer.valueOf(string)); 
+					listaProjekcija.add(tip); 
+				}
+				Sala sala = new Sala(id,naziv,listaProjekcija); 
+				JSONObject response = new JSONObject(); 
+				response.put("ID", sala.getId()); 
+				response.put("Naziv", sala.getNaziv()); 
+				
+				
+				ArrayList<JSONObject> tipovi = new ArrayList<JSONObject>(); 
+				for(TipProjekcije tipProjekcije : sala.getTipProjekcije()) {
+					JSONObject tip = new JSONObject(); 
+					tip.put("ID", tipProjekcije.getId()); 
+					tip.put("Naziv", tipProjekcije.getNaziv()); 
+					tipovi.add(tip); 
+				}
+				response.put("listaTipova", tipovi); 
+				listaSala.add(response); 
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako s
+		}
+		
+		return listaSala;
 	}
 }

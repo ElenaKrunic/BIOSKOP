@@ -77,8 +77,7 @@ public class KorisnikServlet extends HttpServlet {
 	}
 
 	private JSONObject loginUser(HttpServletRequest request) {
-		JSONObject response = new JSONObject(); 
-		response = KorisnikDAO.login(request);
+		JSONObject response = KorisnikDAO.login(request); 
 		return response;
 	}
 
