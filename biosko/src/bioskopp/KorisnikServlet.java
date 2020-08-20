@@ -79,10 +79,20 @@ public class KorisnikServlet extends HttpServlet {
 			case "sacuvajIzmjene" : 
 				out.print(sacuvajIzmjene(request));
 				break;
+				
+			case "ucitajKorisnike":
+				out.print(ucitajKorisnike(request));
+				break;
 			}
 		}
 	}
 	
+	private JSONObject ucitajKorisnike(HttpServletRequest request) {
+		JSONObject response = new JSONObject(); 
+		response = KorisnikDAO.getAllUsers("","",""); 
+		return response;
+	}
+
 	private JSONObject sacuvajIzmjene(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		String id = request.getParameter("idKorisnik"); 

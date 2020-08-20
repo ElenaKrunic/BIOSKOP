@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin profil</title>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/AdminProfil.js"></script>
+<script src="js/Sesija.js"></script>
+</head>
+<body>
+
+<table id="sviKorisnici" border="1">
+<tr>
+	<th> <input id="imeKorisnika"/></th>
+	<th></th>
+	<th> <select id="uloge">
+		<option value="obicanKorisnik">
+			<option value="Admin">Admin</option>
+			<option value="obicanKorisnik">Obican korisnik </option>
+		</select>
+	 </th>
+  		<th> <button id="filtrirajKorisnike" >Pretrazi</button> </th>
+</tr>
+
+ <tr>
+      <th onclick="w3.sortHTML('#sviKorisnici','.item', 'td:nth-child(1)')">Korisnicko ime</th>
+      <th onclick="w3.sortHTML('#sviKorisnici','.item', 'td:nth-child(2)')">Datum registracije</th>
+      <th onclick="w3.sortHTML('#sviKorisnici','.item', 'td:nth-child(3)')">Uloga</th>
+    </tr>
+</table>
+</body>
+</html>

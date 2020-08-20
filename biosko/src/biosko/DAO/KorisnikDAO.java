@@ -516,5 +516,74 @@ public class KorisnikDAO {
 			}
 			
 			return false;
+		}
+
+		public static JSONObject getAllUsers(String korisnickoIme, String tip, String datum) {
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			ResultSet rs = null; 
+			
+			ArrayList<JSONObject> listaKorisnika = new ArrayList<JSONObject>();
+			JSONObject response = new JSONObject(); 
+			boolean status = false;
+			try {
+				String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users"
+						+ " WHERE Username LIKE ? AND DatumRegistracije LIKE ? AND Uloga LIKE ?";
+				
+				prep = conn.prepareStatement(query); 
+				
+				prep.setString(1,"%" +  korisnickoIme + "%");
+				prep.setString(2, "%"+tip+"%");
+				prep.setString(3,"%"+ datum+"%");
+				
+				rs=prep.executeQuery(); 
+				
+				while(rs.next()) {
+					
+					int index = 1; 
+					status = true;
+					String ID = rs.getString(index++);
+					String Username = rs.getString(index++); 
+					String Password = rs.getString(index++); 
+					String Datum = rs.getString(index++); 
+					String Uloga = rs.getString(index++); 
+					String Status = rs.getString(index++); 
+					System.out.println("Status korisnika u DAO sloju je " + Status); 
+					
+					//date format ima vrijednost yyyy mm dd 
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					//pravim objekat datum i dodjeljujem mu format 
+					//format ima obicnu formu i on forsira Datum objekat iz rs 
+					Date d = format.parse(Datum);
+					
+					//sve ove vrijednosti dodjeljujemo novom korisniku kojeg sam gore inicijalizovala 
+					Korisnik korisnik = new Korisnik(ID, Username,Password,bioskop.model.Uloga.valueOf(Uloga),d,Status); 
+					JSONObject jsonKorisnik = new JSONObject(); 
+					
+					jsonKorisnik.put("ID",korisnik.getID());
+					jsonKorisnik.put("Username",korisnik.getKorisnickoIme());
+					jsonKorisnik.put("Password",korisnik.getLozinka());
+					jsonKorisnik.put("Datum",format.format(korisnik.getDatumReg()));
+					jsonKorisnik.put("Uloga",korisnik.getUloga().toString());
+					jsonKorisnik.put("Status",korisnik.getStatus());
+					
+					listaKorisnika.add(jsonKorisnik);
+					
+				}
+				
+				response.put("status",status); 
+				response.put("listaKorisnikaSvi", listaKorisnika);
+			} catch(Exception e) {
+				e.printStackTrace(); 
+			}
+			
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			
+			return response;
 		} 
 }
