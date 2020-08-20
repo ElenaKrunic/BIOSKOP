@@ -133,7 +133,6 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject ucitajJedanFilm(String id) {
-		// TODO Auto-generated method stub
 		JSONObject response = new JSONObject(); 
 		JSONObject film = null; 
 		boolean status = false; 

@@ -59,10 +59,18 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 				document.getElementById('prikazProjekcijeBtn4').appendChild(btn); 
 			}
 			
+			if(localStorage['uloga'] == "obicanKorisnik" || "Admin"){
+				var btn = document.createElement('button'); 
+				btn.innerText = 'Kupi kartu'; 
+				btn.setAttribute('idProjekcije',id); 
+				btn.setAttribute('ID', 'kupiKartuDugme'); 
+				document.getElementById('prikazProjekcijeBtn4').appendChild(btn);	
+			}
 		}
-		
-		
+		$("#kupiKartuDugme").on('click',function(data){
+			//var id = this.getAttribute('idProjekcije');
+			window.location.href="KupiKartu.html?id=" + this.getAttribute("idProjekcije"); 
+		});
 	}); 
 	
-
 });

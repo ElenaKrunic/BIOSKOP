@@ -30,6 +30,9 @@ public class Sala {
 		this.naziv = naziv;
 		this.tipProjekcije = tipProjekcije;
 	}
+	public Sala() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	

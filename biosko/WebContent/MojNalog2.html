@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Moj nalog</title>
+<script src="./js/jquery-3.3.1.js"></script>
+<script src="js/MojNalog.js"></script>
+<script src="js/Sesija.js"></script>
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h3>Moj profil</h3>
+
+<div id="podaciOmomProfilu">
+	<div>Korisnicko ime: <span id="mojProfilIme"></span> </div>
+	<div>Trenutna lozinka: <input id="mojProfilSifra" type="password"> </div>
+	<div>Datum registracije:  <span id="mojProfilDatumReg"></span>  </div>
+	<div>Uloga: <select id="mojProfilUloga"> 
+	<option value="obicanKorisnik">Obican korisnik</option>
+	<option value="Admin">admin </option>
+	</select>
+	 </div>
+	   <p>Status : <span id="statusProfil"></span> </p>
+	 <div id="btnsNalog">
+	 	<button type="button" id="sacuvajPromjene"> Sacuvaj promjene</button>
+ 	 </div>
+</div>
+
+<p>Karta kupljena za: </p>
+<div>
+  <table id="karteTable" border="1">
+    <th>Film</th>
+    <th>Sjediste</th>
+    <th>Termin</th>
+    <th></th>
+  </table>
+</div>
+
+<p>
+<a href="Filmovi.html"> Prikaz svih filmova </a><br/>
+<a href="Glavna.html">Prikaz aktuelnih projekcija</a> <br>
+<a href="" id="logoutLink">Odjava</a>
+
+</p>
+
+
+</body>
+</html>

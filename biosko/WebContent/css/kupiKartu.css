@@ -1,0 +1,15 @@
+.sjedisteDiv{
+    background-color: grey;
+    margin: 20px;
+    font-size: 20px;
+    margin: 0 auto;
+    padding:4px;
+    cursor:pointer
+}
+
+#sjedista{
+width: 400px;
+text-align: center;
+display:flex;
+flex-wrap:wrap;
+}

@@ -97,7 +97,7 @@
     <servlet-name>FilmoviServlet</servlet-name>
     <url-pattern>/FilmoviServlet</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>ProjekcijeServlet</servlet-name>
     <servlet-class>bioskopp.ProjekcijeServlet</servlet-class>
   </servlet>
@@ -112,5 +112,15 @@
   <servlet-mapping>
     <servlet-name>MojNalogServlet</servlet-name>
     <url-pattern>/MojNalogServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>KarteServlet</display-name>
+    <servlet-name>KarteServlet</servlet-name>
+    <servlet-class>bioskopp.KarteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KarteServlet</servlet-name>
+    <url-pattern>/KarteServlet</url-pattern>
   </servlet-mapping>
 </web-app>

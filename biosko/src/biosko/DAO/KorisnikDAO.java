@@ -372,4 +372,149 @@ public class KorisnikDAO {
 			}
 			return ulogovan; 
 		}
+
+		public static JSONObject ucitajKorisnikObjectById(String id) {
+			JSONObject response = new JSONObject();
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			ResultSet rs = null; 
+			
+			JSONObject k = null; 
+			
+			boolean status = false; 
+			
+			try {
+				String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users"	+ " WHERE ID = ?";
+				
+				prep = conn.prepareStatement(query); 
+				prep.setString(1, id);
+				rs = prep.executeQuery();
+				
+				if(rs.next()) {
+					int index = 1; 
+					status = true;
+					String ID = rs.getString(index++);
+					String Username = rs.getString(index++); 
+					String Password = rs.getString(index++); 
+					String Datum = rs.getString(index++); 
+					String Uloga = rs.getString(index++); 
+					String Status = rs.getString(index++); 
+					System.out.println("Status korisnika u DAO sloju je " + Status); 
+					
+					//date format ima vrijednost yyyy mm dd 
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					//pravim objekat datum i dodjeljujem mu format 
+					//format ima obicnu formu i on forsira Datum objekat iz rs 
+					Date d = format.parse(Datum);
+					
+					//sve ove vrijednosti dodjeljujemo novom korisniku kojeg sam gore inicijalizovala 
+					Korisnik korisnik = new Korisnik(ID, Username,Password,bioskop.model.Uloga.valueOf(Uloga),d,Status); 
+					JSONObject jsonKorisnik = new JSONObject(); 
+					
+					jsonKorisnik.put("ID",korisnik.getID());
+					jsonKorisnik.put("Username",korisnik.getKorisnickoIme());
+					jsonKorisnik.put("Password",korisnik.getLozinka());
+					jsonKorisnik.put("Datum",format.format(korisnik.getDatumReg()));
+					jsonKorisnik.put("Uloga",korisnik.getUloga().toString());
+					jsonKorisnik.put("Status",korisnik.getStatus());
+					
+					k = jsonKorisnik;
+					
+					//System.out.println("Iz DAO saljem servletu " + k); 
+					
+				} else {
+					
+				}
+				response.put("status",status); 
+				response.put("k",k);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			
+			return response;
+		}
+
+		public static boolean obrisiKorisnika(String id) {
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			
+			boolean status = false;
+			try {
+				//
+				String query = "UPDATE Users SET Status = 'Deleted' WHERE ID = ? "; 
+				prep = conn.prepareStatement(query); 
+				prep.setString(1, id);
+				
+				prep.executeUpdate(); 
+				
+				System.out.println("Obrisan korisnik"); 
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			return status;
+		}
+
+		public static boolean promijeniUlogu(HttpServletRequest request, String id, String novaUloga) {
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			//ResultSet rs = null; 
+			
+			try {
+				String query = "UPDATE Users SET Uloga=? WHERE ID=? ;";
+				prep = conn.prepareStatement(query); 
+				prep.setString(1, novaUloga);
+				prep.setString(2, id);
+				
+				prep.executeUpdate(); 
+				
+				System.out.println("Promijenjena uloga iz DAO"); 
+			} catch(Exception e) {
+				e.printStackTrace(); 
+			}
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			return false;
+		}
+
+		public static boolean promijeniSifru(HttpServletRequest request, String id, String novaSifra) {
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null ;
+			//ResultSet rs = null; 
+			
+			try {
+				String query = "UPDATE Users SET Password=? WHERE ID=? ;";
+				prep = conn.prepareStatement(query); 
+				prep.setString(1, novaSifra);
+				prep.setString(2, id);
+				
+				prep.executeUpdate(); 
+				
+				System.out.println("Promijenjena sifra iz DAO"); 
+			} catch(Exception e) {
+				e.printStackTrace();
+			} 
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			
+			return false;
+		} 
 }

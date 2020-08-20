@@ -32,6 +32,9 @@ public class Projekcija {
 			Double valueOf3, String administrator, String status2, int brojMaksimumSedistaSale, int prodanoKarata2) {
 		// TODO Auto-generated constructor stub
 	}
+	public Projekcija() {
+		// TODO Auto-generated constructor stub
+	}
 	public int getId() {
 		return id;
 	}

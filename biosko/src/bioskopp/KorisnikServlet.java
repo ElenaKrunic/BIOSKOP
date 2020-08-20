@@ -67,12 +67,59 @@ public class KorisnikServlet extends HttpServlet {
 			case "getUserSessionInfo" : 
 				out.print(podaciOulogovanomKorisniku(request));
 				break;
+				
+			case "ucitajPodatkeZaMojProfil": 
+				out.print(ucitajPodatkeZaMojProfil(request));
+				break;
+				
+			case "obrisiKorisnika": 
+				out.print(obrisiKorisnika(request));
+				break;
+				
+			case "sacuvajIzmjene" : 
+				out.print(sacuvajIzmjene(request));
+				break;
 			}
 		}
 	}
 	
+	private JSONObject sacuvajIzmjene(HttpServletRequest request) {
+		JSONObject response = new JSONObject(); 
+		String id = request.getParameter("idKorisnik"); 
+		String novaSifra = request.getParameter("novaSifra"); 
+		String novaUloga = request.getParameter("novaUloga"); 
+		
+		boolean sifra = false; 
+		boolean uloga = false; 
+		
+		uloga = KorisnikDAO.promijeniUlogu(request,id,novaUloga); 
+		sifra = KorisnikDAO.promijeniSifru(request,id,novaSifra); 
+		
+		response.put("promijenjenaSifra", sifra); 
+		response.put("promijenjenaUloga", uloga); 
+		return response;
+	}
+
+	private JSONObject obrisiKorisnika(HttpServletRequest request) {
+		JSONObject response = new JSONObject();
+		String id = request.getParameter("idKorisnik"); 
+		boolean status = false; 
+		status = KorisnikDAO.obrisiKorisnika(id); 
+		response.put("status",status);
+		return response;
+	}
+
+	private JSONObject ucitajPodatkeZaMojProfil(HttpServletRequest request) {
+		JSONObject response = new JSONObject(); 
+		String id = request.getParameter("id");
+		//System.out.println("Id korisnika je " + id); 
+		response = KorisnikDAO.ucitajKorisnikObjectById(id);
+		//System.out.println("Response koji saljem na js je "  + response); 
+//		System.out.println("Ne moze se ucitati korisnik"); 
+		return response;
+	}
+
 	private JSONObject podaciOulogovanomKorisniku(HttpServletRequest request) {
-		// TODO Auto-tub
 	return KorisnikDAO.getKorisnikInfo(request); 	
 	}
 
@@ -83,7 +130,6 @@ public class KorisnikServlet extends HttpServlet {
 
 	//izlazi da bude JSON Object
 	private JSONObject registerUser(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		JSONObject response = new JSONObject(); 
 		response = KorisnikDAO.register(request); 
 		return response;

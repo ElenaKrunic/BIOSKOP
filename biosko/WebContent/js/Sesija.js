@@ -11,4 +11,7 @@ var params = {
 		localStorage['status'] = response.status; //da li da izbacim status 
 		localStorage['ID'] = response.ID; 
 		
+		if(response.status) {
+			document.getElementById('mojp').href="MojNalog2.html?id="+response.ID;
+		}
 });
