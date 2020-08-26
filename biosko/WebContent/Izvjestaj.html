@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Izvjestaj</title>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/Izvjestaj.js"></script>	
+<script src="js/Sesija.js"></script>	
+<link rel="stylesheet" href="./css/projekcije.css">
+<link rel="stylesheet" href="./css/izvjestaj.css">
+<script src="./js/w3.js" charset="utf-8"></script>
+</head>
+<body>
+
+Unesite datum za koji zelite izvjestaj: 
+<div>
+<input type="date" id="izvjestajDatum">
+ <button type="button" id="izvjestajBtn"> Potvrdi </button>
+</div>
+
+  
+    <table id="izvjestajTabela" border="1">
+      <tr>
+        <th onclick="w3.sortHTML('#izvjestajTabela','.item', 'td:nth-child(1)')">Film</th>
+        <th onclick="w3.sortHTML('#izvjestajTabela','.item', 'td:nth-child(2)')">Broj projekcija</th>
+        <th onclick="w3.sortHTML('#izvjestajTabela','.item', 'td:nth-child(3)')">Broj prodatih karata</th>
+        <th onclick="w3.sortHTML('#izvjestajTabela','.item', 'td:nth-child(4)')">Zarada</th>
+      </tr>
+    </table>
+  
+<p>Ovo su linkovi za najbitnije dijelove aplikacije: <br/>
+	<a href="Filmovi.html"> Prikaz svih filmova </a><br/>
+	<a id="mojp" href="MojNalog2.html"> Podaci o mom nalogu </a> <br/>
+	<a href="" id="logoutLink">Odjava</a> <br/>
+	<a href="AdminProfil.html">Admin profil</a> <br/>
+	<a href="Izvjestaj.html">Izvjestaj</a>
+</p>
+
+</body>
+</html>

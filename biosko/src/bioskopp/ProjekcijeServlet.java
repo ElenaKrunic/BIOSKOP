@@ -123,7 +123,7 @@ public class ProjekcijeServlet extends HttpServlet{
 			String krajTermina = format2.format(datum); */
 			
 			TipProjekcije tipProjekcije = TipProjekcijeDAO.getTipProjekcijeObjectById(Integer.valueOf(idTipProjekcije));
-			Projekcija projekcija = new Projekcija(1, Integer.valueOf(filmID), tipProjekcije.getNaziv(), Integer.valueOf(idSale), pt, Double.valueOf(cijenaProjekcije), administrator, "Active", SalaDAO.brojMaksimumSedistaSale(idSale), 0);
+			Projekcija projekcija = new Projekcija(1, Integer.valueOf(filmID), tipProjekcije.getNaziv(), Integer.valueOf(idSale), pt, Double.valueOf(cijenaProjekcije), administrator, "Active", SalaDAO.maksimalnoSjedistaSale(idSale), 0);
 			status = ProjekcijeDAO.dodajProjekciju(projekcija, krajTermina); 
 			System.out.println("Status u servletu " + status); 
 			

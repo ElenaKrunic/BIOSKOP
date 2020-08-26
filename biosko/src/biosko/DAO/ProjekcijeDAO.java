@@ -328,7 +328,6 @@ public class ProjekcijeDAO {
 	}
 	
 	public static boolean dodajProjekciju(Projekcija projekcija, String krajTermina) {
-		// TODO Auto-generated method stub
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
 		ResultSet rs = null; 
@@ -393,4 +392,44 @@ public class ProjekcijeDAO {
 		
 		return status;
 	}
+
+	public static ArrayList<Projekcija> ucitajProjekcijuZaFilm(String iD, String datum) {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement prep = null;
+		ResultSet rs = null; 
+		Projekcija projekcija = null;
+		ArrayList<Projekcija> listaProjekcija = new ArrayList<Projekcija>();
+		try {
+			String query = "SELECT ID FROM Projekcije WHERE Status='Active' AND ID_Filma=? AND (Termin BETWEEN ? AND ?)ORDER BY ID;";
+			
+			prep = conn.prepareStatement(query); 
+			prep.setString(1, iD);
+			prep.setString(2, datum); //prvi
+			prep.setString(3, datum + "23:59:59 "); 
+			
+			rs = prep.executeQuery(); 
+			
+			while(rs.next()) {
+				int index = 1; 
+				String id = rs.getString(index++); 
+				
+				projekcija = getProjekcijaById(Integer.valueOf(id));
+				listaProjekcija.add(projekcija);
+			}
+
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		return listaProjekcija;
+	}
+
+
 }

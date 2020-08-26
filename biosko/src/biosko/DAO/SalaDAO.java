@@ -119,7 +119,7 @@ public class SalaDAO {
 				JSONObject odg = new JSONObject();
 				odg.put("ID", sala.getId());
 				odg.put("Naziv",sala.getNaziv());
-				odg.put("MaksimumSedista",brojMaksimumSedistaSale(String.valueOf(sala.getId())));
+				odg.put("MaksimumSedista",maksimalnoSjedistaSale(String.valueOf(sala.getId())));
 				
 				ArrayList<JSONObject> tipovi = new ArrayList<JSONObject>();
 				for (TipProjekcije tipProjekacije : sala.getTipProjekcije()){
@@ -143,30 +143,32 @@ public class SalaDAO {
 			
 		return listaSala;
 	}
-	public static int brojMaksimumSedistaSale(String idSale) throws SQLException{
-		int broj = 0;
+	
+	public static int maksimalnoSjedistaSale(String idSale) {
 		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		Sala sala = null;
+		PreparedStatement prep = null; 
+		ResultSet rs= null; 
+		int maksimumSjedistaSale = 0; 
 		try {
 			String query = "SELECT * FROM Sedista WHERE ID_Sale = ?";
-
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, String.valueOf(idSale));
-
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				broj++;
+			prep = conn.prepareStatement(query);
+			prep.setString(1, idSale);
+			
+			rs= prep.executeQuery();
+			while(rs.next()) {
+				maksimumSjedistaSale++;
 			}
-
-		} finally {
-			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
 			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
 		}
-
-		return broj;
+		
+		return maksimumSjedistaSale; 
 	}
 
 	public static ArrayList<JSONObject> getSaleSaProjekcijama() {

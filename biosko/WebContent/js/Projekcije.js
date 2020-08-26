@@ -12,6 +12,12 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga'] != 'Admin') {
+		$("#adminProfil").remove();
+		$("#izvjestaj").remove();
+		$("#dodajProjekcijuBtn").remove();
+	}
+	
 	function ucitajProjekciju(idProjekcije) {
 		var params = {
 				action : 'loadProjection', 

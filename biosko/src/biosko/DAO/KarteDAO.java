@@ -100,6 +100,49 @@ public class KarteDAO {
 		return listaKarata;
 	}
 	
+	public static boolean kupiKartu2(String idProjekcije, String sjedista, String username) {
+		boolean status = true; 
+		
+		try {
+			Projekcija projekcija = ProjekcijeDAO.getProjekcijaById(Integer.valueOf(idProjekcije));
+			
+			if(projekcija != null) {
+				String[] viseSjedista = sjedista.split(";"); 
+				ArrayList<String> nizSjedista = new ArrayList<String>(); 
+				
+				for(int i =0; i<viseSjedista.length; i++) {
+					String pojedinacnoSjediste = viseSjedista[i];
+					
+					if(pojedinacnoSjediste != null) {
+						int brojSjedista = Integer.valueOf(sjedista);
+						
+						int dodajSjediste = brojSjedista+1;
+						
+						if((i+1) <viseSjedista.length) {
+							if(!(dodajSjediste==Integer.valueOf(viseSjedista[i+1]))) {
+								System.out.println("nisu jedno do drugog"); 
+							}
+						}
+						nizSjedista.add(pojedinacnoSjediste);
+					}
+				}
+					
+				for(String jednoSjediste : nizSjedista) {
+					String idSjedista = SalaDAO.getSjedisteId(String.valueOf(projekcija.getSalaId()), jednoSjediste);
+					if(uzmiKartu(idProjekcije,idSjedista,username)) {
+						status = true;
+					}
+				}
+				
+				
+			}
+		} catch(Exception e ) {
+			e.printStackTrace();
+		}
+		
+		return status; 
+	}
+	
 	public static boolean kupiKartu(String idProjekcije,String sedista,String username) {
 		boolean status = true;
 		try {
@@ -170,7 +213,7 @@ public class KarteDAO {
 		return status; 
 	}
 
-	public static ArrayList<Karta> ucitajKartu(String korisnickoIme) {
+	public static ArrayList<Karta> ucitajKartuZaKorisnickoIme(String korisnickoIme) {
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
 		ResultSet rs = null; 

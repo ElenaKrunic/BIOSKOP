@@ -6,35 +6,35 @@
 	<script src="js/jquery-3.3.1.js"></script>
 	<script src="js/Filmovi.js"></script>
 	<script src="js/Sesija.js"></script>
-	<script src="./js/w3.js" charset="utf-8"></script>
 	<link rel="stylesheet" href="./css/filmovi.css">
 	<link rel="stylesheet" href="./css/urediDodajObrisiFilm.css">
+	<script src="./js/w3.js" charset="utf-8"></script>
+	
 	</head>
 <body>
 	<h1> Filmovi </h1>
 	
 	<!-- osnovni podaci o svakom filmu -->
-	  <table id="tabelaFilm" border="1">
-  	<tr>
+  <table id="tabelaFilm" border="1">
+	<tr>
   		<th> <input id="nazivFilter"/> </th>
   		<th> <input id="trajanjeFilter" type="number"/> </th>
   		<th> <select id="zanroviFilter" multiple></select></th>
   		<th> <input id="godinaFilter" type="number"/> </th>
   		<th> <input id="distributerFilter"/> </th>
   		<th> <input id="zemljaPorijeklaFilter"/> </th>
-  		<th> <button id="filterBtn" class="confirmbtn">Filtriraj</button> </th>
-  		
+  		<th> <button id="filterBtn">Filtriraj</button> </th>	
   	</tr>
     <tr>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(1)')">Naziv</th>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(2)')">Trajanje</th>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(3)')">Zanrovi</th>
-      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(4)')">Godina Proizvodnje</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(4)')">Godina proizvodnje</th>
       <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(5)')">Distributer</th>
-      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja Porijekla</th>
+      <th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja porijekla</th>
     </tr>
-    
   </table>
+  
   <a href="DodajFilm.html">
     <button id="dodajFilmBtn">Dodaj film</button>
   </a>

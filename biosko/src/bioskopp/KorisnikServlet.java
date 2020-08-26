@@ -83,10 +83,38 @@ public class KorisnikServlet extends HttpServlet {
 			case "ucitajKorisnike":
 				out.print(ucitajKorisnike(request));
 				break;
+				
+			case "filtrirajKorisnike": 
+				out.print(filtrirajKorisnike(request));
+				break;
+				
+			case "izvjestaj": 
+				String datum = request.getParameter("datum"); 
+				out.print(uzmiIzvjestaj(datum));
+				break;
 			}
 		}
 	}
 	
+	private JSONObject uzmiIzvjestaj(String datum) {
+		JSONObject response = new JSONObject(); 
+		response = KorisnikDAO.uzmiIzvjestaj(datum);
+		return response;
+	}
+
+	//filtrirati korisnike samo po ona 3 parametra iz javascripta 
+	private JSONObject filtrirajKorisnike(HttpServletRequest request) {
+		JSONObject response = new JSONObject();
+		String userName = request.getParameter("userName"); 
+		String uloga = request.getParameter("uloga"); 
+		String datum = request.getParameter("datum"); 
+		
+		response = KorisnikDAO.filtrirajKorisnike(userName,uloga,datum);
+		
+		
+		return response;
+	}
+
 	private JSONObject ucitajKorisnike(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		response = KorisnikDAO.getAllUsers("","",""); 
@@ -113,8 +141,13 @@ public class KorisnikServlet extends HttpServlet {
 	private JSONObject obrisiKorisnika(HttpServletRequest request) {
 		JSONObject response = new JSONObject();
 		String id = request.getParameter("idKorisnik"); 
-		boolean status = false; 
-		status = KorisnikDAO.obrisiKorisnika(id); 
+		boolean status=true;
+		if(id==null) {
+			System.out.println("Id korisnika je null, nije doslo sa js-a"); 
+		} else {
+			status = false; 
+			status = KorisnikDAO.obrisiKorisnika(id); 
+		}
 		response.put("status",status);
 		return response;
 	}
@@ -122,8 +155,13 @@ public class KorisnikServlet extends HttpServlet {
 	private JSONObject ucitajPodatkeZaMojProfil(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		String id = request.getParameter("id");
+		if(id==null) {
+			System.out.println("Nije se ucitao id iz js-a "); 
+			
+		} else {
+			response = KorisnikDAO.ucitajKorisnikObjectById(id);
+		}
 		//System.out.println("Id korisnika je " + id); 
-		response = KorisnikDAO.ucitajKorisnikObjectById(id);
 		//System.out.println("Response koji saljem na js je "  + response); 
 //		System.out.println("Ne moze se ucitati korisnik"); 
 		return response;
@@ -150,41 +188,4 @@ public class KorisnikServlet extends HttpServlet {
 		response = KorisnikDAO.loadAllUsers("", "", "", "");
 		return response; 
 	}
-/*
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String ulogovanKorisnikIme = (String) request.getSession().getAttribute("ulogovanKorisnikIme");
-		if (ulogovanKorisnikIme == null) {
-			request.getRequestDispatcher("./OdjavaServlet").forward(request, response);
-			return;
-		}
-		try {
-			Korisnik ulogovaniKorisnik = KorisnikDAO.get(ulogovanKorisnikIme);
-			if (ulogovaniKorisnik == null) {
-				request.getRequestDispatcher("./OdjavaServlet").forward(request, response);
-				return;
-			}
-	
-		String korisnickoIme = request.getParameter("korisnickoImeKorisnik"); 
-		Korisnik korisnik = KorisnikDAO.get(korisnickoIme);
-		
-		
-		Map<String,Object> data = new LinkedHashMap<String,Object>(); 
-		data.put("korisnik", korisnik); 
-		//provjera 
-		System.out.println(data); 
-		
-		request.setAttribute("data", data);
-		request.getRequestDispatcher("/.SuccessServlet").forward(request, response);
-		
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
-*/
 }

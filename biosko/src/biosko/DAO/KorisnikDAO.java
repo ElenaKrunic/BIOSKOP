@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 
+import bioskop.model.Film;
+import bioskop.model.Karta;
 import bioskop.model.Korisnik;
+import bioskop.model.Projekcija;
 import bioskop.model.Uloga;
 import biosko.DAO.ConnectionManager;
 
@@ -531,7 +534,7 @@ public class KorisnikDAO {
 						+ " WHERE Username LIKE ? AND DatumRegistracije LIKE ? AND Uloga LIKE ?";
 				
 				prep = conn.prepareStatement(query); 
-				
+				//moram "%", sjeti se vjezbi 
 				prep.setString(1,"%" +  korisnickoIme + "%");
 				prep.setString(2, "%"+tip+"%");
 				prep.setString(3,"%"+ datum+"%");
@@ -585,5 +588,128 @@ public class KorisnikDAO {
 			}
 			
 			return response;
+		}
+
+		public static JSONObject filtrirajKorisnike(String userName, String uloga, String datum) {
+			Connection conn = ConnectionManager.getConnection();
+			PreparedStatement prep = null;
+			ResultSet rs = null; 
+			JSONObject response = new JSONObject();
+			ArrayList<JSONObject> listaKorisnika = new ArrayList<JSONObject>(); 
+			boolean status = false; 
+			try {
+				String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users"
+						+ " WHERE Username LIKE ? AND DatumRegistracije LIKE ? AND Uloga LIKE ?";
+				
+				prep = conn.prepareStatement(query);
+				prep.setString(1, "%"+ userName +"%");
+				prep.setString(2, "%"+ datum +"%");
+				prep.setString(3, "%"+ uloga +"%");
+				
+				rs = prep.executeQuery();
+				
+				while(rs.next()) {
+					int index = 1; 
+					String ID = rs.getString(index++);
+					String Username = rs.getString(index++); 
+					String Password = rs.getString(index++); 
+					String Datum = rs.getString(index++); 
+					String Uloga = rs.getString(index++); 
+					String Status = rs.getString(index++); 
+					System.out.println("Status korisnika u DAO sloju je " + Status); 
+					status = true;
+					
+					//date format ima vrijednost yyyy mm dd 
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					//pravim objekat datum i dodjeljujem mu format 
+					//format ima obicnu formu i on forsira Datum objekat iz rs 
+					Date d = format.parse(Datum);
+					
+					//sve ove vrijednosti dodjeljujemo novom korisniku kojeg sam gore inicijalizovala 
+					Korisnik korisnik = new Korisnik(ID, Username,Password,bioskop.model.Uloga.valueOf(Uloga),d,Status); 
+					JSONObject jsonKorisnik = new JSONObject(); 
+					
+					jsonKorisnik.put("ID",korisnik.getID());
+					jsonKorisnik.put("Username",korisnik.getKorisnickoIme());
+					jsonKorisnik.put("Password",korisnik.getLozinka());
+					jsonKorisnik.put("Datum",format.format(korisnik.getDatumReg()));
+					jsonKorisnik.put("Uloga",korisnik.getUloga().toString());
+					jsonKorisnik.put("Status",korisnik.getStatus());
+					
+					listaKorisnika.add(jsonKorisnik);
+				}
+				
+				response.put("korisnici", listaKorisnika); 
+				response.put("status",status);
+
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			return response;  
+		}
+
+		public static JSONObject uzmiIzvjestaj(String datum) {
+			Connection conn = ConnectionManager.getConnection(); 
+			PreparedStatement prep = null; 
+			ResultSet rs = null; 
+			JSONObject response = new JSONObject(); 
+			ArrayList<JSONObject> lista = new ArrayList<JSONObject>(); 
+			Film film = null;
+			int prodateKarte=0;
+			double zarada = 0; 
+			ArrayList<Projekcija> projekcijeZaFilm= null; 
+			ArrayList<Karta> karteZaProjekciju = null; 
+			try {
+				String query = "SELECT ID,Naziv FROM Filmovi WHERE Status='Active'";
+				
+				prep = conn.prepareStatement(query); 
+				rs = prep.executeQuery(); 		
+				
+				while(rs.next()) {
+					int index = 1; 
+					String ID = rs.getString(index++);
+					film = FilmDAO.getFilmObjectById(Integer.valueOf(ID));
+					projekcijeZaFilm = ProjekcijeDAO.ucitajProjekcijuZaFilm(ID,datum);
+					int brojProjekcijaZaFilm = projekcijeZaFilm.size();
+					if(projekcijeZaFilm != null) {
+						for(Projekcija projekcija : projekcijeZaFilm) {
+							karteZaProjekciju = KarteDAO.listaKarataZaProjekciju(String.valueOf(projekcija.getId()));
+							int brojKarataZaProjekciju = karteZaProjekciju.size(); 
+							prodateKarte = prodateKarte + brojKarataZaProjekciju;
+							System.out.println("Broj prodatih karata je " + prodateKarte); 
+							zarada = zarada + projekcija.getCijenaKarte()*brojKarataZaProjekciju;
+							System.out.println("Zaradjeno je " + zarada); 
+						}
+						JSONObject json = new JSONObject(); 
+						json.put("ID", ID); 
+						json.put("NazivFilma", film.getNaziv()); 
+						json.put("BrojProjekcijaZaFilm",brojProjekcijaZaFilm); 
+						json.put("ProdateKarte",prodateKarte); 
+						json.put("Zarada",zarada);
+						lista.add(json);
+					} else {
+						System.out.println("Nisu se ucitale projekcije za film! "); 
+					}
+					response.put("listaIzvjestaj",lista);
+					
+				}
+				
+			} catch(Exception e) {
+				e.printStackTrace(); 
+			}
+			
+			finally {
+				try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+				try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			}
+			return response; 
 		} 
 }
+ 

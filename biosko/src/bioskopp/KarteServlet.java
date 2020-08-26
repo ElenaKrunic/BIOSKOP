@@ -28,32 +28,14 @@ import bioskop.model.Sjediste;
 /**
  * Servlet implementation class KarteServlet
  */
+@SuppressWarnings("serial")
 public class KarteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public KarteServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter ispis = response.getWriter(); 
 		String action = request.getParameter("action"); 
+		@SuppressWarnings("unused")
 		String kartaId = request.getParameter("kartaId");
 		
 		if(action!=null && request!=null) {
@@ -73,6 +55,8 @@ public class KarteServlet extends HttpServlet {
 					String korisnickoIme = korisnik.getKorisnickoIme(); 
 					ispis.print(ucitajKartu(request,korisnickoIme));
 					//System.out.println("Korisnik iz baze je " + korisnik); 	
+				} else {
+					System.out.println("Korisnik je null, nije doslo sa js");
 				}
 				break;
 			
@@ -84,6 +68,7 @@ public class KarteServlet extends HttpServlet {
 
 		}
 	}
+@SuppressWarnings("unchecked")
 private JSONObject obrisiKartu(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		String id = request.getParameter("idKarta"); 
@@ -103,6 +88,7 @@ private JSONObject obrisiKartu(HttpServletRequest request) {
 		return response; 
 	}
 
+@SuppressWarnings("unused")
 private JSONObject ucitajJednuKartu(String kartaId) {
 		JSONObject response = new JSONObject(); 
 		JSONObject karta = null; 
@@ -125,51 +111,14 @@ private JSONObject ucitajKartu(HttpServletRequest request, String korisnickoIme)
 	boolean status = false; 
 	
 	try {
-		ArrayList<Karta> karte = KarteDAO.ucitajKartu(korisnickoIme);
+		ArrayList<Karta> karte = KarteDAO.ucitajKartuZaKorisnickoIme(korisnickoIme);
+
 		if(karte != null) {
 			ArrayList<JSONObject> jsonKarte = new ArrayList<JSONObject>(); 
 			for(Karta obicnaKarta: karte) {
 				Projekcija projekcija = ProjekcijeDAO.getProjekcijaById(Integer.valueOf(obicnaKarta.getIdProjekcije()));
-				JSONObject jsonKarta = new JSONObject(); 
-				jsonKarta.put("ID", obicnaKarta.getId()); 
-				Film film = FilmDAO.getFilmObjectById(projekcija.getFilmId());
-				jsonKarta.put("FilmID", film.getId()); 
-				jsonKarta.put("NazivFilma", film.getNaziv()); 
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
-				String termin = format.format(projekcija.getDatumPrikazivanje()); 
-				jsonKarta.put("Termin", termin);
-				jsonKarta.put("ProjekcijaID", projekcija.getId()); 
-				jsonKarta.put("TipProjekcije", projekcija.getTipProjekcije());
-				Sala sala = SalaDAO.getSalaObjectById(projekcija.getSalaId());
-				jsonKarta.put("Sala", sala.getNaziv()); 
-				jsonKarta.put("Sjediste", obicnaKarta.getOznakaSjedista()); 
-				jsonKarta.put("Cijena",projekcija.getCijenaKarte()); 
-				jsonKarte.add(jsonKarta); 
-				status = true; 
-			}
-			response.put("jsonKarte", jsonKarte);
-			
-			System.out.println("Odgovor koji saljem je " + response);
-
-		}
-	} catch(Exception e) {
-		e.printStackTrace(); 
-	}
-	response.put("status",status); 
-	return response;
-	}
-
-/*
-	private JSONObject ucitajKartu(HttpServletRequest request) {
-		JSONObject response = new JSONObject(); 
-		boolean status = false; 
-		
-		try {
-			//ArrayList<Karta> karte = KarteDAO.ucitajKartu(korisnickoIme);
-			if(karte != null) {
-				ArrayList<JSONObject> jsonKarte = new ArrayList<JSONObject>(); 
-				for(Karta obicnaKarta: karte) {
-					Projekcija projekcija = ProjekcijeDAO.getProjekcijaById(Integer.valueOf(obicnaKarta.getIdProjekcije()));
+				
+				if(projekcija!=null) {
 					JSONObject jsonKarta = new JSONObject(); 
 					jsonKarta.put("ID", obicnaKarta.getId()); 
 					Film film = FilmDAO.getFilmObjectById(projekcija.getFilmId());
@@ -186,78 +135,88 @@ private JSONObject ucitajKartu(HttpServletRequest request, String korisnickoIme)
 					jsonKarta.put("Cijena",projekcija.getCijenaKarte()); 
 					jsonKarte.add(jsonKarta); 
 					status = true; 
+				} else {
+					System.out.println("Projekcija je null"); 
 				}
-				response.put("jsonKarte", jsonKarte); 
 			}
-		} catch(Exception e) {
-			e.printStackTrace(); 
+			response.put("jsonKarte", jsonKarte);
+			
+			System.out.println("Odgovor koji saljem je " + response);
+
+		} else {
+			System.out.println("Karte su null"); 
 		}
-		response.put("status",status); 
-		return response;
+	} catch(Exception e) {
+		e.printStackTrace(); 
 	}
-*/
-	private JSONObject kupiKartu(HttpServletRequest request) {
+	response.put("status",status); 
+	return response;
+	}
+
+private JSONObject kupiKartu(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		boolean status = false; 
 		String idProjekcije = request.getParameter("id"); 
 		String sjedista = request.getParameter("odabranaSjedista"); 
 		String korisnickoIme = (String) request.getSession().getAttribute("userName"); 
 		
-		status = KarteDAO.kupiKartu(idProjekcije,sjedista,korisnickoIme); 
+		status = KarteDAO.kupiKartu2(idProjekcije,sjedista,korisnickoIme); 
 		
 		response.put("status", status); 
 		
 		return response;
 	}
-
-	private JSONObject izaberiSjediste(HttpServletRequest request) {
+	
+private JSONObject izaberiSjediste(HttpServletRequest request) {
 		JSONObject response = new JSONObject(); 
 		String id = request.getParameter("idProjekcije");
 		Film film = new Film(); 
 		boolean status = false; 
-		Sala sala = new Sala(); 
 		int maksimalanBrojSjedistaSale = 0; 
 		Projekcija projekcija = new Projekcija();
 		ArrayList<Sjediste> listaSjedista = new ArrayList<Sjediste>();
 		ArrayList<String> lista = new ArrayList<String>();
 		try {
 			projekcija = ProjekcijeDAO.getProjekcijaById(Integer.valueOf(id)); 
+			film = FilmDAO.getFilmObjectById(projekcija.getFilmId()); 
 			if(projekcija != null) {
 				//listaSjedista = SalaDAO.slobodnaSjedistaSale(id);
 				listaSjedista = SalaDAO.slobodnaSjedistaSale(String.valueOf(projekcija.getId()));
+				
+				//jedno sjediste tipa sjediste se nalazi u listi tipa sjediste 
 				for(Sjediste jednoSjediste : listaSjedista) {
+					//lista string ce da doda redni broj sjedista 
 					lista.add(String.valueOf(jednoSjediste.getRedniBroj())); 
 				}
 				
-				maksimalanBrojSjedistaSale = SalaDAO.brojMaksimumSedistaSale(String.valueOf(projekcija.getSalaId())); 
-				film = FilmDAO.getFilmObjectById(projekcija.getFilmId()); 
-				System.out.println("Maksimalan broj sjedista u sali je " + maksimalanBrojSjedistaSale); 
+				maksimalanBrojSjedistaSale = SalaDAO.maksimalnoSjedistaSale(String.valueOf(projekcija.getSalaId())); 
+
 				System.out.println("Film je " + film); 
-				if (film  != null){
+				
+				if(film != null) {
 					JSONObject jsonFilm = new JSONObject(); 
 					jsonFilm.put("idProjekcije", projekcija.getId()); 
-					jsonFilm.put("slobodnaSedista", lista);
+					//jsonFilm.put("slobodnaSjedista", listaSjedista);//ne mogu ovo , string tip poslati 
+					jsonFilm.put("slobodnaSjedista", lista); 
+					System.out.println("Slobodna sjedista su " + lista); 
 					//DateFormat df = new SimpleDateFormat(); 
 					//jsonFilm.put("termin", projekcija.getDatumPrikazivanje()); 
 					DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 					jsonFilm.put("termin", format.format(projekcija.getDatumPrikazivanje())); 
-					jsonFilm.put("cenaKarte", projekcija.getCijenaKarte()); 
+					jsonFilm.put("cijenaKarte", projekcija.getCijenaKarte()); 
 					jsonFilm.put("nazivFilma", film.getNaziv()); 
 					jsonFilm.put("tipProjekcije", projekcija.getTipProjekcije()); 
 					jsonFilm.put("idSale", projekcija.getSalaId());
 					//jsonFilm.put("nazivSale", SalaDAO.getSalaObjectById(projekcija.getId()).getNaziv());
 					jsonFilm.put("nazivSale", SalaDAO.getSalaObjectById(projekcija.getSalaId()).getNaziv());
 					jsonFilm.put("trajanje",film.getTrajanje()); 
-					jsonFilm.put("maxSjedista", maksimalanBrojSjedistaSale);
-					
-					
-					response.put("jsonFilm",jsonFilm);
-					status=true; 	
+					System.out.println("Maksimalan broj sjedista u sali je " + maksimalanBrojSjedistaSale);
+					jsonFilm.put("maxSjedista", maksimalanBrojSjedistaSale);				
+					response.put("jsonFilm",jsonFilm);	
+					status = true;
 				} else {
-					System.out.println("Nema filma"); 
+					System.out.println("Film je null"); 
 				}
-				
-				
 			} else {
 				System.out.println("Nema projekcije"); 
 			}
@@ -271,5 +230,4 @@ private JSONObject ucitajKartu(HttpServletRequest request, String korisnickoIme)
 		System.out.println("Response je " + response); 
 		return response;
 	}
-
 }

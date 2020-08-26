@@ -17,6 +17,8 @@ $(document).ready(function(){
 var url = window.location.href; 
 var newUrl = new URL(url); 
 var id = newUrl.searchParams.get("id"); 
+//var id = window.location.search.slice(1).split('&')[0].split('=')[1];
+
 	
 var params = {
 			'action' : 'izaberiSjediste', 
@@ -36,8 +38,8 @@ $.post('KarteServlet', params, function(data){
 		$("#tipProjekcije").text(karta.tipProjekcije); 
 		$("#termin").text(karta.termin); 
 		$("#sala").text(karta.nazivSale); 
-		$("#cijenaKarte").text(karta.cenaKarte); 
-		if(karta.slobodnaSedista.length<=0) {
+		$("#cijenaKarte").text(karta.cijenaKarte); 
+		if(karta.slobodnaSjedista.length<=0) {
 			alert("Zao nam je,nema slobodnih sjedista"); 
 		}
 		console.log("Dole " + karta.slobodnaSedista);
@@ -51,7 +53,7 @@ $.post('KarteServlet', params, function(data){
 		for(i=0;i<maksBrSjedista;i++) {
 			var sjediste = "zauzetoMjesto"; 
 			//var sjediste = ""; 
-			if(karta.slobodnaSedista.includes(i+1+"")) {
+			if(karta.slobodnaSjedista.includes(i+1+"")) {
 				sjediste = "slobodnoMjesto";
 			} else {
 				 //sjediste = "zauzetoMjesto"; 
@@ -60,10 +62,10 @@ $.post('KarteServlet', params, function(data){
 //The includes() method determines whether an array includes a certain value among its entries,
 //returning true or false as appropriate.
 			jednoSjediste = document.getElementById('sjedista');
-			jednoSjediste.value=karta.slobodnaSedista[0];
+			jednoSjediste.value=karta.slobodnaSjedista[0];
 			//document.getElementById('sjedista').value=karta.slobodnaSedista[0];
 			var div = document.createElement('div'); 
-			div.className = 'sjedisteDiv ' + sjediste;
+			div.className = 'sjedisteDiv ' + sjediste; //srediti malo sjediste div u css, npr obojiti il sta god
 			div.setAttribute('brojMjesta', i+1);
 			div.innerText = i+1;
 			document.getElementById('sjedista').appendChild(div); 
@@ -74,34 +76,34 @@ $.post('KarteServlet', params, function(data){
 		var brojMjesta = this.getAttribute('brojMjesta'); 
 		var ls = localStorage['brojOdabranihSjedista']; 
 		
-		if(ls == undefined) {
+		if(ls == null) {
 			localStorage['brojOdabranihSjedista'] == [brojMjesta]; 
-			this.classList.toggle('radiSjediste'); 
+			//alert("Izabrali ste sjediste pod brojem  " + brojMjesta);
 		} else {
-			ls = ls.split(";");
-			console.log("uslo u else i splitovano je " + ls);
+			alert("Izabrali ste sjediste pod brojem " + brojMjesta); 
+			console.log("Broj sjedista je " + brojMjesta);
 			
-			var klikNaJednoSjediste = false; 
-			for(klik=0; klik<ls.length;klik++) {
-				if(parseInt(ls[klik])+1==parseInt(brojMjesta)) {
-					console.log("Kliknuto sjediste");
-					klikNaJednoSjediste = true;
+			ls = ls.split(";");
+			
+			var duzinaNizaLs = ls.length;
+			var klikNaDrugoSjediste = false; 
+			for(i=0; i<duzinaNizaLs;i++) {
+				if(parseInt(ls[i])+1 == parseInt(brojMjesta)) {
+					//mjesto do njega
+					//console.log("Odabrano jos jedno sjediste pod brojem " + brojMjesta);
+					klikNaDrugoSjediste = true;
 				}
 			}
 			
-			
 			//var fruits = ['banana','mango']
-			//fruits.push('kiwi');
-			
-			
-			if(klikNaJednoSjediste) {
+			//fruits.push('kiwi')
+			if(klikNaDrugoSjediste) {
 				ls.push(brojMjesta); 
-				console.log("Sjediste postalo radi sjediste");
-				this.classList.toggle('radiSjediste'); 
+				console.log("Drugo sjediste ima vrijednost  " + brojMjesta);
 			} else {
 				if(ls[0]=="") {
 					ls[0] = brojMjesta; 
-					this.classList.toggle('radiSjediste'); 
+					console.log("Broj prvog mjesta je " + ls[0]); 
 				} else {
 					alert("Morate izabrati sjedista koja se nalaze jedno kraj drugog!"); 
 				}
@@ -110,9 +112,13 @@ $.post('KarteServlet', params, function(data){
 
 		localStorage['brojOdabranihSjedista'] = ls.join(";")
 		
-		var cijenaKarte = parseInt(karta.cenaKarte); 
+		//localstorrage 13 14, 340 pomnozim sa duzinom niza 1
+		//1 puta 340 + 1 puta 340 = 680 
 		
-		$("#ukupnaCijena").text(localStorage['brojOdabranihSjedista'].split(";").length*cijenaKarte); 
+		var cijenaKarte = parseInt(karta.cijenaKarte); 
+		var mjesto = localStorage['brojOdabranihSjedista'].split(";").length;
+		
+		$("#ukupnaCijena").text(mjesto*cijenaKarte); 
 	
 	});		
 	}
@@ -121,12 +127,20 @@ $.post('KarteServlet', params, function(data){
 //na moj profil hocu kupljene karte da vidim 
 $("#kupiKartuBtn").on('click',function(){
 		
-	var kupiKartuId = id; 
+	//var kupiKartuId = id; 
 	var odabranaSjedista = localStorage['brojOdabranihSjedista']; 
+	
+	if(id==null || id==undefined) {
+		alert("Doslo je do greske!"); 
+	}
+	
+	if(odabranaSjedista==null || odabranaSjedista == undefined) {
+		alert("Doslo je do greske!"); 
+	}
 	
 	var params = {
 			'action' : 'kupiKartu', 
-			'id' : kupiKartuId,
+			'id' : id,
 			'odabranaSjedista' : odabranaSjedista
 	}
 	
@@ -142,8 +156,3 @@ $("#kupiKartuBtn").on('click',function(){
 });
 
 });
-
-
-
-
-

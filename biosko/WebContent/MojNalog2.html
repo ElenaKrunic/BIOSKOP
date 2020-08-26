@@ -6,6 +6,8 @@
 <script src="js/MojNalog.js"></script>
 <script src="js/Sesija.js"></script>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/mojNalog.css">
+<script src="./js/w3.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -27,14 +29,15 @@
 </div>
 
 <p>Karta kupljena za: </p>
-<div>
-  <table id="karteTable" border="1">
-    <th>Film</th>
-    <th>Sjediste</th>
-    <th>Termin</th>
-    <th></th>
-  </table>
-</div>
+
+
+    <table id="karteTable" border="1">
+      <tr>
+        <th onclick="w3.sortHTML('#karteTable','.item', 'td:nth-child(1)')">Film</th>
+        <th onclick="w3.sortHTML('#karteTable','.item', 'td:nth-child(2)')">Termin</th>
+        <th></th>
+      </tr>
+    </table>
 
 <p>
 <a href="Filmovi.html"> Prikaz svih filmova </a><br/>

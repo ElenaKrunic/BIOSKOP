@@ -28,6 +28,10 @@ console.log(idKorisnik);
 			action: 'ucitajPodatkeZaMojProfil', 
 			id : idKorisnik
 	}
+	
+	if(idKorisnik==null) {
+		alert("Doslo je do greske!"); 
+	}
 
 	$.post('KorisnikServlet', params, function(data){
 	var response = JSON.parse(data); 
@@ -39,6 +43,9 @@ console.log(idKorisnik);
 		//a mogu pass i standard
 		if(user.Username == localStorage['userName']) {
 			$("#mojProfilSifra").val(user.Password);
+		}
+		else {
+			alert("Korisnicko ime se ne poklapa!");
 		}
 		$("#mojProfilDatumReg").text(user.Datum);
 		$("#mojProfilUloga").val(user.Uloga);
@@ -98,10 +105,6 @@ $.post('KarteServlet', params, function(data){
 			nazivFilma.className = "karta_sredjivanje"; 
 			tr.appendChild(nazivFilma); 
 			
-			var sjediste = document.createElement('td'); 
-			sjediste.innerText = karta.Sjediste; 
-			tr.appendChild(sjediste); 
-			
 			var termin = document.createElement('td'); 
 			termin.innerText = karta.Termin; 
 			tr.appendChild(termin); 
@@ -114,6 +117,13 @@ $.post('KarteServlet', params, function(data){
 			document.getElementById('karteTable').appendChild(tr);
 			
 		}
+		
+		$(".karta_sredjivanje").on('click',function(){
+			var id  = this.getAttribute('idFilma'); 
+			if(id!=null) {
+				window.location.href="Film.html?id="+id;
+			}
+		});
 		
 		$(".detaljiBtn").on('click',function(){
 			var idU = this.getAttribute('korisnikId'); 
@@ -138,6 +148,8 @@ $("#sacuvajPromjene").on('click',function(){
 	if(localStorage['uloga']=='Admin') {
 		var novaUloga = $("#mojProfilUloga").val();
 		promijenjenjenaUloga = true;
+	} else {
+		alert("Ne mozete mijenjati ulogu,ako niste admin"); 
 	}
 	
 	var params = {

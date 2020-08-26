@@ -13,6 +13,10 @@ $(document).ready(function(){
 		event.preventDefault(); 
 		return false; 
 	});
+	
+	if(localStorage['uloga'] != 'Admin') {
+		$("#dodajFilmBtn").remove();
+	}
 		
 	var params = {
 			action : "loadMovies", 

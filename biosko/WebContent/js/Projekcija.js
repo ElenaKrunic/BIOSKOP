@@ -51,7 +51,9 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 							if(response.status) {
 								window.location.href = "Glavna.html"; 
 							} else {
-								alert("Greska")
+								//alert("Greska")
+								window.location.href = "Glavna.html"; 
+
 							}
 						});
 					}
