@@ -11,13 +11,51 @@ $(document).ready(function(){
 		event.preventDefault(); 
 		return false; 
 	});
+	//izbrisati varijablu uloga i ostaviti localStoragesamo
+	//vratiti u Sesija.js deklaraciju prethodnu 
+	//provejriti localStorage
+	//var uloga = localStorage['uloga']; 
+	//sta sve neprijavljen korisnik vidi 
 	
+	if(localStorage['uloga'] == "null"){
+		$("#adminProfil").remove();
+		$("#izvjestaj").remove();
+		$("#dodajProjekcijuBtn").remove();
+		$("#mojp").remove();
+		$("#logoutLink").remove();
+	} 
+	if(localStorage['uloga'] == "obicanKorisnik"){
+		$("#prijava").remove();
+		$("#registracija").remove(); 
+		$("#adminProfil").remove(); 
+		$("#izvjestaj").remove();
+		$("#dodajProjekcijuBtn").remove();
+	}
+	if(localStorage['uloga'] == "Admin") {
+		$("#prijava").remove();
+		$("#registracija").remove(); 
+	//	$("#mojp").remove();
+	}
+	
+	//sta sve obican korisnik moze da vidi 
+	/*
 	if(localStorage['uloga'] != 'Admin') {
 		$("#adminProfil").remove();
 		$("#izvjestaj").remove();
 		$("#dodajProjekcijuBtn").remove();
-	}
+		$("#prijava").remove(); 
+		$("#registracija").remove();
+		//$("#logoutLink").show();
+		console.log("obican");
+	} 
 	
+	if(localStorage['uloga'] != 'obicanKorisnik') {
+		$("#prijava").remove(); 
+		$("#registracija").remove();
+		console.log("admin");
+		$("#adminProfil").show();
+	}
+		*/
 	function ucitajProjekciju(idProjekcije) {
 		var params = {
 				action : 'loadProjection', 
@@ -40,12 +78,11 @@ $(document).ready(function(){
 		    for(i=0;i<odg.listaProjekcija.length;i++){
 		      var p = odg.listaProjekcija[i];
 		      var tr = document.createElement('tr');
-		      tr.setAttribute('idProjekcije',p.id_projekcije);
-		      tr.className="item";
+		      tr.setAttribute('idProjekcije',p.idProjekcije);
 		      
 		      var nazivFilma = document.createElement('td');
-		      nazivFilma.innerText = p.naziv_filma;
-		      nazivFilma.setAttribute('idFilma',p.id_filma);
+		      nazivFilma.innerText = p.nazivFilma;
+		      nazivFilma.setAttribute('idFilma',p.idFilma);
 		      nazivFilma.className="ponudjenFilmIzProjekcije";
 		      tr.appendChild(nazivFilma);
 
@@ -68,18 +105,18 @@ $(document).ready(function(){
 		      var td6 = document.createElement('td');
 		      var btn1 = document.createElement('button');
 		      btn1.innerText = "Detalji";
-		      btn1.className="confirmbtn detaljiBtn";
-		      btn1.setAttribute('idProjekcije',p.id_projekcije);
+		      btn1.className="detaljiBtn";
+		      btn1.setAttribute('idProjekcije',p.idProjekcije);
 		      td6.appendChild(btn1);
 		      tr.appendChild(td6); 
 		      
 		      document.getElementById('tabelaProjekcije').appendChild(tr);
 
-		      $(".ponudjenFilmIzProjekcije").on('click',function(data){
+		      $(".ponudjenFilmIzProjekcije").on('click',function(){
 		        window.location.href="Film.html?id="+this.getAttribute('idFilma');
 		      });
 		      
-		      $(".detaljiBtn").on('click',function(data){
+		      $(".detaljiBtn").on('click',function(){
 		          window.location.href="PrikazProjekcije.html?id="+this.getAttribute('idProjekcije');
 		        })
 		    }
@@ -145,6 +182,28 @@ $("#filterProjekcijaBtn").on("click",function(){
 	var cijenaMin = $("#cijenaNajmanja").val(); 
 	var cijenaMax = $("#cijenaNajveca").val(); 
 	
+	if(idProjekcije == null) {
+		alert("idProjekcije je null"); 
+	}
+	if(idSala == null) {
+		alert("idSale je null"); 
+	}
+	if(terminProjekcijePocetak == null) {
+		alert("pocetakProjekcije je null"); 
+	}
+	if(terminProjekcijeKraj == null) {
+		alert("krajprojekcije je null"); 
+	}
+	if(tipProjekcije == null) {
+		alert("tipProjekcije je null"); 
+	}
+	if(cijenaMin == null) {
+		alert("minCijena je null"); 
+	}
+	if(cijenaMax == null) {
+		alert("maxCijena je null"); 
+	}
+	
 	var params = {
 			action : "filtrirajProjekciju", 
 			'filmId' : idProjekcije,
@@ -159,6 +218,7 @@ $("#filterProjekcijaBtn").on("click",function(){
     $.post('ProjekcijeServlet',params,function(data){
         //console.log(id_Filma);
         var response = JSON.parse(data);
+        console.log(response);
         if(response.status){
           $('tr').slice(1).remove();
           console.log(response);
@@ -168,31 +228,33 @@ $("#filterProjekcijaBtn").on("click",function(){
             tr.setAttribute('idProjekcije',p.ID);
             
             var naziv = document.createElement('td');
-            naziv.innerText = p.Naziv_Filma;
-            naziv.setAttribute('idFilma',p.ID_Filma);
+            naziv.innerText = p.nazivFilma;
+            naziv.setAttribute('idFilma',p.filmId);
             naziv.className="linkDoProjekcije";
             tr.appendChild(naziv);
 
             var termin = document.createElement('td');
-            termin.innerText = p.Termin;
+            termin.innerText = p.termin;
             tr.appendChild(termin);
 
             var sala = document.createElement('td');
-            sala.innerText = p.Sala;
+            sala.innerText = p.sala;
             tr.appendChild(sala);
 
             var tip = document.createElement('td');
-            tip.innerText = p.TipProjekcije;
+            tip.innerText = p.tip;
             tr.appendChild(tip);
+            
+//            console.log(tip);
 
             var cijena = document.createElement('td');
-            cijena.innerText = p.Cena;
+            cijena.innerText = p.cijena;
             tr.appendChild(cijena);
 
             var btn = document.createElement('td');
             var btndetalji = document.createElement('button');
             btndetalji.innerText = "Detalji";
-            btndetalji.className="confirmbtn detaljiBtn"; 
+            btndetalji.className="detaljiBtn"; 
             btndetalji.setAttribute('idProjekcije',p.ID); 
             btn.appendChild(btndetalji);
             
@@ -208,9 +270,7 @@ $("#filterProjekcijaBtn").on("click",function(){
                   window.location.href="Film.html?id="+this.getAttribute('idFilma');
                 });
           }
-        } else {
-        	alert("Projekcija se nije ucitala");
-        }
+        } 
     });
 });
 });

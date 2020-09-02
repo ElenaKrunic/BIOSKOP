@@ -13,5 +13,6 @@ var params = {
 		
 		if(response.status) {
 			document.getElementById('mojp').href="MojNalog2.html?id="+response.ID;
+			//$("#mojp").href="MojNalog2.html?id="+response.ID;
 		}
 });

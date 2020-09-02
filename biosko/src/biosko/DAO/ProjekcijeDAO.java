@@ -25,7 +25,7 @@ public class ProjekcijeDAO {
 		ResultSet rs = null; 
 		
 		try {
-			String query = "SELECT ID FROM Projekcije  WHERE Status='Active' AND Termin BETWEEN ? AND ? ORDER BY ID_Filma ASC,Termin ASC ;";
+			String query = "SELECT ID FROM Projekcije  WHERE Status='Active' AND Termin BETWEEN ? AND ?";
 			
 			prep = conn.prepareStatement(query); 
 			prep.setString(1, datum);
@@ -76,7 +76,8 @@ public class ProjekcijeDAO {
 				String idSale = rs.getString(index++); 
 				int idS = Integer.valueOf(idSale); 
 				String termin = rs.getString(index++); 
-				Date praviTermin = new SimpleDateFormat("yyyy-MM-dd").parse(termin);
+				//OVDE MI JE BILA GRESKA, NISAM DODALA HH:mm!!!!!!!!!!!!
+				Date praviTermin = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(termin);
 				String cijenaKarte = rs.getString(index++); 
 				int pravaCijena = Integer.valueOf(cijenaKarte); 
 				String admin = rs.getString(index++); 
@@ -224,7 +225,6 @@ public class ProjekcijeDAO {
 			String tipProjekcije, String cijenaMin, String cijenaMax) {
 		JSONObject odg = new JSONObject();
 		boolean status = false;
-		String message = "Unexpected error.";
 		
 		ArrayList<Projekcija> lista = new ArrayList<Projekcija>();
 				
@@ -252,11 +252,11 @@ public class ProjekcijeDAO {
 						int index = 1;
 						String ID = rset.getString(index++);
 						Projekcija p = get(Integer.valueOf(ID));
+						//System.out.println("Projekcijae koje se filtriraju su " + p);
 						if(p!=null) {
 							lista.add(p);
 						}
 					status = true;
-					message = "Ucitano";
 					}
 					odg.put("listaProjekcija", lista);
 					
@@ -272,7 +272,6 @@ public class ProjekcijeDAO {
 			}
 		
 		odg.put("status", status);
-		odg.put("message", message);
 		return odg;
 	}
 
@@ -331,17 +330,18 @@ public class ProjekcijeDAO {
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
 		ResultSet rs = null; 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+		Date date = new Date(); 
 		boolean status = false; 
 		try {
 			String query = "INSERT INTO Projekcije(ID_Filma,TipProjekcije,ID_Sale,Termin,CenaKarte,Administrator,Status,MaksimumKarata,KrajTermina) VALUES (?,?,?,?,?,?,?,?,?)";
 			
 			prep = conn.prepareStatement(query); 
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-			Date date = new Date(); 
+		
 			
 			prep.setString(1, projekcija.getFilmId() + "");
 			prep.setString(2, projekcija.getTipProjekcije());
-			prep.setString(3, projekcija.getSalaId() + "");
+			prep.setString(3, projekcija.getSalaId() + "");  //"" jestring
 			date = projekcija.getDatumPrikazivanje(); 
 			String pocetak = dateFormat.format(date); 
 			prep.setString(4, pocetak);

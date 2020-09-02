@@ -72,11 +72,11 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject deleteMovie(String filmId) {
-		boolean status = FilmDAO.deleteMovie(filmId);
     	JSONObject response = new JSONObject();
-
-	    response.put("status", status);
-	    
+		if(filmId!=null) {
+			boolean status = FilmDAO.deleteMovie(filmId);
+		    response.put("status", status);
+		}
 	    return response;
 	}
 
@@ -116,13 +116,11 @@ public class FilmoviServlet extends HttpServlet {
     	try {
     		//String naziv1,int trajanje1,String zanrovi1,String opis1,String glumci1,String reziser1,String godina1,String distributer1,String zemlja1
     		filmovi = FilmDAO.getMovies(naziv,trajanje,zanrovi,opis,glumci,reziser,godina,distributer,zemlja);
-    		if(filmovi.size()>0) {
-    			status = true;
-    		}
+    		status=true;
 
     	}
     	catch (Exception e) {
-    		System.out.println("Puklo je ovde na ucitaj sve filmove.");
+    		e.printStackTrace();
     	}
     	JSONObject odg = new JSONObject();
 
@@ -151,15 +149,11 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject ucitajFilmove() {
+		JSONObject response = new JSONObject(); 
 		Boolean status = false; 
 		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>(); 
-		JSONObject response = new JSONObject(); 
 		try {
 			filmovi = FilmDAO.getMovies("", 0, "","","","","","","");
-			if(filmovi.size() > 0) {
-				status = true; 
-				System.out.println("Filmovi su: \n" + filmovi); 
-			}
 		} catch(Exception e) { 
 			e.printStackTrace(); 
 		}
@@ -172,9 +166,6 @@ public class FilmoviServlet extends HttpServlet {
 		boolean status = false; 
 		JSONObject response = new JSONObject(); 
 		ArrayList<String> listaZanrova = FilmDAO.getGenres(); 
-		if(listaZanrova.size() > 0) {
-			status = true; 
-		}
 		response.put("status", status); 
 		response.put("zanrovi", listaZanrova); 
 		//System.out.println("Zanrovi su:  " + listaZanrova); 

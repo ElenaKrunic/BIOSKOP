@@ -14,6 +14,10 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga']=="Admin") {
+		$("#izvjestaj").show();
+	}
+	
 var url = window.location.href; 
 var newUrl = new URL(url); 
 var id = newUrl.searchParams.get("id"); 

@@ -14,6 +14,10 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga'] == "Admin") {
+		$("#izvjestaj").show();
+	}
+	
 	var params = {
 			action : "loadGenres"
 	}

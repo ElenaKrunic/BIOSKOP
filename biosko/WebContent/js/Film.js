@@ -14,6 +14,10 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga'] == "Admin"){
+		$("#izvjestaj").show();
+	}
+	
 var url = window.location.href; 
 var newUrl = new URL(url); 
 var id = newUrl.searchParams.get("id"); 
@@ -24,6 +28,10 @@ function ucitajFilm(idFILMA) {
 	var params = {
 			action : "ucitajFilm", 
 			filmId : idFILMA
+	}
+	
+	if(id==null){
+		alert("Doslo do greske");
 	}
 	
 	$.post('FilmoviServlet', params, function(data){
@@ -43,15 +51,7 @@ function ucitajFilm(idFILMA) {
 			$("#zemljaPorijekla3").text(pojedinacanFilm.Zemlja_Porekla);
 			$("#godinaProizvodnje3").text(pojedinacanFilm.Godina_Proizvodnje);
 			$("#opis3").text(pojedinacanFilm.Opis);
-			
-			if(localStorage['status'] != "false") {
-				var btn = document.createElement('button'); 
-				btn.className = "confirmbtn"; 
-				btn.innerText= "Kupi kartu"; 
-				btn.setAttribute('idFilma', response.film.ID); 
-				btn.setAttribute('ID', "kupiKartuBtn"); 
-				document.getElementById('prikazFilmaBtn').appendChild(btn); 
-			}
+					
 		}
 	});
 }

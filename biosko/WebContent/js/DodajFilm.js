@@ -14,7 +14,11 @@ $(document).ready(function(){
 		return false; 
 	});
 	
-	console.log("DODAJ FILM JS");
+	//svakako samo admin moze da doda film 
+	
+	$("#izvjestaj").show();
+	
+	//console.log("DODAJ FILM JS");
 	
 	var params = {
 			action : "loadGenres"

@@ -15,6 +15,9 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga'] == "Admin") {
+		$("#izvjestaj").show();
+	}
 	//isto za id 
 //var id1 = window.location.search.slice(1).split('&')[0].split('=')[1];
 	

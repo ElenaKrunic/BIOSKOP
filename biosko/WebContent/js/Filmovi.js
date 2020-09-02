@@ -14,6 +14,10 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	if(localStorage['uloga']== "Admin") {
+		$("#izvjestaj").show();
+	}
+	
 	if(localStorage['uloga'] != 'Admin') {
 		$("#dodajFilmBtn").remove();
 	}
@@ -142,26 +146,17 @@ $("#filterBtn").on("click",function(){
 				
 				$(".detalji").on('click',function(){
 					var id = this.getAttribute("movieID"); 
-					if(id>0) {
 						window.location.href= "Film.html?id=" + id; 
-					}
 				});
 				
 				$(".nazivFilma").on('click', function(){
 					var id = this.getAttribute("filmID"); 
-					if(id>0) {
-						window.location.href = "Film.html?id" + id; 
-					}
+						window.location.href = "Film.html?id" + id; 			
 				});
 				
 				$(".urediFilm").on('click',function(){
 					var id = this.getAttribute("movieID"); 
 					window.location.href = "urediFilm.html?id" + id;  
-				});
-				
-				$(".obrisiFilm").on('click', function(){
-					var id = this.getAttribute("movieID"); 
-					window.location.href = "obrisiFilm.html?id" + id; 
 				});
 				
 				$(".dodajFilm").on('click',function(){

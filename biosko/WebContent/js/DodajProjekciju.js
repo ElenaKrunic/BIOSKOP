@@ -10,8 +10,9 @@ $(document).ready(function(){
 		return false; 
 	});
 	
-	
-	
+	$("#izvjestaj").show();
+
+		
 	var params = {
 			action : 'ucitajFilmProjekcija'
 	}
@@ -28,6 +29,7 @@ $.post('ProjekcijeServlet',params,function(data){
 	}
 });
 
+	
 	var params = {
 			action : "ucitajSaleSaTipovimaProjekcija"
 	}
@@ -35,13 +37,22 @@ $.post('ProjekcijeServlet',params,function(data){
 	$.post('ProjekcijeServlet', params, function(data){
 		var response = JSON.parse(data); 
 			for(i=0; i<response.sale.length;i++){
+				var sala = response.sale[i];
 				var option = document.createElement('option'); 
-				option.setAttribute('value', response.sale[i].ID); 
-				option.setAttribute('tipovi', JSON.stringify(response.sale[i].listaTipova)); 
-				option.innerText = response.sale[i].Naziv; 
+				option.setAttribute('value', sala.ID); 
+				var tipovi = sala.listaTipova; 
+				option.setAttribute('tipovi', JSON.stringify(tipovi)); 
+				option.innerText = sala.Naziv; 
 				document.getElementById('dodajSaluProjekcije').appendChild(option);
 			}
-		});
+		}); 
+	
+	/*
+	 * $("button").click(function(){
+	 * 		$("p").html("hello world");
+	 * });
+	 */
+	
 	
 	$("#dodajSaluProjekcije").on('change',function(data){
 		var sala = $("#dodajSaluProjekcije").val(); 
@@ -58,9 +69,7 @@ $.post('ProjekcijeServlet',params,function(data){
 				document.getElementById("dodajTipProjekcijeProjekcije").appendChild(option);
 			}
 		}
-		
-		
-	});
+	}); 
 	
 	/*
 	var params = {
@@ -96,7 +105,8 @@ $.post('ProjekcijeServlet',params,function(data){
 		var filmID = $("#filmID :selected").val();
 		var salaProjekcije = $("#dodajSaluProjekcije").val(); 
 		var tipProjekcije = $("#dodajTipProjekcijeProjekcije").val();
-		var pocetakProjekcije = $("#pocetakProjekcije").val().split("M").join(" ");
+		var pocetakProjekcije = $("#pocetakProjekcije").val();
+		pocetakProjekcije = pocetakProjekcije.split("M").join(" "); 
 		var cijenaProjekcije = $("#cijenaKarteProjekcije").val();
 		
 		var params = {
@@ -111,7 +121,7 @@ $.post('ProjekcijeServlet',params,function(data){
 		$.post('ProjekcijeServlet', params, function(data){
 			console.log("Podaci se poslali na servlet");
 			var response = JSON.parse(data); 
-			if(response.status) {
+			if(response.status==false) {
 				console.log('Status u dodaj projekciju '+ status); 
 				alert("Uspjesno ste dodali projekciju!"); 
 				window.location.href = 'Glavna.html'; 
