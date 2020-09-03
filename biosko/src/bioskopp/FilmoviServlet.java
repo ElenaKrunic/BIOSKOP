@@ -149,12 +149,16 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject ucitajFilmove() {
-		JSONObject response = new JSONObject(); 
 		Boolean status = false; 
 		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>(); 
+		JSONObject response = new JSONObject(); 
 		try {
 			filmovi = FilmDAO.getMovies("", 0, "","","","","","","");
-		} catch(Exception e) { 
+			if(filmovi.size() > 0) {
+				status = true; 
+			}
+		} catch(Exception e) {
+			System.out.println("Ucitaj sve"); 
 			e.printStackTrace(); 
 		}
 		response.put("status", status); 
@@ -166,6 +170,9 @@ public class FilmoviServlet extends HttpServlet {
 		boolean status = false; 
 		JSONObject response = new JSONObject(); 
 		ArrayList<String> listaZanrova = FilmDAO.getGenres(); 
+		if(listaZanrova.size() > 0) {
+			status = true; 
+		}
 		response.put("status", status); 
 		response.put("zanrovi", listaZanrova); 
 		//System.out.println("Zanrovi su:  " + listaZanrova); 

@@ -47,9 +47,9 @@ console.log(idKorisnik);
 		if(user.Username == localStorage['userName']) {
 			$("#mojProfilSifra").val(user.Password);
 		}
-		else {
-			alert("Korisnicko ime se ne poklapa!");
-		}
+		//else {
+			//alert("Korisnicko ime se ne poklapa!");
+		//}
 		$("#mojProfilDatumReg").text(user.Datum);
 		$("#mojProfilUloga").val(user.Uloga);
 		
@@ -65,6 +65,9 @@ console.log(idKorisnik);
 			btn.setAttribute('ID', 'obrisiNalog');
 			document.getElementById('btnsNalog').appendChild(btn); 
 			
+			if(localStorage['userName'] == response.k.Username){
+				btn.remove();
+			}
 			$("#obrisiNalog").on('click',function(){
 				if(confirm("Da li zelite da obrisete korisnika? ")) {
 					var params = {
@@ -141,20 +144,17 @@ $.post('KarteServlet', params, function(data){
 
 $("#sacuvajPromjene").on('click',function(){
 	var novaSifra = $("#mojProfilSifra").val();
+	var promijenjenaUloga = false;
+	var novaUloga = $("#mojProfilUloga").val();
 
 	if(novaSifra==null || novaSifra == "") {
 		alert("Niste dobro unijeli sifru!"); 
 		var promijenjenaSifra = false;
 	}
 	
-	var promijenjenaUloga = false;
 	if(localStorage['uloga']=='Admin') {
-		var novaUloga = $("#mojProfilUloga").val();
 		promijenjenjenaUloga = true;
-	} else {
-		alert("Ne mozete mijenjati ulogu,ako niste admin"); 
-	}
-	
+	} 
 	var params = {
 			'action' : 'sacuvajIzmjene', 
 			'promijenjenaSifra':promijenjenaSifra,
@@ -166,12 +166,17 @@ $("#sacuvajPromjene").on('click',function(){
 	
 	$.post('KorisnikServlet',params,function(data){
 		var response = JSON.parse(data);
-		if(response.promijenjenaUloga){
-			alert("Uspjesno ste izmijenili ulogu");
+		
+		if(response.promijenjenaUloga==false){
+			//alert("Uspjesno ste izmijenili ulogu");
+			//dodati redirekciju 
+			window.location.href = "Prijava.html"; 
 		}
 		
-		if(response.promijenjenaSifra){
-			alert("Uspjesno ste promijenili sifru!");
+		if(response.promijenjenaSifra==false){
+			//alert("Uspjesno ste promijenili sifru!");
+			//dodati redirekciju 
+			window.location.href = "Prijava.html"; 
 		}
 		
 	}); 
