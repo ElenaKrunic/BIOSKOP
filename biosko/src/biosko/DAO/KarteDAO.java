@@ -112,10 +112,7 @@ public class KarteDAO {
 				
 				for(int i =0; i<viseSjedista.length; i++) {
 					String pojedinacnoSjediste = viseSjedista[i];
-					
-					if(pojedinacnoSjediste != null) {
-						int brojSjedista = Integer.valueOf(sjedista);
-						
+						int brojSjedista = Integer.valueOf(pojedinacnoSjediste);						
 						int dodajSjediste = brojSjedista+1;
 						
 						if((i+1) <viseSjedista.length) {
@@ -124,7 +121,7 @@ public class KarteDAO {
 							}
 						}
 						nizSjedista.add(pojedinacnoSjediste);
-					}
+					
 				}
 					
 				for(String jednoSjediste : nizSjedista) {

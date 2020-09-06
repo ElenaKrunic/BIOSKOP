@@ -89,7 +89,7 @@ $.post('KarteServlet', params, function(data){
 			
 			ls = ls.split(";");
 			
-			var duzinaNizaLs = ls.length;
+			var duzinaNizaLs = ls.length; //1
 			var klikNaDrugoSjediste = false; 
 			for(i=0; i<duzinaNizaLs;i++) {
 				if(parseInt(ls[i])+1 == parseInt(brojMjesta)) {
