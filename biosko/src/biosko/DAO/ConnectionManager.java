@@ -15,7 +15,8 @@ public class ConnectionManager {
 	//C:\Users\WIN7\git\BIOSKOP\biosko\WebContent\sql
 	private static final String WINDOWS_PATH = "C:" + FILE_SEPARATOR + "Users" + FILE_SEPARATOR + "WIN7" + FILE_SEPARATOR + "git" + FILE_SEPARATOR + "BIOSKOP" + FILE_SEPARATOR +
 			"biosko" + FILE_SEPARATOR + "WebContent" + FILE_SEPARATOR + "sql" + FILE_SEPARATOR + DATABASE_NAME ; 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
+	
 	private static final String LINUX_PATH = "SQLite" + FILE_SEPARATOR + DATABASE_NAME;
 
 	private static final String PATH = WINDOWS_PATH;	

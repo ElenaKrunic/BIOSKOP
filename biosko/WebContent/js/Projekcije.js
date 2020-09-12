@@ -175,7 +175,7 @@ $.post('ProjekcijeServlet',params,function(data){
 	
 $("#filterProjekcijaBtn").on("click",function(){
 	var idProjekcije = $("#filterFilm :selected").attr('idFilma'); 
-	var idSala = $("#filterSala :selected").attr("idSale"); 
+	var idSala = $("#filterSala :selected").attr('idSale'); 
 	var terminProjekcijePocetak = $("#terminProjekcijeStart").val().split("M").join(" ");
 	var terminProjekcijeKraj = $("#terminProjekcijeEnd").val().split("M").join(" ");
 	var tipProjekcije = $("#filterTipProjekcije").val(); 
@@ -185,9 +185,10 @@ $("#filterProjekcijaBtn").on("click",function(){
 	if(idProjekcije == null) {
 		alert("idProjekcije je null"); 
 	}
-	if(idSala == null) {
-		alert("idSale je null"); 
-	}
+	//if(idSala == null) {
+		//alert("idSale je null"); 
+	//}
+	
 	if(terminProjekcijePocetak == null) {
 		alert("pocetakProjekcije je null"); 
 	}

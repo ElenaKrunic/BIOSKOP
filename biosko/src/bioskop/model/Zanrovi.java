@@ -13,5 +13,5 @@ public enum Zanrovi {
 	Porodicni,
 	Tragicni,
 	Fantastika,
-	ZaOdrasle
+	Ljubavni
 }

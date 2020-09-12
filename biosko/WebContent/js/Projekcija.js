@@ -17,6 +17,13 @@ $(document).ready(function(){
 	if(localStorage['uloga'] == "Admin") {
 		$("#izvjestaj").show();
 	}
+	
+	if(localStorage['uloga'] == 'null') {
+		$("#izvjestaj").remove();
+		$("#logoutLink").remove();
+		$("#prikazProjekcijeBtn4").remove();
+	}
+	
 
 var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 

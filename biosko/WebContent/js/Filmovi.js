@@ -14,8 +14,9 @@ $(document).ready(function(){
 		return false; 
 	});
 	
-	if(localStorage['uloga']== "Admin") {
-		$("#izvjestaj").show();
+	if(localStorage['uloga'] == 'null') {
+		$("#izvjestaj").remove();
+		$("#logoutLink").remove();
 	}
 	
 	if(localStorage['uloga'] != 'Admin') {

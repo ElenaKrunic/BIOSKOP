@@ -18,6 +18,11 @@ $(document).ready(function(){
 		$("#izvjestaj").show();
 	}
 	
+	if(localStorage['uloga'] == 'null') {
+		$("#izvjestaj").remove();
+		$("#logoutLink").remove();
+	}
+	
 var url = window.location.href; 
 var newUrl = new URL(url); 
 var id = newUrl.searchParams.get("id"); 
