@@ -78,6 +78,7 @@ $(document).ready(function(){
 		    for(i=0;i<odg.listaProjekcija.length;i++){
 		      var p = odg.listaProjekcija[i];
 		      var tr = document.createElement('tr');
+		      tr.className="parameter";
 		      tr.setAttribute('idProjekcije',p.idProjekcije);
 		      
 		      var nazivFilma = document.createElement('td');

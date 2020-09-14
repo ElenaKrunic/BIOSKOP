@@ -48,6 +48,7 @@ $.post('KarteServlet',params, function(data){
 				
 			if(localStorage['uloga']!='Admin') {
 				$("#obrisiKupljena").remove(); 
+				$("#izvjestaj").remove();
 			}
 			
 		}

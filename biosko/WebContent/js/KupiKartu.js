@@ -122,6 +122,9 @@ if(localStorage['uloga'] == "Admin"){
 	$("#kupiKartuBtn").show();
 }
 
+if(localStorage['uloga'] != 'Admin') {
+	$("#izvjestaj").remove();
+}
 //na moj profil hocu kupljene karte da vidim 
 $("#kupiKartuBtn").on('click',function(){
 
@@ -138,6 +141,7 @@ $("#kupiKartuBtn").on('click',function(){
 		var response = JSON.parse(data); 
 		if(response.status) {
 			alert("Uspjesno ste kupili kartu!"); 
+			window.location.href="Glavna.html";
 		}
 
 	});

@@ -21,6 +21,7 @@ $(document).ready(function(){
 				for(i=0; i<response.listaKorisnikaSvi.length;i++) {
 					var jedanKorisnik = response.listaKorisnikaSvi[i]; 
 					var tr = document.createElement('tr'); 
+					tr.className="parameter";
 					var tabela = document.getElementById('sviKorisnici');
 					
 					var imeKorisnika = document.createElement('td'); 

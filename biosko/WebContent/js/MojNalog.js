@@ -107,7 +107,7 @@ $.post('KarteServlet', params, function(data){
 		for(i=0;i<response.jsonKarte.length;i++) {
 			var karta = response.jsonKarte[i];
 			var tr  = document.createElement('tr');
-			
+			tr.className="parameter";
 			var nazivFilma = document.createElement('td'); 
 			nazivFilma.innerText = karta.NazivFilma; 
 			nazivFilma.setAttribute('idFilma', karta.FilmID); 

@@ -31,7 +31,7 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 			$("#salaProjekcije4").text(response.nazivSale);  
 			$("#startProjekcije4").text(response.terminProjekcije); 
 			$("#cijenaKarte4").text(response.cijenaKarte); 
-			$("#slobodneKarte4").text(response.brojKarata); 
+			//$("#slobodneKarte4").text(response.brojKarata); 
 			$("#statusProjekcije4").text(response.status); 
 			
 			if(localStorage['uloga']=="Admin") {
@@ -74,6 +74,10 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 				$("#izvjestaj").show();
 				$("#kupiKartuDugme").remove();
 
+			}
+			
+			if(localStorage['uloga'] != 'Admin') {
+				$("#izvjestaj").remove();
 			}
 			
 			if(localStorage['uloga'] == 'null') {

@@ -7,7 +7,8 @@
 <script src="js/Projekcije.js"></script>	
 <script src="js/Sesija.js"></script>	
 <link rel="stylesheet" href="./css/projekcije.css">
-<script src="./js/w3.js" charset="utf-8"></script>
+<script src="js/w3.js" charset="utf-8"></script>
+<script src="https://pavanpwm.github.io/ImprovedSortInW3ByBtd.js"></script>
 </head>
 <body>
 
@@ -24,13 +25,13 @@
       <div > <button type="button" name="button"  id="filterProjekcijaBtn">Filtriraj</button> </div>
     </div>
 
-    <table id="tabelaProjekcije" border="1">
+      <table id="tabelaProjekcije" border="1">
       <tr>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(1)')">Film</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(2)')">Termin</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(3)')">Sala</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(4)')">Tip Projekcije</th>
-        <th onclick="w3.sortHTML('#tabelaProjekcije','.item', 'td:nth-child(5)')">Cijena</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcije','.parameter', 'td:nth-child(1)')" style="cursor:pointer">Film</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcije','.parameter', 'td:nth-child(2)')" style="cursor:pointer">Termin</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcije','.parameter', 'td:nth-child(3)')" style="cursor:pointer">Sala</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcije','.parameter', 'td:nth-child(4)')" style="cursor:pointer">Tip projekcije</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcije','.parameter', 'td:nth-child(5)')" style="cursor:pointer">Cijena</th>
         <th></th>
       </tr>
     </table>

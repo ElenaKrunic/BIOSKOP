@@ -39,6 +39,7 @@ $(document).ready(function(){
 				var film = response.filmovi[i];
 				var tabela = document.getElementById('tabelaFilm');
 				var tr = document.createElement('tr');
+				tr.className="parameter";
 				tr.setAttribute('filmID',film.ID);
 				//var btn = "";
 				//console.log(film); 
