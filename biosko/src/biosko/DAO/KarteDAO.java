@@ -100,13 +100,14 @@ public class KarteDAO {
 		return listaKarata;
 	}
 	
+	/*
 	public static boolean kupiKartu2(String idProjekcije, String sjedista, String username) {
 		boolean status = true; 
 		
 		try {
 			Projekcija projekcija = ProjekcijeDAO.getProjekcijaById(Integer.valueOf(idProjekcije));
 			
-			if(projekcija != null) {
+			System.out.println("Dobavljanje projekcije iz kupi kartu " + projekcija); 
 				String[] viseSjedista = sjedista.split(";"); 
 				ArrayList<String> nizSjedista = new ArrayList<String>(); 
 				
@@ -117,28 +118,34 @@ public class KarteDAO {
 						
 						if((i+1) <viseSjedista.length) {
 							if(!(dodajSjediste==Integer.valueOf(viseSjedista[i+1]))) {
-								System.out.println("nisu jedno do drugog"); 
+								System.out.println("Sjedista nisu jedno do drugog");
+								throw new Exception();
+							} else {
+								 
 							}
 						}
 						nizSjedista.add(pojedinacnoSjediste);
-					
+						System.out.println("Sjediste dodato u niz sjedista,ima vrijednost: " + pojedinacnoSjediste); 
 				}
 					
 				for(String jednoSjediste : nizSjedista) {
 					String idSjedista = SalaDAO.getSjedisteId(String.valueOf(projekcija.getSalaId()), jednoSjediste);
-					if(uzmiKartu(idProjekcije,idSjedista,username)) {
-						status = true;
+					if(!uzmiKartu(idProjekcije,idSjedista,username)) {
+						System.out.println("Preuzimanje karte za sjediste");
+						status = false;
 					}
 				}
 				
 				
-			}
+			
 		} catch(Exception e ) {
 			e.printStackTrace();
+			
 		}
 		
 		return status; 
 	}
+	*/
 	
 	public static boolean kupiKartu(String idProjekcije,String sedista,String username) {
 		boolean status = true;
@@ -150,8 +157,8 @@ public class KarteDAO {
 			ArrayList<String> nizS = new ArrayList<String>();
 			for (int i=0;i<s.length;i++) {
 				String sediste = s[i];
-				
-				
+
+
 				//sjedista jedno do drugog 
 				int sjediste = Integer.valueOf(sediste);
 				int sjediste1 = sjediste+1;
@@ -177,12 +184,13 @@ public class KarteDAO {
 		return status;
 	}
 	
-	
+	/*
 	public static boolean uzmiKartu(String idProjekcije, String idSjedista, String korisnik) {
 		
 		Connection conn = ConnectionManager.getConnection(); 
 		PreparedStatement prep = null; 
 		boolean status = false; 
+		int dodajKartu=0;
 		try {
 			
 			String query = "INSERT INTO Karta(ID_Projekcije,ID_Sedista,VremeProdaje,Korisnik) VALUES(?,?,?,?)";
@@ -195,8 +203,22 @@ public class KarteDAO {
 			prep.setString(3, date);
 			prep.setString(4, korisnik);
 			
-			prep.executeUpdate();
-			status = true;
+			System.out.println("Podaci dodati u kartu su " + idProjekcije + idSjedista + korisnik);
+			
+			//provjera da li je slobodno sjediste 
+			int provjereno =0; 
+			if(SalaDAO.provjeraZaSlobodnoMjesto(idProjekcije, idSjedista)) {
+				 provjereno = prep.executeUpdate();
+				 System.out.println("Mjesto je slobodno, kupovina karte odradjena"); 
+				 //System.out.println("Uspjesno zavrsena kupovina karte");
+			} 
+			
+			if(provjereno==1)
+				{
+				status=true; 
+				SalaDAO.zauzetoMjesto(idProjekcije);
+				System.out.println("Mjesto je zauzeto");
+				}
 			
 		} catch(Exception e) {
 			e.printStackTrace(); 
@@ -207,6 +229,38 @@ public class KarteDAO {
 			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
 		}
 		
+		return status; 
+	} */
+	
+	public static boolean uzmiKartu(String idProjekcije, String idSjedista, String korisnik) {
+
+		Connection conn = ConnectionManager.getConnection(); 
+		PreparedStatement prep = null; 
+		boolean status = false; 
+		try {
+
+			String query = "INSERT INTO Karta(ID_Projekcije,ID_Sedista,VremeProdaje,Korisnik) VALUES(?,?,?,?)";
+			prep = conn.prepareStatement(query); 
+
+			prep.setString(1, idProjekcije);
+			prep.setString(2, idSjedista);
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+			String date = df.format(new Date()); 
+			prep.setString(3, date);
+			prep.setString(4, korisnik);
+
+			prep.executeUpdate();
+			status = true;
+
+		} catch(Exception e) {
+			e.printStackTrace(); 
+		}
+
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+
 		return status; 
 	}
 

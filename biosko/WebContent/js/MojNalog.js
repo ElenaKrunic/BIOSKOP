@@ -18,6 +18,10 @@ $(document).ready(function(){
 	if(localStorage['uloga'] == "Admin") {
 		$("#izvjestaj").show();
 	}
+	
+	if(localStorage['uloga'] != 'Admin') {
+		$("#izvjestaj").remove();
+	}
 	//isto za id 
 //var id1 = window.location.search.slice(1).split('&')[0].split('=')[1];
 	

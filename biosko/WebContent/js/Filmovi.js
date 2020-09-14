@@ -23,6 +23,10 @@ $(document).ready(function(){
 		$("#dodajFilmBtn").remove();
 	}
 		
+	if(localStorage['uloga'] != 'Admin') {
+		$("#izvjestaj").remove();
+	}
+	
 	var params = {
 			action : "loadMovies", 
 			filmId : "1"

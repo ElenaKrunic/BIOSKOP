@@ -271,7 +271,9 @@ $("#filterProjekcijaBtn").on("click",function(){
                   window.location.href="Film.html?id="+this.getAttribute('idFilma');
                 });
           }
-        } 
+        } else {
+        	alert("Nije moguce filtrirati po datom kriterijumu. Provjerite unijete podatke!");
+        }
     });
 });
 });

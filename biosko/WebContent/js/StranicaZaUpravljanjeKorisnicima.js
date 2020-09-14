@@ -48,6 +48,9 @@ $(document).ready(function(){
 					}
 				});
 			}
+			else {
+				alert("Nije moguce izvrsiti pretragu po datom kriterijumu. Provjerite unijete podatke");
+			}
 		}); 
 		
 		$("#filtrirajKorisnike").on('click',function(){

@@ -1,5 +1,5 @@
 .sjedisteDiv{
-    background-color: grey;
+    background-color: lime;
     margin: 20px;
     font-size: 20px;
     margin: 0 auto;
@@ -7,9 +7,10 @@
     cursor:pointer
 }
 
-#sjedista{
-width: 400px;
-text-align: center;
-display:flex;
-flex-wrap:wrap;
+.zauzetoMjesto{
+	border:2px solid red;
+}
+
+.odabranoSjediste{
+	background-color:darkgreen !important;
 }

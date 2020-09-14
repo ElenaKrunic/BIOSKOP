@@ -13,7 +13,7 @@ public enum Zanr {
 	Porodicni,
 	Tragicni,
 	Fantastika,
-	ZaOdrasle,
+	Ljubavni,
 	Triler,
 	Misterija
 }

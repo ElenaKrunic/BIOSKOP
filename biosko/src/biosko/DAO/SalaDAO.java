@@ -291,12 +291,16 @@ public class SalaDAO {
 				//Sjediste jednoSjediste; 
 				//Karta jednaKarta;
 				for(Sjediste jednoSjediste : listaSjedistaZaProjekciju) {
+					boolean slobodnoMjesto=true;
 					for(Karta jednaKarta : listaKarataZaProjekciju) {
 						if((jednoSjediste.getRedniBroj()+"").equals(jednaKarta.getOznakaSjedista())) {
-							System.out.println("Nije slobondo");
+							slobodnoMjesto=false;
+							System.out.println("Mjesto je zauzeto");
 						}
 					} 
-					listaSjedista.add(jednoSjediste);
+					if(slobodnoMjesto) {
+						listaSjedista.add(jednoSjediste);
+					}
 				}
 				
 			}
@@ -352,20 +356,20 @@ public class SalaDAO {
 	public static String getSjedisteId(String idSale, String redniBrojSjedista) {
 		String broj = "0";
 		Connection conn = ConnectionManager.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
+		PreparedStatement prep = null;
+		ResultSet rs = null;
 		try {
 			String query = "SELECT ID FROM Sedista WHERE ID_Sale=? AND Broj_Sedista=?";
 
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,idSale);
-			pstmt.setString(2, redniBrojSjedista);
+			prep = conn.prepareStatement(query);
+			prep.setString(1,idSale);
+			prep.setString(2, redniBrojSjedista);
 
-			rset = pstmt.executeQuery();
+			rs = prep.executeQuery();
 			
-			if (rset.next()) {
+			if (rs.next()) {
 				int index = 1;
-				String ajdi = rset.getString(index++);
+				String ajdi = rs.getString(index++);
 				broj = ajdi;
 			}
 			
@@ -374,20 +378,71 @@ public class SalaDAO {
 		e.printStackTrace();
 	}
 	finally {
-		try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
-		try {rset.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
 		try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
 	}
 		return broj;
 	}
 	
 	
-	
-	
-	
-	
-	
-	
+	public static boolean provjeraZaSlobodnoMjesto(String idP, String idS) {
+		Connection conn= ConnectionManager.getConnection();
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		boolean status  = false;
+		try {
+			String query = "SELECT ID FROM Karta WHERE ID_Projekcije=? AND ID_Sedista=?";
+
+			prep = conn.prepareStatement(query);
+			prep.setString(1,idP);
+			prep.setString(2, idS);
+
+			rs = prep.executeQuery();
+			
+			if (rs.next()) {
+				status = false;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		return status; 
+	}
+
+	public static boolean zauzetoMjesto(String idProjekcije) {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement prep = null; 
+		ResultSet rs = null; 
+		boolean status = false;
+		
+		try {
+			//brojprodanih karata= bpk+1
+			String query = "UPDATE Projekcije SET BrojProdanihKarata=BrojProdanihKarata+1 WHERE ID=?";
+			prep = conn.prepareStatement(query);
+			prep.setString(1, idProjekcije);
+			
+			int z=prep.executeUpdate();
+			if(z>0) {
+				status=true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {prep.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		return status;
+	}
 	
 	
 }

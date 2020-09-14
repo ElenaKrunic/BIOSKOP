@@ -14,16 +14,6 @@ $(document).ready(function(){
 		return false; 
 	});
 	
-	if(localStorage['uloga'] == "Admin") {
-		$("#izvjestaj").show();
-	}
-	
-	if(localStorage['uloga'] == 'null') {
-		$("#izvjestaj").remove();
-		$("#logoutLink").remove();
-		$("#prikazProjekcijeBtn4").remove();
-	}
-	
 
 var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 
@@ -78,6 +68,18 @@ var id = window.location.search.slice(1).split('&')[0].split('=')[1];
 				btn.setAttribute('idProjekcije',id); 
 				btn.setAttribute('ID', 'kupiKartuDugme'); 
 				document.getElementById('prikazProjekcijeBtn4').appendChild(btn);	
+			}
+			
+			if(localStorage['uloga'] == "Admin") {
+				$("#izvjestaj").show();
+				$("#kupiKartuDugme").remove();
+
+			}
+			
+			if(localStorage['uloga'] == 'null') {
+				$("#izvjestaj").remove();
+				$("#logoutLink").remove();
+				$("#prikazProjekcijeBtn4").remove();
 			}
 		}
 		$("#kupiKartuDugme").on('click',function(data){

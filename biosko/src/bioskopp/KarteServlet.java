@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -160,7 +161,12 @@ private JSONObject kupiKartu(HttpServletRequest request) {
 		String sjedista = request.getParameter("odabranaSjedista"); 
 		String korisnickoIme = (String) request.getSession().getAttribute("userName"); 
 		
-		status = KarteDAO.kupiKartu2(idProjekcije,sjedista,korisnickoIme); 
+		status = KarteDAO.kupiKartu(idProjekcije,sjedista,korisnickoIme); 
+		if(status) {
+			System.out.println("Kupljena karta");
+		} else {
+			//System.out.println("Zauzeto mjesto"); 
+		}
 		
 		response.put("status", status); 
 		
@@ -226,8 +232,8 @@ private JSONObject izaberiSjediste(HttpServletRequest request) {
 		
 		
 		response.put("status",status); 
-		System.out.println("Status je " + status); 
-		System.out.println("Response je " + response); 
+		//System.out.println("Status je " + status); 
+		//System.out.println("Response je " + response); 
 		return response;
 	}
 }

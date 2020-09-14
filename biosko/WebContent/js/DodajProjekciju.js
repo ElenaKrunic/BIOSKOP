@@ -31,17 +31,19 @@ $.post('ProjekcijeServlet',params,function(data){
 
 	
 	var params = {
-			action : "ucitajSaleSaTipovimaProjekcija"
+			//action : "ucitajSaleSaTipovimaProjekcija"
+			action: "ucitajSaleSaTipovimaProjekcija"
 	}
 	
 	$.post('ProjekcijeServlet', params, function(data){
 		var response = JSON.parse(data); 
 			for(i=0; i<response.sale.length;i++){
 				var sala = response.sale[i];
+				//console.log(response.sale[i]);
 				var option = document.createElement('option'); 
 				option.setAttribute('value', sala.ID); 
-				var tipovi = sala.listaTipova; 
-				option.setAttribute('tipovi', JSON.stringify(tipovi)); 
+				//var tipovi = sala.listaTipova; 
+				option.setAttribute('tipovi', JSON.stringify(sala.listaTipova)); 
 				option.innerText = sala.Naziv; 
 				document.getElementById('dodajSaluProjekcije').appendChild(option);
 			}
